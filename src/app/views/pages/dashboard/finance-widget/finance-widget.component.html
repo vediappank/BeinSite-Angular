@@ -1,0 +1,26 @@
+<!-- <kt-portlet >
+  <kt-portlet-header [title]="'Finance Summary'"></kt-portlet-header>
+  <kt-portlet-body [class]="'kt-portlet__body--fit'"> -->
+    <div class="row row-no-padding row-col-separator-xl" *ngIf="(finReptWidgetData$ | async) as finReptWidgetData">
+      <div class="col-xl-4" style="height: 370px;">
+        <kt-widget1 [data]="finReptWidgetData.summary"  (outputArray)="GetPopupInfo($event)"></kt-widget1>
+      </div>
+      <!-- <div class="col-xl-4">
+        <kt-bchart-one-ds-widget [title]="'Transactions'" [desc]="'Check out each column for more details'"
+          [data]="finReptWidgetData.transData"></kt-bchart-one-ds-widget>
+      </div> -->
+      <div class="col-xl-4" style="height: 370px;">
+           <!-- <kt-bar-line-mixed-chartjs-widget [title]="'Transactions'" [desc]="'Check out each column for more details'"
+          [data]="finReptWidgetData.transData" [dataType]="'dollar'"></kt-bar-line-mixed-chartjs-widget>  -->
+         <kt-finance-bar-line-widget [title]="'Transactions'" [desc]="'Check out each column for more details'"
+         [Chartdata]="chartFiananceTransactionData" [Chartinput]="ChartInputs" ></kt-finance-bar-line-widget> 
+        </div>
+      <div class="col-xl-4" style="height: 370px;">
+        <!-- <kt-bar-line-mixed-chartjs-widget [title]="'Revenue'" [desc]="'Check out each column for more details'"
+          [data]="finReptWidgetData.revData" [dataType]="'dollar'"></kt-bar-line-mixed-chartjs-widget> -->
+          <kt-finance-bar-line-widget  [title]="'Revenue'" [desc]="'Check out each column for more details'"
+         [Chartdata]="chartFiananceRevenueData" [Chartinput]="ChartInputs"></kt-finance-bar-line-widget> 
+      </div>     
+    </div>
+  <!-- </kt-portlet-body>
+</kt-portlet> -->

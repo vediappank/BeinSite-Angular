@@ -1,0 +1,157 @@
+<kt-portlet>
+   <kt-portlet-body style="height: auto;">
+    <!-- <h3>
+      Call Backs List
+    </h3> -->
+    <div class="form-group kt-form__group row">
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <input matInput mwlFlatpickr [(ngModel)]="salescallbacktaskfilter.StartDateTime" 
+          [altInput]="true" [convertModelValue]="true" [enableTime]="true" 
+          dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" defaultHour="00" defaultMinute="00"
+            placeholder="Select Start Date & Time"/>
+          <mat-error>Call Start Time is
+            <strong>required</strong>
+          </mat-error>
+
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <input matInput mwlFlatpickr [(ngModel)]="salescallbacktaskfilter.EndDateTime" 
+          [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" 
+          altFormat="F j, Y H:i" placeholder="Select End Date & Time" defaultHour="00" defaultMinute="00"/>
+          <mat-error>Call End Time is
+            <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <mat-select placeholder="Select Status" required [(ngModel)]="callbackTaskStatusIdForAdding" multiple>
+            <mat-option *ngFor="let salescallback of unassignedCallBackTaskStatus" 
+              value="{{ salescallback.Id }}">
+              {{salescallback.StatusName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile" [hidden]="isDisableShowTeamTask">
+        <mat-checkbox [(ngModel)]="isshowTeamTasks"  (change)=onShowTeamTasks($event)>Show Team Tasks
+        </mat-checkbox>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile" style="text-align: right;">
+        <mat-form-field class="mat-form-field-fluid" >
+            <mat-select placeholder="Select Assigned To" [disabled]="isshowTeamTasks" [(ngModel)]="AssignedToIdForAdding">
+                <mat-option *ngFor="let assignedto of unassignedusers"
+                    value="{{ assignedto.Id }}">
+                    {{assignedto.AssignToName}}</mat-option>
+            </mat-select>
+
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-2 kt-margin-bottom-20-mobile" style="text-align: right;">
+       
+          <button type="button" mat-raised-button color="primary" (click)="loadSalesCallBacks(pagenumber,pagesize)"
+								matTooltip="Filter" style="width: 80px; padding: 0px 8px;">
+							<mat-icon style="width: 15px;padding-right: 15px;height: 16px;">search</mat-icon>	Search
+              </button> &nbsp;
+              <button type="button" mat-raised-button color="primary" (click)="clearFilter()"
+              matTooltip="Filter" style="width: 70px;padding: 0px 8px;">
+            <mat-icon style="width: 15px;height: 16px;">clear_all</mat-icon>	Clear
+            </button> &nbsp;
+              <button class="btn btn-primary text-right" (click)="addTask(viewDate)" disabled="{{addFlag}}"  
+              mat-raised-button color="primary" style="width: 85px;padding: 0px 8px;">
+                <mat-icon style="width: 13px;height: 16px;">add</mat-icon> Add new
+              </button>
+      </div>
+    </div>
+    <div class="form-group kt-form__group row">
+      <div class="col-lg-12 kt-margin-bottom-20-mobile">
+        <div>
+          <span class="label" style="font-weight: bold;">Page Size :</span>&nbsp;
+          <input placeholder="Page Size" style="width: 45px;" [(ngModel)]="pagesize" (blur)="onChange()"> &nbsp;
+          <span class="label" style="font-weight: bold;">Current Page :</span>&nbsp;
+          <span class="value" id="lblCurrentPage">-&nbsp;</span> &nbsp;
+
+          <span class="label" style="font-weight: bold;">Total Records :</span>&nbsp;
+          <label class="value">{{totalRecords}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group kt-form__group row">
+      <div class="col-lg-12 kt-margin-bottom-20-mobile">
+        <mat-table class="lmat-elevation-z8" #table [dataSource]="EventList$ | async" 
+      matSort (matSortChange)="sortData($event)"
+			>
+      <ng-container matColumnDef="Id">
+        <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> ID </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let event"> {{event.Id}}
+        </mat-cell>
+      </ng-container>
+          <ng-container matColumnDef="CallStartDateTime">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Start Call Time</mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let event"> {{event.CallStartDateTime  | date:'dd-MM-yyyy hh:mm a'}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="CallEndDateTime">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Due </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let event"> 
+             <span *ngIf="isExpired(event.CallStartDateTime,event.Status)" ><mat-icon color="warn">flag</mat-icon></span>
+            </mat-cell>
+          </ng-container>
+        <ng-container matColumnDef="AssignedTo">
+          <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Assigned Agent Name </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let customer"> {{customer.AssignedAgentLastName +' '+ customer.AssignedAgentFirstName}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Supervisor">
+          <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Supervisor </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let customer" > {{customer?.AgentSupervisorLastName +' '+ customer?.AgentSupervisorFirstName}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Status">
+          <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Status </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let event" [ngStyle]="{'color': event.StatusColor}"> {{event.StatusName}} </mat-cell>
+        </ng-container>
+          <ng-container matColumnDef="Action">
+            <mat-header-cell *matHeaderCellDef class="GridHeader">Actions</mat-header-cell>
+            <mat-cell *matCellDef="let action">
+              <button mat-icon-button color="primary" *ngIf="action.Status==5" disabled="{{editFlag}}" matTooltip="Edit Call Backs" type="button"
+                (click)="EditEvent(action)">
+                <mat-icon>create</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" *ngIf="action.Status !=5" disabled="{{viewFlag}}" matTooltip="View Call Backs" type="button"
+              (click)="ViewEvent(action)">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+              <button mat-icon-button color="primary" disabled="{{deleteFlag}}" matTooltip="Delete Call Backs" type="button" [hidden]='true'
+                (click)="deleteEvent(action)">
+                <mat-icon>delete</mat-icon>
+              </button>
+
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        </mat-table>
+       
+      </div>
+      <div class="col-lg-11 mat-table__bottom" style="text-align: right;margin-top: 2%;">
+        <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+        <!-- <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner> -->
+        <!-- MATERIAL PAGINATOR | Binded to dasources -->
+        <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+        <!-- <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100, 200, 500]" [length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator> -->
+
+          <button class="btn btn-primary btn-sm" (click)="onBtFirst()">To First</button>&nbsp;
+          <button class="btn btn-primary btn-sm" (click)="onBtPrevious()">To Previous</button>&nbsp;
+          <button class="btn btn-primary btn-sm" (click)="onBtNext()">To Next</button>&nbsp;
+          <button class="btn btn-primary btn-sm" (click)="onBtLast()" id="btLast">To Last</button>
+      </div>
+    </div>
+ 
+  </kt-portlet-body>
+  <!-- </div> -->
+</kt-portlet>

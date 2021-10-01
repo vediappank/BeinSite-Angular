@@ -1,0 +1,127 @@
+.GridHeader
+{
+    color: darkblue;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+// .Tobelaunched
+//   {
+//       color:green;
+//   }
+
+//   .Cancelled
+//   {
+//       color:red;
+//   }
+//   .Ongoing
+//   {
+//       color:#0095be;
+//   }
+//   .Finalized
+//   {
+//       color:#C000E2;
+//   }
+//   .Delayed
+//   {
+//       color:#ff7400;
+//   }
+
+//   /*Priority Field Colors*/
+//   .low
+//   {
+//       color:green;
+//   }
+//   .high
+//   {
+//       color:red;
+//   }
+//   .medium
+//   {
+//       color:#4271f0;
+//   }
+
+  .btn-group button {
+    display: block; /* Make the buttons appear below each other */
+  }
+  
+  .btn-group button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+  }
+  
+
+  .mat-column-id {
+    flex: none;
+    width: 70px;
+}
+
+.mat-column-Findings_or_issues {
+    flex: none;
+    width: 260px;
+}
+
+.mat-column-actions {
+    flex: none;
+    width: 200px;
+}
+
+.mat-column-topicname {
+    flex: none;
+    width: 100px;
+}
+
+.mat-column-ownername {
+    flex: none;
+    width: 150px;
+}
+
+.mat-column-launch_deadline_datetime {
+    flex: none;
+    width: 70px;
+}
+
+.mat-column-control_deadline_datetime {
+    flex: none;
+    width: 70px;
+}
+
+.mat-column-target {
+    flex: none;
+    width: 250px;
+}
+
+.mat-column-status {
+    flex: none;
+    width: 100px;
+}
+
+.mat-column-executed_per {
+    flex: none;
+    width: 140px;
+    text-align: left;
+}
+
+.mat-column-action {
+    flex: none;
+    width: 50px;
+    text-align: right;
+}
+
+.mat-column-priorityname {
+    flex: none;
+    width: 80px;
+    text-align: left;
+}
+.mat-table{
+    flex:none;
+    width: 100%;
+    height: 400px;
+}
+.matbuttonsize{
+    flex:none;
+    width: 30px;
+    height: 30px;
+}
+
+  /* Add a background color on hover */
+  

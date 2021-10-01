@@ -1,0 +1,190 @@
+.GridHeader
+{
+    color: darkblue;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+// .Tobelaunched
+//   {
+//       color:green;
+//   }
+
+//   .Cancelled
+//   {
+//       color:red;
+//   }
+//   .Ongoing
+//   {
+//       color:#0095be;
+//   }
+//   .Finalized
+//   {
+//       color:#C000E2;
+//   }
+//   .Delayed
+//   {
+//       color:#ff7400;
+//   }
+
+//   /*Priority Field Colors*/
+//   .low
+//   {
+//       color:green;
+//   }
+//   .high
+//   {
+//       color:red;
+//   }
+//   .medium
+//   {
+//       color:#4271f0;
+//   }
+
+
+  .btn-group button {
+    display: block; /* Make the buttons appear below each other */
+  }
+  
+  .btn-group button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+  }
+  
+// .mat-column-id {
+//     flex: none;
+//     width: 100px;
+// }
+
+// .mat-column-Findings_or_issues {
+//     flex: none;
+//     width: 350px;
+// }
+
+// .mat-column-actions {
+//     flex: none;
+//     width: 350px;
+// }
+
+// .mat-column-topicname {
+//     flex: none;
+//     width: 200px;
+// }
+
+// .mat-column-ownername {
+//     flex: none;
+//     width: 250px;
+// }
+
+// .mat-column-launch_deadline_datetime {
+//     flex: none;
+//     width: 100px;
+// }
+
+// .mat-column-control_deadline_datetime {
+//     flex: none;
+//     width: 100px;
+// }
+
+// .mat-column-target {
+//     flex: none;
+//     width: 350px;
+// }
+
+// .mat-column-status {
+//     flex: none;
+//     width: 150px;
+// }
+
+// .mat-column-executed_per {
+//     flex: none;
+//     width: 150px;
+//     text-align: left;
+// }
+
+// .mat-column-action {
+//     flex: none;
+//     width: 50px;
+//     text-align: right;
+// }
+
+// .mat-column-priorityname {
+//     flex: none;
+//     width: 100px;
+//     text-align: left;
+// }
+
+.mat-column-id {
+    flex: none;
+    width: 5%;
+}
+
+.mat-column-Findings_or_issues {
+    flex: none;
+    width: 15%;
+}
+
+.mat-column-actions {
+    flex: none;
+    width: 15%;
+}
+
+.mat-column-topicname {
+    flex: none;
+    width: 10%;
+}
+
+.mat-column-ownername {
+    flex: none;
+    width: 10%;
+}
+
+.mat-column-launch_deadline_datetime {
+    flex: none;
+    width: 5%;
+}
+
+.mat-column-control_deadline_datetime {
+    flex: none;
+    width: 5%;
+}
+
+.mat-column-target {
+    flex: none;
+    width: 15%;
+}
+
+.mat-column-status {
+    flex: none;
+    width: 5%;
+}
+
+.mat-column-executed_per {
+    flex: none;
+    width: 5%;
+    text-align: left;
+}
+
+.mat-column-action {
+    flex: none;
+    width: 3%;
+    text-align: right;
+}
+
+.mat-column-priorityname {
+    flex: none;
+    width: 5%;
+    text-align: left;
+}
+
+
+.mat-table{
+    flex:none;
+    width: 100%;
+}
+.matbuttonsize{
+    flex:none;
+    width: 30px;
+    height: 30px;
+}
+
+ 

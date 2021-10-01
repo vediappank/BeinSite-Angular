@@ -1,0 +1,14 @@
+<div class="card-body" *ngFor ="let items of finReptWidgetData.summary" style="background-color: #000;">
+<div style="background-color: #8A2BE2; color: white; height: 40px; padding-top: 7px;">
+        <div>
+            <h6 class="text-center" style="text-align: center; font-weight: bold;">{{items.title}}</h6>
+        </div>
+    </div>
+    <div>
+        <div class="col-12" style="margin-bottom: -6px;" >
+            <h5 class="CardValue" *ngIf="items.title != 'Calls Waiting'"  [ngStyle]="{'color':items.colorcode, 'font-size' : items.size}" >{{items.value}}</h5>
+            <h5 class="CardValue bword" *ngIf="items.title == 'Calls Waiting' && items.value >= 10"  [ngStyle]="{'color':items.colorcode, 'font-size' : items.size}">{{items.value}}</h5>
+            <h5 class="CardValue" *ngIf="items.title == 'Calls Waiting' && items.value < 10"  [ngStyle]="{'color':items.colorcode, 'font-size' : items.size}">{{items.value}}</h5>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~material-design-icons/iconfont/material-icons.css";
+@import "~highlight.js/styles/googlecode.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~open-iconic/font/css/open-iconic-bootstrap.css';
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+// hide bootstrap dropdown arrow globally
+.dropdown-toggle::after {
+	display: none !important;
+}
+
+.mat-table__wrapper--dashboard .mat-table {
+	min-width: 600px !important;
+	width: 100% !important;
+}
+
+.position-static {
+	position: static;
+}
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+
+#style-1::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;    
+    background-color: #9B30F0;
+}
+
+
+.bg-orange {
+    background-color: #c28719 !important;
+}
+.bg-cyan {
+    background-color: #01c0c8 !important;
+}
+.bg-quiz {
+    background-color: #bbb800 !important;
+}
+.bg-money {
+    background-color: #076ed4 !important;
+}
+.bg-whatsapp {
+    background-color: #33CC66 !important;
+}
+.bg-onceanddone {
+    background-color: #6e33cc !important;
+}
+.bg-ticket {
+    background-color: #993608 !important;
+}
+.bg-inbavg {
+    background-color: #b32ca1 !important;
+}
+.bg-secondarys {
+background-color: #6c757d !important;
+}

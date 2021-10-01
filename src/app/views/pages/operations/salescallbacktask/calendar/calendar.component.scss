@@ -1,0 +1,45 @@
+h3 {
+  margin: 0 0 10px;
+}
+
+pre {
+  background-color: #f5f5f5;
+  padding: 15px;
+}
+
+.buttoncolor{
+  color: blueviolet;
+}
+::ng-deep .mat-radio-button .mat-radio-label {
+  margin-bottom: 4px;
+  font-size: 15px;
+  padding-left: 15px;
+}
+
+// .open
+//   {
+//       color:blue;
+//   }
+// .cancelled
+//   {
+//       color:red;
+//   }
+//   .noanswer
+//   {
+//       color:#d115c8;
+//   }
+//   .completed
+//   {
+//       color:green;
+//   }
+//   .failure
+//   {
+//       color:#ff7400;
+//   }
+// ::ng-deep .mat-calendar-body > tr > td:nth-child(5) > .mat-calendar-body-cell-content { color:red !important; }
+// ::ng-deep .mat-calendar-body > tr > td:nth-child(6) > .mat-calendar-body-cell-content { color:red !important; }
+// ::ng-deep .mat-calendar-body > tr > td:nth-child(5) {  background: lightyellow;}
+// ::ng-deep .mat-calendar-body > tr > td:nth-child(6) {  background: lightyellow;}
+::ng-deep .cal-week-view .cal-event {
+  color:#ffffff !important;
+}

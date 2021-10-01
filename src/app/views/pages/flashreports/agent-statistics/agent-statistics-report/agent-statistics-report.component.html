@@ -1,0 +1,91 @@
+<div class="row p-0">
+    <form class="form-inline col-md-12 p-0" style="display:block;" name="taskDetailForm" #f="ngForm" (ngSubmit)="f.valid" (keydown.enter)="$event.preventDefault()">
+        <div class="row col-md-12 p-0">
+            <div class="col-md-3 form-group">
+                <label for="reportFields" class="col-sm-2 form-label" style="padding-left: 8px;">Report Info</label>
+                <ng-select id="reportFields" name="reportFields" [(ngModel)]="reportFields" required
+                    #reportFS="ngModel" [ngClass]="{ 'is-invalid': f.submitted && reportFS.invalid }" 
+                    class="col-sm-9 p-0" [items]="reportDataFieldGroups" bindValue="id" bindLabel="name" 
+                    [multiple]="true" [closeOnSelect]="false" (change)="onReportFieldSetChange($event)" placeholder="Select Field Sets">
+                    <ng-template ng-header-tmp>
+                        <div>
+                            <button class="btn btn-link" (click)="selectAllRepFields()">Select All</button>
+                            <button class="btn btn-link" (click)="clearAllRepFields()">Clear All</button>
+                        </div>
+                      </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <input id="item-{{index}}" name="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/><i [class]="item.icon_url"></i>{{item.name}}
+                    </ng-template>
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                            <span class="ng-value-label"><i [class]="item.icon_url"></i></span>{{item.name}}
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </div>
+                        <div class="ng-value" *ngIf="items.length > 2">
+                            <span class="ng-value-label">{{items.length - 2}} more...</span>
+                        </div>
+                    </ng-template>
+                </ng-select>
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="reportType" class="col-sm-4 form-label">Report Type</label>
+                <ng-select class="col-sm-6 p-0" [searchable]="true" [clearable]="false" id="reportType" name="reportType" [(ngModel)]="reportType" required>
+                    <ng-option value="agent">
+                        <i class="fa fa-user"></i>
+                        Agents
+                    </ng-option>
+                    <ng-option value="supervisor">
+                        <i class="fa fa-user-tie"></i>
+                        Supervisors
+                    </ng-option>
+                    <ng-option value="supervisor_team">
+                        <i class="fa fa-users"></i>
+                        Supervisor Teams
+                    </ng-option>
+                </ng-select>
+            </div>
+            <div class="col-md-5 form-group">
+                <!-- <label for="reportRange" class="col-sm-2 form-label">Report Range<span class="imp">&nbsp;*</span></label> -->
+                <input type="text" id="reportRange" name="reportRange" [(ngModel)]="reportRange" class="col-sm-12 form-control" ngxDaterangepickerMd 
+                    [singleDatePicker]="false" [locale]="{applyLabel: 'Ok', format: 'DD/MM/YYYY'}"
+                    #reportRangeDT="ngModel" required [ngClass]="{ 'is-invalid': f.submitted && (reportRangeDT.invalid || !reportRange.startDate) }" 
+                    [showClearButton]="true" [showCancel]="true" [ranges]="reportDateRanges"
+                    [alwaysShowCalendars]="true" [showCustomRangeLabel]="true" [linkedCalendars]="true"
+                    [showClearButton]="true" [showCancel]="true" [autoApply]="false" autocomplete="off"
+                    placeholder="Choose Date Range" />
+            </div>
+            <div class="col-md-2 form-group p-1 text-left">
+                <button class="mat-raised-button beINButton" (click)="getReportData();">Submit</button>&nbsp;
+                <!-- <button class="mat-raised-button btn-secondary" (click)="autoSizeAll()">Auto Fit</button>
+                <button class="mat-raised-button btn-info" (click)="exportToCSV()" [disabled]="!agentData">Export to CSV</button> -->
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row p-0">
+    <ag-grid-angular #agGrid1 *ngIf="agentData"
+        style="margin:0 auto;width:98vw;height: 90vh;"
+        class="ag-theme-balham"
+        [rowData]="agentData | async"
+        [pinnedBottomRowData]="gridSummaryData | async"
+        [columnDefs]="columnDefs"
+        rowSelection="multiple"
+        [getRowStyle]="getGridRowStyle"
+        suppressMenuHide="false"
+        [defaultColDef]="gridDefaultColDef"
+        enableCharts=true
+        animateRows=true
+        enableSorting=true
+        enableFilter=true
+        enableStatusBar=true
+        enableRangeSelection=true
+        rowDragManaged=true
+        rowGroupPanelShow="always"
+        pivotPanelShow="always"
+        pivotColumnGroupTotals="before"
+        pivotRowTotals="before"
+        [sideBar]= "sideBar"
+        (gridReady)="onGridReady($event)"
+        >
+    </ag-grid-angular>
+</div>

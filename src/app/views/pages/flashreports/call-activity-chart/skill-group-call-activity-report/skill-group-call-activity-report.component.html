@@ -1,0 +1,13 @@
+<div class="row" style="margin:0px;padding-top:10px;">
+    <div class="col-lg-12" *ngIf="skGrpInfo">
+        <app-skill-group-main-chart [chartTitle]="title1" [chartTheme]="'bein-theme'" [skGrpInfo]="skGrpInfo"></app-skill-group-main-chart>
+    </div>
+</div>
+<div class="row" style="margin:0px;padding-top:10px;" *ngIf="skillGroupName!=='MOROCCO'">
+    <div class="col-lg-6" *ngIf="arSkGrpInfo">
+        <app-skill-group-child-chart [chartTitle]="title2" [chartTheme]="'bein-theme'" [skGrpInfo]="arSkGrpInfo"></app-skill-group-child-chart>
+    </div>
+    <div class="col-lg-6" *ngIf="enSkGrpInfo">
+        <app-skill-group-child-chart [chartTitle]="title3" [chartTheme]="'bein-theme'" [skGrpInfo]="enSkGrpInfo"></app-skill-group-child-chart>
+    </div>
+</div>

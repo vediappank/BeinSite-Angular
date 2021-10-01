@@ -1,0 +1,323 @@
+<div class="row" id="angularchart">
+
+
+
+    <div class="col-12" [ngClass]="chartTheme">
+        <div class="card-header text-center" style="background-color: #5e2e94; color:white; margin:-9px -9px -3px -9px">
+            <span class="card-title" (click)="openFullscreen()"> {{title}} </span>
+            <button mat-icon-button>
+                <mat-icon fontSet="fa" (click)="openFullscreen()" title="Show Full Screen" fontIcon="fa-table">
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="col-10 card-body text-center" style="margin-top: 2px;">
+        <!-- <span class="card-subtitle"> SITE Calls </span> -->
+        <div class="card">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="DailerInfoData$ | async">
+                <ng-container matColumnDef="Total">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Total
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.Total}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Success">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Success
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.Success}}
+                    </mat-cell>
+                </ng-container>
+                
+                <ng-container matColumnDef="SucessPer">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Sucess Per
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.SucessPer}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="NonSuccess">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Non Success
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let template"> {{template.NonSuccess}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="NonSuccessPer">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Non Success Per
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.NonSuccessPer }} </span>
+                    </mat-cell>
+
+                </ng-container>
+                <ng-container matColumnDef="ErrorCondition2">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Error Condition 2
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.ErrorCondition2 }} </span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ErrorConditionPer">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Error Condition Per
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.ErrorConditionPer }} </span>
+                    </mat-cell>
+
+                </ng-container>
+
+                <ng-container matColumnDef="InvalidByNetwork7">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Invalid By Network 7
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let invalid"> {{ invalid.InvalidByNetwork7 }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="InvalidByNetworkPer">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Invalid By Network Per
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Subject"> {{Subject.InvalidByNetworkPer}} </mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="DailerSummaryColumns" class="header"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: DailerSummaryColumns"></mat-row>
+
+            </mat-table>
+        </div>
+        <div class="card">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="OutboundInfoData$ | async">
+                <ng-container matColumnDef="SITE">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> SITE
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.SITE}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ReserveCalls">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Reserve Calls
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let template"> {{template.ReserveCalls}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="SuccessCalls">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Success Calls
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.SuccessCalls }} </span>
+                    </mat-cell>
+
+                </ng-container>
+                <ng-container matColumnDef="SuccessPercentage">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Success %
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.SuccessPercentage }} </span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="OtherCalls">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Other Calls
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.OtherCalls }} </span>
+                    </mat-cell>
+
+                </ng-container>
+
+                <ng-container matColumnDef="OtherPercentage">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Other %
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let priority"> {{ priority.OtherPercentage }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ManualOutboundCalls">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Manual Outbound
+                        Calls
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Subject"> {{Subject.ManualOutboundCalls}} </mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="OutboundInfoColumns" class="header"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: OutboundInfoColumns"></mat-row>
+
+            </mat-table>
+        </div>
+        <!-- <span class="card-subtitle"> Skill Group Calls</span> -->
+        <div class="card">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="SkillGroupInfoData$ | async">
+                <ng-container matColumnDef="SkillGroup">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Skill Group
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.SkillGroup}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ReserveCalls">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Reserve Calls
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let template"> {{template.ReserveCalls}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="SuccessCalls">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Success Calls
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.SuccessCalls }} </span>
+                    </mat-cell>
+
+                </ng-container>
+                <ng-container matColumnDef="SuccessPercentage">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Success %
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.SuccessPercentage }} </span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="OtherCalls">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Other Calls
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span>{{ Template.OtherCalls }} </span>
+                    </mat-cell>
+
+                </ng-container>
+
+                <ng-container matColumnDef="OtherPercentage">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Other %
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let priority"> {{ priority.OtherPercentage }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ManualOutboundCalls">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Manual Outbound
+                        Calls
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Subject"> {{Subject.ManualOutboundCalls}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="SkillGroupColumns" class="header"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: SkillGroupColumns"></mat-row>
+
+            </mat-table>
+        </div>
+        <!-- <span class="card-subtitle"> Country Contact Info </span> -->
+        <div class="card">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="CountryContactInfoData$ | async">
+               
+                <ng-container matColumnDef="CountryName">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Country Name
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.CountryName}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Total">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Total
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.Total}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Success">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Success
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let template"> {{template.Success}} </mat-cell>
+                </ng-container>
+                
+
+                <ng-container matColumnDef="SuccessPercentage">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Success %
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let success"> {{ success.SuccessPercentage }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Failure">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Failure
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let failure"> {{failure.Failure}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="FailurePercentage">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Failure %
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let failure"> {{failure.FailurePercentage}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="CountryContactInfoColumns" class="header"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: CountryContactInfoColumns"></mat-row>
+
+            </mat-table>
+        </div>
+
+        <!-- <span class="card-subtitle"> Agent Info </span> -->
+        <div class="card">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="AgentInfoData$ | async">
+               
+                <ng-container matColumnDef="agent_name">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Agent Name
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.agent_name}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="currentSkillGroupName">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Current SkillGroup Name
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let event"> {{event.currentSkillGroupName}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="extension">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Extension
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let template"> {{template.extension}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="status_name">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Status
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span [ngStyle]="getreasoncodecolor(Template.status_name)">{{ Template.status_name }} </span>
+                    </mat-cell>
+
+
+                </ng-container>
+                <ng-container matColumnDef="time_in_status">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Time
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span [ngStyle]="getreasoncodecolor1(Template)">{{ Template.time_in_status }} </span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="reason_code">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Reason Code
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Template">
+                        <span [ngStyle]="getreasoncodecolor(Template.reason_code)">{{ Template.reason_code }} </span>
+                    </mat-cell>
+
+                </ng-container>
+
+                <ng-container matColumnDef="callsHandled">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Handled
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let priority"> {{ priority.callsHandled }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="callsAbandoned">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Abandoned
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Subject"> {{Subject.callsAbandoned}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="AHT">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> AHT
+                    </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let Subject"> {{Subject.AHT}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="AgentInfoColumns" class="header"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: AgentInfoColumns"></mat-row>
+
+            </mat-table>
+        </div>
+        <div class="col-lg-11 mat-table__bottom" style="text-align: right;margin-top: 2%;"></div>
+
+    </div>
+    <div class="col-2 card-body text-center sticky" style="margin-top: 2px;"
+        *ngIf="(SideBarInfoData$ | async) as sideBarRptData">
+        <div class="card" style="max-height:100%; max-width: 100%;">
+            <kt-outbound-sidebar-details [data]="sideBarRptData"></kt-outbound-sidebar-details>
+        </div>
+    </div>
+
+</div>

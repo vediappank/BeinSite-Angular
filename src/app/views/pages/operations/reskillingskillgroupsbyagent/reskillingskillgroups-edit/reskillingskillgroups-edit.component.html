@@ -1,0 +1,103 @@
+<kt-portlet
+    style="height: 1500px;">
+	<kt-portlet-header [title]="getComponentTitle()">
+		<ng-container ktPortletTools>
+			
+		
+		</ng-container>
+	</kt-portlet-header>
+    <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="100000" [showCloseButton]="true" (close)="onAlertClose($event)">
+    {{ErrorMessage}}
+</kt-alert>
+	<kt-portlet-body>
+        <!-- <div class="col-lg-12" style="mar: min-content;"> -->
+            <button matInput class="btn btn-primary" color="primary" style="margin-left: 93%;height: 35px;" (click)="onsubmit();">Save</button>&nbsp;
+        <!-- </div> -->
+		<mat-tab-group [(selectedIndex)]="selectedTab">
+           
+
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-user"></i>
+					Inbound  Skill Group Mapping
+				</ng-template>
+				<ng-template matTabContent>
+					<!--begin::Form-->
+					<div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                        <label class=" form-check-label submenu">
+                                            <mat-icon color="warn">verified_user</mat-icon>
+                                            <b style="font-size: 18px;">Inbound Skill Groups</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                       
+                                        
+                                    </div>
+                                </div>
+                               
+                                <br/>
+                                <br/>
+                                <div class="row col-lg-12" style="padding-left: 20px;">
+                                    <div class="col-lg-3" *ngFor="let smc of inboundlist; index as j" style="margin-bottom: 10px;">
+                                        <!-- <div > -->
+                                            <mat-checkbox class="col-lg-4 chk-margin"
+                                                value="{{smc.active_flag}}" [(ngModel)]="smc.active_flag"  (change)="getCheckedItemList($event, smc); false">
+                                                {{smc.name | titlecase}}</mat-checkbox>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+							</div>
+					</div>
+					<!--end::Form-->
+				</ng-template>
+			</mat-tab>
+            <mat-tab>
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-user"></i>
+					OutBound  Skill Group Mapping
+				</ng-template>
+				<ng-template matTabContent>
+					<!--begin::Form-->
+					<div>
+                            <div>
+                                
+                                <div class="row">
+                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                        <label class=" form-check-label submenu">
+                                            <mat-icon color="warn">verified_user</mat-icon>
+                                            <b style="font-size: 18px;">OutBound Skill Groups</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                       
+                                        
+                                    </div>
+<!--                                    
+                                    <div class="col-lg-2">
+                                        <button matInput class="btn btn-primary" color="primary" style="margin-left: 25px;" (click)="onOutboundsubmit();">Save</button>&nbsp;
+                                    </div> -->
+                                </div>
+                                
+                                <br/>
+                                <br/>
+                                <div class="row col-lg-12" style="padding-left: 20px;">
+                                    <div class="col-lg-3" *ngFor="let out of Outboundlist; index as j" style="margin-bottom: 10px;">
+                                        <!-- <div > -->
+                                            <mat-checkbox class="col-lg-4 chk-margin"
+                                                value="{{out.active_flag}}" [(ngModel)]="out.active_flag" (change)="getCheckedItemList($event, out); false" >
+                                                {{out.name | titlecase}}</mat-checkbox>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+							</div>
+					</div>
+					
+				</ng-template>
+			</mat-tab>
+		
+		</mat-tab-group>
+	</kt-portlet-body>
+</kt-portlet>

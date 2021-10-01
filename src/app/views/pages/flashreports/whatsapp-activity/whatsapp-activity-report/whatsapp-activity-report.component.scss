@@ -1,0 +1,139 @@
+$primaryColor: #5e2e94;
+$gradientBGColor_1: #5e2e94;
+$topBarDarkBlue: rgb(21, 88, 146);
+$topBarLightBlue: rgb(60, 137, 214);
+$topBarDarkYellow: rgb(255, 238, 0);
+$topBarLightYellow: rgb(255, 243, 74);
+$color: ( light: #fefefe, dark: #333, cool: linear-gradient($topBarLightBlue, $topBarDarkBlue));
+$chartFontSize: calc(0.5vh + 0.5vw + 1vmin);
+h4 {
+    margin: 0px;
+    padding: 0px;
+    font-weight: 200;
+}
+
+.blue-theme {
+    .card{
+        color: rgb(8, 128, 24);
+        border: 1px solid #499bea;
+        box-shadow:-2px 5px 5px 1px #499bea52;
+        .card-header,  .data-header {
+            background: #499bea;
+            background: -moz-linear-gradient(top, #499bea 0%, #207ce5 100%);
+            background: -webkit-gradient(left top, left bottom, color-stop(0%, #499bea), color-stop(100%, #207ce5));
+            background: -webkit-linear-gradient(top, #499bea 0%, #207ce5 100%);
+            background: -o-linear-gradient(top, #499bea 0%, #207ce5 100%);
+            background: -ms-linear-gradient(top, #499bea 0%, #207ce5 100%);
+            background: linear-gradient(to bottom, #499bea 0%, #207ce5 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=0 );
+            color: #ffffff;
+            h5{
+                margin-bottom: 0px;
+            }
+            
+        }
+    }
+}
+
+.dark-blue-theme {
+    .card{
+        border: 1px solid #3d8ad6;
+        box-shadow:-2px 5px 5px 1px #3d8ad652;
+        .card-header,  .data-header {
+            background: #3d8ad6;
+            background: -moz-linear-gradient(top, #3d8ad6 0%, #2d86e0 49%, #155892 100%);
+            background: -webkit-gradient(left top, left bottom, color-stop(0%, #3d8ad6), color-stop(49%, #2d86e0), color-stop(100%, #155892));
+            background: -webkit-linear-gradient(top, #3d8ad6 0%, #2d86e0 49%, #155892 100%);
+            background: -o-linear-gradient(top, #3d8ad6 0%, #2d86e0 49%, #155892 100%);
+            background: -ms-linear-gradient(top, #3d8ad6 0%, #2d86e0 49%, #155892 100%);
+            background: linear-gradient(to bottom, #3d8ad6 0%, #2d86e0 49%, #155892 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3d8ad6', endColorstr='#155892', GradientType=0 );
+            color: #ffffff;
+            h5{
+                margin-bottom: 0px;
+            }
+            
+        }
+    }
+}
+
+.brown-theme {
+    .card{
+        border: 1px solid #a90329;
+        box-shadow:-2px 5px 5px 1px #a9032952;
+        .card-header,  .data-header {
+            background: #a90329;
+            background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+            background: -webkit-gradient(left top, left bottom, color-stop(0%, #a90329), color-stop(44%, #8f0222), color-stop(100%, #6d0019));
+            background: -webkit-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+            background: -o-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+            background: -ms-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+            background: linear-gradient(to bottom, #a90329 0%, #8f0222 44%, #6d0019 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019', GradientType=0 );
+            color: #ffffff;
+            h5{
+                margin-bottom: 0px;
+            }
+            
+        }
+    }
+}
+
+.bein-theme {
+    .card{
+        border: 1px solid #5e2e94;
+        //box-shadow:-2px 5px 5px 1px #5e2e9452;
+        .card-header,  .data-header {
+            background: #5e2e94;
+            background: -moz-linear-gradient(top, #5e2e94 0%, #45167a 100%);
+            background: -webkit-gradient(left top, left bottom, color-stop(0%, #5e2e94), color-stop(100%, #45167a));
+            background: -webkit-linear-gradient(top, #5e2e94 0%, #45167a 100%);
+            background: -o-linear-gradient(top, #5e2e94 0%, #45167a 100%);
+            background: -ms-linear-gradient(top, #5e2e94 0%, #45167a 100%);
+            background: linear-gradient(to bottom, #5e2e94 0%, #45167a 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5e2e94', endColorstr='#45167a', GradientType=0 );
+            color: #ffffff;
+            h5{
+                margin-bottom: 0px;
+            }
+            
+        }
+    }
+}
+
+.card-header {
+    padding: .65rem 1.25rem;
+    padding: 3px;
+}
+
+.card-title {
+    margin: 0px;
+    padding: 0px;
+    //font-size: 1.4rem;
+    font-size: calc(#{$chartFontSize} * 1);
+    font-weight: 500;
+}
+
+.chartDiv{
+    display:block;
+    height: 50vh;
+    min-height: 300px;
+}
+
+.summaryTitle{
+    line-height: 1.2;
+    //font-size: 1.05rem;
+    font-size: calc(#{$chartFontSize} * 0.45);
+}
+.summaryData{
+    // font-size: 2rem;
+    font-size: calc(#{$chartFontSize} * 1);
+}
+
+.custProgress {
+    height: auto;
+}
+
+.summCardBody{
+    padding: 10px;
+}

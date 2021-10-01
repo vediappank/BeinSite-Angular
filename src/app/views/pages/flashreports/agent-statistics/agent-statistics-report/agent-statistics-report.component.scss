@@ -1,0 +1,34 @@
+.ag-row-hover {
+    /* putting in !important so it overrides the theme's styling as it hovers the row also */
+    background-color: #dfdfff !important;
+}
+
+.ag-column-hover {
+    background-color: #dfffdf;
+}
+
+.fa-icon {
+    width: 17px;
+    margin-left: 5px;
+}
+
+.form-group, .form-label, .form-control {
+    padding: 0px;
+}
+
+.is-invalid {
+    border-left: 4px solid #9c1a1a;
+}
+
+.beINButton {
+    background-color: #5e2e94;
+    color: #ffffff;
+}
+
+.ag-header-group-cell-label{
+    text-align: center;
+}
+
+.tfimg {
+    width: 16px; height: 16px;
+}

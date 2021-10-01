@@ -1,0 +1,33 @@
+.hidden-row {
+    display: none;
+  }
+
+  .Approved
+  {
+      color:green;
+  }
+
+  .Canceled
+  {
+      color:red;
+  }
+  .Pending-Approval
+  {
+      color:#0095be;
+  }
+  .Completed
+  {
+      color:#C000E2;
+  }
+
+  .Expired
+  {
+      color:#ff7400;
+  }
+
+  .GridHeader
+{
+    color: darkblue;
+    font-weight: bold;
+    font-size: 14px;
+}

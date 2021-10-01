@@ -1,0 +1,43 @@
+<div class="row">
+    <form class="form-inline col-md-12" style="display:block;padding:0px;" name="taskDetailForm" #f="ngForm" (ngSubmit)="f.valid" (keydown.enter)="$event.preventDefault()">
+        <div class="col-lg-6 form-group">
+            <label for="chartDate" class="col-sm-5 col-form-label">Flash Charts Date<span class="imp">&nbsp;*</span></label>
+            <input type="date" class="form-control col-sm-6" id="chartDate" [(ngModel)]="chartDate" name="chartDate" (change)="refresh()" />
+            <button mat-icon-button (click)="refresh()">
+                <mat-icon fontSet="fa" fontIcon="fa-sync"></mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
+<div class="row" id="fullscreen">
+    <div class="col-lg-12">
+        <mat-tab-group (selectedTabChange)="handleTabChange($event)">
+            <mat-tab label="Global" *ngIf="showGlobal">
+                <app-global-call-activity-report></app-global-call-activity-report>
+            </mat-tab>
+            <mat-tab label="VIP" *ngIf="showVIP">
+                <app-skill-group-call-activity-report [skillGroupName]="'VIP'"></app-skill-group-call-activity-report>
+            </mat-tab>
+            <mat-tab label="GCC" *ngIf="showGCC">
+                <app-skill-group-call-activity-report [skillGroupName]="'GCC'"></app-skill-group-call-activity-report>
+            </mat-tab>
+            <mat-tab label="ROW" *ngIf="showROW">
+                <app-skill-group-call-activity-report [skillGroupName]="'ROW'"></app-skill-group-call-activity-report>
+            </mat-tab>
+            <mat-tab label="NA" *ngIf="showNA">
+                <app-skill-group-call-activity-report [skillGroupName]="'NA'"></app-skill-group-call-activity-report>
+            </mat-tab>
+            <mat-tab label="Morocco" *ngIf="showMorocco">
+                <app-skill-group-call-activity-report [skillGroupName]="'MOROCCO'"></app-skill-group-call-activity-report>
+            </mat-tab>
+            <mat-tab label="KSA" *ngIf="showKSA">
+                <app-skill-group-call-activity-report [skillGroupName]="'KSA'"></app-skill-group-call-activity-report>
+            </mat-tab>
+            <mat-tab label="JORDAN" *ngIf="showJordan">
+                <app-skill-group-call-activity-report [skillGroupName]="'JORDAN'"></app-skill-group-call-activity-report>
+            </mat-tab>
+          </mat-tab-group>
+    </div>
+</div>
+
+

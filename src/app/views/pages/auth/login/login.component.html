@@ -1,0 +1,62 @@
+
+
+<!--begin::Body-->
+<div class="kt-login__body">
+	<!--begin::Signin-->
+	<div class="kt-login__form">
+		
+
+		<kt-auth-notice ></kt-auth-notice>
+		<div class="kt-login__signin">
+				<div class="kt-login__head">
+					<h3 class="kt-login__title">Sign In To beINSIGHT</h3>
+				</div>
+				
+		<form class="kt-form" [formGroup]="loginForm" autocomplete="off">
+			<div class="input-group">
+				
+					
+					<input matInput class="form-control" style="background-image: url(./assets/media/logos/bg-1.jpg);" type="username"  formControlName="username" autocomplete="off"/>
+					
+				
+			</div>
+			<div class="input-group" >
+					<!-- <mat-label>{{ 'AUTH.INPUT.PASSWORD' | translate }}</mat-label> -->
+					<input matInput class="form-control" style="background-image: url(./assets/media/logos/bg-1.jpg);" type="password" formControlName="password" autocomplete="off"/>
+					<!--<mat-error *ngIf="isControlHasError('password','required')">
+						<strong>{{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}</strong>
+					</mat-error>
+					<mat-error *ngIf="isControlHasError('password','minlength')">
+						<strong>{{ 'AUTH.VALIDATION.MIN_LENGTH_FIELD' | translate }} 3</strong>
+					</mat-error>
+					<mat-error *ngIf="isControlHasError('password','maxlength')">
+						<strong>{{ 'AUTH.VALIDATION.MAX_LENGTH_FIELD' | translate }} 100</strong>
+					</mat-error>-->
+				
+			</div>
+			<!-- <div class="row kt-login__extra">
+					<div class="col">
+						<label class="kt-checkbox">
+							<input type="checkbox" name="remember"> Remember me
+							<span></span>
+						</label>
+					</div>
+				<div class="col kt-align-right">
+						<a href="javascript:;" id="kt_login_forgot" class="kt-link kt-login__link">Forget Password ?</a>
+					</div> 
+				</div> -->
+			<!--begin::Action-->
+			<div class="kt-login__actions">
+				<!--<a href="javascript:;" routerLink="/auth/forgot-password" class="kt-link kt-login__link-forgot">
+					{{ 'AUTH.GENERAL.FORGOT_BUTTON' | translate }}
+				</a>-->
+				<button (click)="submit()" [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}" id="kt_login_signin_submit" class="btn btn-primary btn-elevate kt-login__btn-primary">{{ 'AUTH.LOGIN.BUTTON' | translate }}</button>
+			</div>
+			<!--end::Action-->
+		</form>
+	</div>
+		
+	</div>
+	<!--end::Signin-->
+</div>
+<!--end::Body-->

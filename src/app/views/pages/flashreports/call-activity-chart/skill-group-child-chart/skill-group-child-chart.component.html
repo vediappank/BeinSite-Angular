@@ -1,0 +1,123 @@
+<div class="row" [ngClass]="chartTheme">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <span class="card-title" [innerHTML]="chartTitle"></span>
+                <button mat-icon-button (click)="showCallInfo()">
+                    <mat-icon fontSet="fa" fontIcon="fa-table"></mat-icon>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="chartDiv">
+                            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" 
+                            [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row -->
+                <div class="row p-1">
+                        <!-- Column -->
+                        <div class="col-lg-2 col-md-6 summDiv">
+                            <div class="card" *ngIf="skGrpInfo">
+                                <div class="card-body summCardBody">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <div class="font-weight-bold summaryData">{{skGrpInfo.coff}}</div>
+                                            <div class="card-subtitle summaryTitle">Received</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <!-- Column -->
+                        <div class="col-lg-2 col-md-6 summDiv">
+                            <div class="card" *ngIf="skGrpInfo">
+                                <div class="card-body summCardBody">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <div class="font-weight-bold summaryData">{{skGrpInfo.cans}}</div>
+                                            <div class="card-subtitle summaryTitle">Answered</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <!-- Column -->
+                        <div class="col-lg-2 col-md-6 summDiv">
+                            <div class="card" *ngIf="skGrpInfo">
+                                <div class="card-body summCardBody">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <div class="font-weight-bold summaryData">{{skGrpInfo.cabn}}</div>
+                                            <div class="card-subtitle summaryTitle">Abandoned</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <!-- Column -->
+                        <div class="col-lg-2 col-md-6 summDiv">
+                            <div class="card" *ngIf="skGrpInfo">
+                                <div class="card-body summCardBody">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <div class="font-weight-bold summaryData">{{pca}}%</div>
+                                            <div class="card-subtitle summaryTitle">PCA</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <!-- Column -->
+                        <div class="col-lg-2 col-md-6 summDiv">
+                            <div class="card" *ngIf="skGrpInfo">
+                                <div class="card-body summCardBody">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <div class="font-weight-bold summaryData">{{aht * 1000 | date:'mm:ss':'UTC'}}</div>
+                                            <div class="card-subtitle summaryTitle">AHT</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <!-- Column -->
+                        <div class="col-lg-2 col-md-6 summDiv">
+                            <div class="card" *ngIf="skGrpInfo">
+                                <div class="card-body summCardBody">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <div class="font-weight-bold summaryData">{{asa * 1000 | date:'mm:ss':'UTC'}}</div>
+                                            <div class="card-subtitle summaryTitle">ASA</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                    </div>
+                    <!-- Row -->
+            </div>
+            <ngb-accordion #acc="ngbAccordion" [closeOthers]="true" [ngClass]="cardTheme" *ngIf="false">
+                <ngb-panel>
+                    <ng-template ngbPanelTitle>
+                        <span>&#9733; <b>Data</b> title &#9733;</span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+                        on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table,
+                        raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+    </div>
+</div>

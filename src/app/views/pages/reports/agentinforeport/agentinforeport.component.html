@@ -1,0 +1,95 @@
+<kt-portlet>
+    <!-- PORTLET LOADING | Binded to TABLE Datasource -->
+    <!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
+   
+
+    <div class="row">
+        <form class="form-group col-lg-12" style="display:block;" name="agentActivityReports" #f="ngForm"
+            (ngSubmit)="f.valid" (keydown.enter)="$event.preventDefault()">
+            <div class="row">
+                <div class="col-lg-10 kt-margin-bottom-20-mobile p-1" >
+                <mat-form-field class="col-lg-12">
+                    
+                    <label for="Select Date Range">Select Date Range*</label>
+                    <input type="text" matInput id="reportRange" name="reportRange" [(ngModel)]="reportRange"
+                        ngxDaterangepickerMd [singleDatePicker]="false"
+                        [locale]="{applyLabel: 'Ok', format: 'DD/MM/YYYY'}" #reportRangeDT="ngModel" required
+                        [ngClass]="{ 'is-invalid': f.submitted && (reportRangeDT.invalid || !reportRange.startDate) }"
+                        [showClearButton]="true" [showCancel]="true" [ranges]="reportDateRanges"
+                        [alwaysShowCalendars]="true" [showCustomRangeLabel]="true" [linkedCalendars]="true"
+                        [showClearButton]="true" [showCancel]="true" [autoApply]="false" autocomplete="off"
+                         />
+                </mat-form-field>
+                </div>
+                <div class="col-lg-5 kt-margin-bottom-20-mobile p-3" *ngIf="TypeListRange.length > 0">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-select placeholder="Select Reports Type" [(value)]="reportType" >
+                            <mat-option *ngFor="let type of TypeListRange" value="{{ type.id }}">
+                                {{type.name}}</mat-option>  
+                            </mat-select>               
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-5 kt-margin-bottom-20-mobile p-3" *ngIf="OrderByListRange.length > 0">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-select placeholder="Select Reports OrderBy" [(value)]="reportOrderBy"> 
+                            <mat-option *ngFor="let orderby of OrderByListRange" value="{{ orderby.id }}">
+                                {{orderby.name}}</mat-option>                  
+                        </mat-select>                  
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-2 p-3">
+                    <button matInput class="btn btn-primary" color="primary"
+                    (click)="getReportData();">Submit</button>&nbsp;  
+                    <a (click)="redirecttoList();" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                        matTooltip="Back to the reports list">
+                        <i class="la la-arrow-left"></i>
+                        <span class="kt-hidden-mobile">Back</span></a>  
+                </div>
+        </div>
+        
+      
+        </form>
+    </div>
+  
+    <!-- end::Header -->
+    <div class="row" id="angularchart">
+        <div class="col-lg-12">
+            <div class="row" [ngClass]="chartTheme">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <span class="card-title"> {{title}} </span>
+                            <button mat-icon-button>
+                                <mat-icon fontSet="fa" (click)="openFullscreen()" title="Show Full Screen" fontIcon="fa-table">
+                                </mat-icon>
+                            </button>
+                           
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12" >
+                                        <ag-grid-angular #agGrid1 *ngIf="agentData"
+                                            style="margin:0 auto;width:100%;height: 1000px;"
+                                            class="ag-theme-balham" [rowData]="agentData | async"
+                                            [columnDefs]="columnDefs" rowSelection="multiple"
+                                            [getRowStyle]="getGridRowStyle" suppressMenuHide="false"
+                                            [defaultColDef]="gridDefaultColDef" enableCharts=true animateRows=true
+                                            enableSorting=true enableFilter=true enableStatusBar=true
+                                            enableRangeSelection=true rowDragManaged=true rowGroupPanelShow="always"
+                                            pivotPanelShow="always" pivotColumnGroupTotals="before"
+                                            pivotRowTotals="before" [sideBar]="sideBar">
+                                        </ag-grid-angular>
+                                    
+                                </div>
+                                <div class="col-sm-12" id="content">
+                                        <div id="chartdiv"></div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <!-- end::Body -->
+</kt-portlet>

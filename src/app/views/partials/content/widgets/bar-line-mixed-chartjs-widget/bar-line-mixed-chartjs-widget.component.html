@@ -1,0 +1,12 @@
+<div class="kt-widget14">
+  <div class="kt-widget14__header kt-margin-b-30">
+    <h3 class="kt-widget14__title">{{title}}</h3>
+    <span class="kt-widget14__desc">{{desc}}</span>
+  </div>
+  <div class="kt-widget14__chart" style="height:200px;">
+    <canvas baseChart [datasets]="barChartData$ | async" [labels]="barChartLabels$ | async" [options]="barChartOptions"
+      [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType"
+      (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+</div>

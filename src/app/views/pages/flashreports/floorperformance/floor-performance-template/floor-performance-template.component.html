@@ -1,0 +1,102 @@
+<div *ngIf="aInfo">
+    <div class="row pt-1" >
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Calls Handled'" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.inboundCallsHandled===0) ?  '-' : aInfo.inboundCallsHandled"  [cClass]="'bg-orange'" [iconClass]="'fa fa-phone fa-rotate-90'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Disconnected Calls '"  [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.inboundDisconnectedCalls===0) ?  '-' : aInfo.inboundDisconnectedCalls"  [cClass]="'bg-orange'" [iconClass]="'fa fa-phone fa-rotate-90'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Avg. Handle Time'"  [duration] ="'[30 mins]'" [aStatsVal]=" (aInfo.inboundAvgHandleTime===0)?  '-' : aInfo.inboundAvgHandleTime * 1000   | date:'H:mm:ss':'UTC'"  [cClass]="'bg-inbavg'" [iconClass]="'fa fa-phone fa-rotate-90'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Avg. Talk Time'" [duration] ="'[30 mins]'" [aStatsVal]=" (aInfo.inboundTalkTime===0)?  '-' :  aInfo.inboundTalkTime * 1000  | date:'H:mm:ss':'UTC'"  [cClass]="'bg-inbavg'" [iconClass]="'fa fa-phone fa-rotate-90'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Avg. Hold Time'" [duration] ="'[30 mins]'" [aStatsVal]=" (aInfo.inboundHoldTime===0)?  '-' :  aInfo.inboundHoldTime * 1000  | date:'H:mm:ss':'UTC'"  [cClass]="'bg-inbavg'" [iconClass]="'fa fa-phone fa-rotate-90'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Avg. Wrap Time'" [duration] ="'[30 mins]'" [aStatsVal]=" (aInfo.inboundWrapTime===0)?  '-' :  aInfo.inboundWrapTime * 1000  | date:'H:mm:ss':'UTC'"  [cClass]="'bg-inbavg'" [iconClass]="'fa fa-phone fa-rotate-90'"></app-floor-performance-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Assistance Requests'" [duration] ="'[30 mins]'"  [aStatsVal]="(aInfo.assistanceRequests ===0) ?  '-' : aInfo.assistanceRequests"  [cClass]="'bg-dark'" [iconClass]="'fa fa-phone'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Assistance Requests'" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.assistanceRequestsPer ===0) ?  '-' : aInfo.assistanceRequestsPer+'%'"  [cClass]="'bg-dark'" [iconClass]="'fa fa-phone'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Survey Calls '" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.surveyCalls ===0) ?  '-' : aInfo.surveyCalls"  [cClass]="'bg-success'" [iconClass]="'fa fa-bar-chart'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Survey VOC'" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.surveyFCR ===0) ?  '-' : aInfo.surveyFCR +'%'"  [cClass]="'bg-success'" [iconClass]="'fa fa-bar-chart'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Survey CSAT'" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.surveyCSAT ===0) ?  '-' : aInfo.surveyCSAT+'%'"  [cClass]="'bg-success'" [iconClass]="'fa fa-bar-chart'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Once & Done Calls'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.onceADoneCallsPer ===0) ?  '-' : aInfo.onceADoneCallsPer+'%'"  [cClass]="'bg-onceanddone'" [iconClass]="'fa fa-bar-chart'"></app-floor-performance-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Dialer Calls '" [duration] ="'[30 mins]'"   [aStatsVal]="(aInfo.dailerCalls ===0) ?  '-' : aInfo.dailerCalls"  [cClass]="'bg-secondarys'" [iconClass]="'fa fa-book'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Dialer Avg. Handle Time '" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.dailerAvgHandleTime ===0) ?  '-' : aInfo.dailerAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'"  [cClass]="'bg-secondarys'" [iconClass]="'fa fa-book'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Outbound Calls '" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.manualOutCalls ===0) ?  '-' : aInfo.manualOutCalls"  [cClass]="'bg-primary'" [iconClass]="'fa fa-phone'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Outbnd Avg. Handle Time '" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.manualOutAvgHandleTime ===0) ?  '-' : aInfo.manualOutAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'"  [cClass]="'bg-primary'" [iconClass]="'fa fa-phone'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Outbound Calls'" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.manualOutCallsPer ===0) ?  '-' : aInfo.manualOutCallsPer+'%'"  [cClass]="'bg-primary'" [iconClass]="'fa fa-phone'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Absence'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.adherenceAbsencePer ===0) ?  '-' : aInfo.adherenceAbsencePer+'%'"  [cClass]="'bg-info'" [iconClass]="'fa fa-eye-slash'"></app-floor-performance-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Evaluated Calls'" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.evaluationCalls ===0) ?  '-' :aInfo.evaluationCalls"  [cClass]="'bg-cyan'" [iconClass]="'fa fa-binoculars'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Evaluated Score'" [duration] ="'[30 mins]'" [aStatsVal]="(aInfo.evaluationScorePer ===0) ?  '-' :aInfo.evaluationScorePer+'%'"  [cClass]="'bg-cyan'" [iconClass]="'fa fa-binoculars'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Quiz Taken'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.quizTaken ===0) ?  '-' :aInfo.quizTaken" [cClass]="'bg-quiz'" [iconClass]="'fa fa-file-o'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Quiz Score'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.quizScorePer ===0) ?  '-' :aInfo.quizScorePer+'%'"  [cClass]="'bg-quiz'" [iconClass]="'fa fa-file-o'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Transactions'"[duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.revenueTransactions ===0) ?  '-' :aInfo.revenueTransactions"  [cClass]="'bg-money'" [iconClass]="'fa fa-money-bill'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-7">
+            <app-floor-performance-detail [statsName]="'Revenue'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.revenueAmount ===0) ?  '-' :'$'+aInfo.revenueAmount"  [cClass]="'bg-money'" [iconClass]="'fa fa-money-bill'"></app-floor-performance-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'WtsApp Assigned'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.whatsappAssigned ===0) ?  '-' :aInfo.whatsappAssigned" [cClass]="'bg-whatsapp'" [iconClass]="'fab fa-whatsapp'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'WtsApp Resolved'" [duration] ="'[24 Hours]'"  [aStatsVal]="(aInfo.whatsappResolved ===0) ?  '-' :aInfo.whatsappResolved"  [cClass]="'bg-whatsapp'" [iconClass]="'fab fa-whatsapp'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'WtsApp Avg. Resl. Time'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.whatsappAvgResolutionTime ===0) ?  '-' :aInfo.whatsappAvgResolutionTime * 1000 | date:'H:mm:ss':'UTC'"  [cClass]="'bg-whatsapp'" [iconClass]="'fab fa-whatsapp'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'WtsApp Avg.Resp.Time'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.whatsappAvgResponseTime ===0) ?  '-' :aInfo.whatsappAvgResponseTime * 1000 | date:'H:mm:ss':'UTC'"  [cClass]="'bg-whatsapp'" [iconClass]="'fab fa-whatsapp'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Total Contacts'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.totalInteractions ===0) ?  '-' :aInfo.totalInteractions"  [cClass]="'bg-ticket'" [iconClass]="'fas fa-handshake'"></app-floor-performance-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <app-floor-performance-detail [statsName]="'Log Contacts'" [duration] ="'[24 Hours]'" [aStatsVal]="(aInfo.ticketLogPer ===0) ?  '-' :aInfo.ticketLogPer+'%'" [cClass]="'bg-ticket'" [iconClass]="'fas fa-pencil-square-o'"></app-floor-performance-detail>
+        </div>
+    </div>
+</div>

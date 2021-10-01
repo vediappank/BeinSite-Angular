@@ -1,0 +1,38 @@
+//ng-Grid header changes
+::ng-deep .ag-theme-balham .ag-header-cell{
+  background-color:blueviolet;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;  
+}
+// // ::ng-deep .ag-theme-balham .ag-header-icon
+// // {
+// //   display: block !important;
+// //   color: white;
+// //   opacity: 1 !important;
+// // }
+// // ::ng-deep .ag-theme-balham .ag-header-icon::before
+// // {
+// //   display: block !important;
+// //   color: white;
+// //   opacity: 1 !important;
+// // }
+
+// :host span.ag-icon.ag-icon-menu {
+//     display: block !important;
+//     font-weight: bold;
+//     color: azure;
+//     opacity: 1 !important;
+// }
+
+// :host span.ag-icon.ag-icon-menu::before {
+//     display: block !important;
+//     font-weight: bold;
+//     color: azure;
+//     opacity: 1 !important;
+// }
+
+// :host span.ag-header-icon.ag-header-cell-menu-button{
+//     opacity: 1 !important;
+// }
+

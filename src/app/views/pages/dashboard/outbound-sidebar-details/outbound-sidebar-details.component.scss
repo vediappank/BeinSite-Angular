@@ -1,0 +1,46 @@
+.card{
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+  margin-top: 5px;
+}
+.time{
+  color: black;
+  background-color: white;
+  margin: 11px;
+  border-radius: 25px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.card-body{
+  padding:0px 0px 0px 0px;
+  width:100%;
+  //font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+// Chart Theme
+.title{
+  background-color: #8A2BE2; 
+  color: white; 
+  min-height: 30px;
+  font-size: 20px;
+  // padding-top: 7px;
+}
+
+.CardValue
+{
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.card-header {
+    padding: .65rem 1.25rem;
+    padding: 3px;
+}
+
+.col-6{
+  padding:0px;
+}
+
+h6,.h6 {
+  font-size: 20px;
+}

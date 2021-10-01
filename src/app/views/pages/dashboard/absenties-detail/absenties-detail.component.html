@@ -1,0 +1,16 @@
+<div class="col-xl-12">
+    <kt-portlet [class]="'kt-portlet--height-fluid'">
+        <kt-portlet-header [title]="title">
+        </kt-portlet-header>
+        <kt-portlet-body>
+                    <ag-grid-angular #agGrid2 *ngIf="AbsentiesInfoData$" style="margin:0 auto;width:100%;height: 500px;"
+                        class="ag-theme-balham" [rowData]="AbsentiesInfoData$ | async" [columnDefs]="columnDefs"
+                        rowSelection="multiple" [getRowStyle]="getGridRowStyle" suppressMenuHide="false"
+                        [defaultColDef]="gridDefaultColDef" enableCharts=true animateRows=true enableSorting=true
+                        enableFilter=true enableStatusBar=true enableRangeSelection=true rowDragManaged=true
+                        rowGroupPanelShow="always" pivotPanelShow="always" pivotColumnGroupTotals="before"
+                        pivotRowTotals="before" [sideBar]="sideBar">
+                    </ag-grid-angular>               
+        </kt-portlet-body>
+    </kt-portlet>
+</div>

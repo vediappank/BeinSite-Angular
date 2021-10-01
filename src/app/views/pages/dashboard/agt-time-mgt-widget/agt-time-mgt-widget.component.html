@@ -1,0 +1,11 @@
+<div class="row row-no-padding row-col-separator-xl" *ngIf="(finReptWidgetData$ | async) as finReptWidgetData">
+    <div class="col-xl-4" style="height: 330px;">        
+        <kt-widget1 [data]="finReptWidgetData.summary" (outputArray)="GetPopupInfo($event)"></kt-widget1>
+    </div>
+    <div class="col-xl-4" style="height: 330px;">        
+        <kt-widget1 [data]="finReptWidgetData.summary1" (outputArray)="GetPopupInfo($event)"></kt-widget1>
+    </div>
+    <div class="col-xl-4" style="height: 330px;">        
+        <kt-widget1 [data]="finReptWidgetData.summary2" (outputArray)="GetPopupInfo($event)"></kt-widget1>
+    </div>  
+</div>

@@ -1,0 +1,215 @@
+<kt-portlet>
+	<!-- PORTLET LOADING | Binded to TABLE Datasource -->
+	<!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
+	<kt-portlet-header [title]="'Users list'" [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+			<!--<button [routerLink]="['../users/add']" mat-raised-button color="primary" matTooltip="Create new User">New user</button>-->
+			<!-- Buttons (Material Angular) | See off.documenations 'https://material.angular.io/components/button/overview' -->
+			<!-- mat-raised-button | Rectangular contained button w/ elevation  -->
+		</ng-container>
+	</kt-portlet-header>
+	<!-- end::Header -->
+
+	<!-- start::Body (attribute: ktPortletBody) -->
+	<kt-portlet-body>
+		<!-- start::FILTERS & GROUP ACTIONS -->
+		<div class="kt-form kt-margin-b-30">
+			<!-- start::FILTERS -->
+			
+			<!-- end::FILTERS -->
+			<div class="form-group kt-form__group row">
+				<div class="col-lg-12 kt-margin-bottom-20-mobile">
+				  <div>
+					<span class="label" style="font-weight: bold;">Page Size :</span>&nbsp;
+					<input placeholder="Page Size" style="width: 45px;" [(ngModel)]="pagesize" (blur)="onChange()"> &nbsp;
+					<span class="label" style="font-weight: bold;">Current Page :</span>&nbsp;
+					<span class="value" id="lblCurrentPage">-&nbsp;</span> &nbsp;
+		  
+					<span class="label" style="font-weight: bold;">Total Records :</span>&nbsp;
+					<label class="value">{{totalRecords}}</label>
+				  </div>
+				</div>
+			  </div>
+		</div>
+		<div class="kt-form__filtration">
+			<div class="row align-items-center">
+				<div class="col-md-1 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="ID" [(ngModel)]="filterUserId" (keydown.enter)="loadUsers(pagenumber,pagesize);$event.preventDefault();">
+					</mat-form-field>
+				</div>
+				<div class="col-lg-2 kt-margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder="Call Center" (selectionChange)="changeCallCenter($event.value)" [(value)]="callcenterIdForAdding" (keydown.enter)="loadUsers(pagenumber,pagesize);$event.preventDefault();">
+							<mat-option value="">-NA-</mat-option>
+							<mat-option *ngFor="let callcenter of CallCenterList" value="{{ callcenter.cc_id }}" >
+								{{callcenter.cc_name}}</mat-option>
+						</mat-select>											
+					</mat-form-field>
+				</div>
+				<div class="col-md-1 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Last Name" [(ngModel)]="filterLastName" (keydown.enter)="loadUsers(pagenumber,pagesize);$event.preventDefault();">
+					</mat-form-field>
+				</div>
+				<div class="col-md-1 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="First Name" [(ngModel)]="filterFirstName" (keydown.enter)="loadUsers(pagenumber,pagesize);$event.preventDefault();">
+					</mat-form-field>
+				</div>
+			
+				<div class="col-lg-2 kt-margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder="Role" (selectionChange)="changeRole($event.value)" [(value)]="roleIdForAdding" (keydown.enter)="loadUsers(pagenumber,pagesize);$event.preventDefault();">
+							<mat-option value="">-NA-</mat-option>
+							<mat-option *ngFor="let role of allRoles" value="{{ role.id }}">
+								{{role.RoleName}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-lg-2 kt-margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder="Designation" (selectionChange)="changeCCRole($event.value)" [(value)]="ccRoleIdForAdding" (keydown.enter)="loadUsers(pagenumber,pagesize);$event.preventDefault();">
+							<mat-option value="">-NA-</mat-option>
+							<mat-option *ngFor="let ccRole of CCRolesList" value="{{ ccRole.id }}">
+								{{ccRole.RoleName}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<!-- <div class="col-md-1 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Roles" [(ngModel)]="filterRoles">
+					</mat-form-field>
+				</div>
+				<div class="col-md-1 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Designation" [(ngModel)]="filterCCRoles">
+					</mat-form-field>
+				</div> -->
+				<div class="col-md-1 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder="Status" [(ngModel)]="filterStatus" (keydown.enter)="loadUsers(pagenumber,pagesize);$event.preventDefault();">
+							<mat-option value="">-NA-</mat-option>
+							<mat-option value="y">Active</mat-option>
+							<mat-option value="n">Blocked</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			
+				<div class="col-md-2 kt-margin-bottom-10-mobile text-right">
+					<button type="button" mat-raised-button color="primary" (click)="loadUsers(pagenumber,pagesize)"
+						matTooltip="Filter" style="width: 80px; padding: 0px 8px;">
+						<mat-icon style="width: 15px;padding-right: 15px;height: 16px;">search</mat-icon> Search
+					</button>
+					&nbsp;
+					<button type="button" mat-raised-button color="primary" (click)="ClearAll()"
+						matTooltip="Filter" style="width: 80px; padding: 0px 8px;">
+						<mat-icon style="width: 15px;padding-right: 15px;height: 16px;">clear</mat-icon> Clear
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-11 mat-table__bottom" style="text-align: right;margin-top: 2%;"></div>
+		<!-- end::FILTERS & GROUP ACTIONS -->
+
+		<!-- MATERIAL TABLE | Binded to datasources -->
+		<!-- See off.documentations 'https://material.angular.io/components/table/overview' -->
+		<div class="mat-table__wrapper">
+			<mat-table class="lmat-elevation-z8" #table [dataSource]="UserList$ | async" 
+			matSort (matSortChange)="sortData($event)">
+
+
+				<ng-container matColumnDef="id">
+					<mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">ID</mat-header-cell>
+					<mat-cell *matCellDef="let user">{{user.id}}</mat-cell>
+				</ng-container>
+
+				<!-- <ng-container matColumnDef="username">
+					<mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Username</mat-header-cell>
+					<mat-cell *matCellDef="let user">{{user.username}}</mat-cell>
+				</ng-container> -->
+
+				<ng-container matColumnDef="callcenter">
+					<mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Call Center</mat-header-cell>
+					<mat-cell *matCellDef="let user">{{user.callcenter}}</mat-cell>
+				</ng-container>
+				<ng-container matColumnDef="lastname">
+					<mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Last Name</mat-header-cell>
+					<mat-cell *matCellDef="let user">{{user.lastname}}</mat-cell>
+				</ng-container>
+				<ng-container matColumnDef="firstname">
+					<mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">First Name</mat-header-cell>
+					<mat-cell *matCellDef="let user">{{user.firstname}}</mat-cell>
+				</ng-container>
+				<ng-container matColumnDef="userrolename">
+					<mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Roles</mat-header-cell>
+					<mat-cell *matCellDef="let user">
+						<span>{{ user.userrolename }}</span>
+					</mat-cell>
+				</ng-container>
+				<ng-container matColumnDef="userccrolename">
+					<mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Designation</mat-header-cell>
+					<mat-cell *matCellDef="let user">
+						<span>{{ user.userccrolename }}</span>
+					</mat-cell>
+				</ng-container>
+				<ng-container matColumnDef="active_flag">
+					<mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Status </mat-header-cell>
+					<mat-cell *matCellDef="let user">
+						<span>{{ user.active_flag ==='Y' ? 'Active' : 'Blocked' }}</span>
+					</mat-cell>
+				</ng-container>
+
+
+				<ng-container matColumnDef="actions">
+					<mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader">Actions</mat-header-cell>
+					<mat-cell *matCellDef="let user">
+						<button (click)="editUser(user.id)" disabled="{{editFlag}}" mat-icon-button color="primary"
+							matTooltip="Edit user">
+							<mat-icon>create</mat-icon>
+						</button>&nbsp;
+						<button mat-icon-button color="warn" disabled="{{deleteFlag}}" matTooltip="Delete user"
+							type="button" (click)="deleteUser(user)" style="display: none">
+							<mat-icon>delete</mat-icon>
+						</button>
+						<button mat-icon-button style="color: green;" disabled="{{deleteFlag}}"
+							[style.display]="user.active_flag ==='Y' ? 'none' : 'block'" matTooltip="Enable User"
+							type="button" (click)="activateUser(user.id)">
+							<i class="material-icons" style="font-weight: bold;">lock_open</i>
+						</button>
+						<button mat-icon-button style="color: red;" disabled="{{deleteFlag}}"
+							[style.display]="user.active_flag ==='N' ? 'none' : 'block'" matTooltip="Disable User"
+							type="button" (click)="deactivateUser(user.id)">
+							<i class="material-icons" style="font-weight: bold;">lock</i>
+						</button>
+					</mat-cell>
+				</ng-container>
+
+				<mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+
+				<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+			</mat-table>
+			<!-- <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div> -->
+			<!-- Message for empty data  -->
+			<!-- <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div> -->
+		</div>
+
+		<!-- start: BOTTOM -->
+		<!-- <div class="mat-table__bottom"> -->
+		<div class="col-lg-11 mat-table__bottom" style="text-align: right;margin-top: 2%;">
+			<!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+			<!-- <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner> -->
+			<!-- MATERIAL PAGINATOR | Binded to dasources -->
+			<!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+			<!-- <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10, 25, 50, 100]"
+				[length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator> -->
+
+				<button class="btn btn-primary btn-sm" (click)="onBtFirst()">To First</button>&nbsp;
+				<button class="btn btn-primary btn-sm" (click)="onBtPrevious()">To Previous</button>&nbsp;
+				<button class="btn btn-primary btn-sm" (click)="onBtNext()">To Next</button>&nbsp;
+				<button class="btn btn-primary btn-sm" (click)="onBtLast()" id="btLast">To Last</button>
+		</div>
+		<!-- end: BOTTOM -->
+	</kt-portlet-body>
+	<!-- end::Body -->
+</kt-portlet>

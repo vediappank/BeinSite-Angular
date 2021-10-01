@@ -1,0 +1,86 @@
+<kt-portlet>
+        <!-- PORTLET LOADING | Binded to TABLE Datasource -->
+        <!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
+    
+    
+        <div class="row">
+            <form class="form-group col-lg-12" style="display:block;" name="agentActivityReports" #f="ngForm"
+                (ngSubmit)="f.valid" (keydown.enter)="$event.preventDefault()" style="margin-bottom: 0px;">
+               
+                <div class="form-group" style="padding-left: 20px; padding-top: 6px;">
+                    
+                    <mat-form-field class="col-lg-6">
+                      
+                      
+                        <label for="Search Switch ID">Search Switch ID*</label>
+                        <!-- <input type="text" matInput id="reportRange" name="reportRange" [(ngModel)]="reportRange"
+                            ngxDaterangepickerMd [singleDatePicker]="false"
+                            [locale]="{applyLabel: 'Ok', format: 'DD/MM/YYYY'}" #reportRangeDT="ngModel" required
+                            [ngClass]="{ 'is-invalid': f.submitted && (reportRangeDT.invalid || !reportRange.startDate) }"
+                            [showClearButton]="true" [showCancel]="true" [ranges]="reportDateRanges"
+                            [alwaysShowCalendars]="true" [showCustomRangeLabel]="true" [linkedCalendars]="true"
+                            [showClearButton]="true" [showCancel]="true" [autoApply]="false" autocomplete="off"
+                            style="padding-left: 10px; padding-top: 5px;" /> -->
+                            <input type="text" matInput  [(value)]="switchid"
+                            autofocus />
+                    </mat-form-field>
+    
+                    <button matInput class="btn btn-primary" color="primary"
+                        (click)="getReportData();">Submit</button>&nbsp;
+                    <a (click)="redirecttoList();" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                        matTooltip="Back to the reports list">
+                        <i class="la la-arrow-left"></i>
+                        <span class="kt-hidden-mobile">Back</span></a>
+                </div>
+            </form>
+            <!-- <mat-form-field class="col-lg-6">
+                    <mat-select placeholder="Select Forms"  [(ngModel)]="AssessmentformIdsForFilter">
+                            <mat-option *ngFor="let formid of unassignedForms" value="{{ Formids.ID }}">
+                                {{formid.VALUE}}</mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+    
+        </div>
+    
+        <!-- end::Header -->
+        <div class="row" id="angularchart">
+            <div class="col-lg-12">
+                <div class="row" [ngClass]="chartTheme">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <span class="card-title"> {{title}} </span>
+                                <!-- <button mat-icon-button>
+                                    <mat-icon fontSet="fa" fontIcon="fa-table"></mat-icon>
+                                </button> -->
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+    
+                                        <ag-grid-angular #agGrid1 *ngIf="agentData"
+                                            style="margin:0 auto;width:100%;height: 490px;" class="ag-theme-balham"
+                                            [rowData]="agentData | async" [columnDefs]="columnDefs" rowSelection="multiple"
+                                            [getRowStyle]="getGridRowStyle" suppressMenuHide="false"
+                                            [defaultColDef]="gridDefaultColDef" enableCharts=true animateRows=true
+                                            enableSorting=true enableFilter=true enableStatusBar=true
+                                            enableRangeSelection=true rowDragManaged=true rowGroupPanelShow="always"
+                                            pivotPanelShow="always" pivotColumnGroupTotals="before" pivotRowTotals="before"
+                                            [sideBar]="sideBar">
+                                        </ag-grid-angular>
+    
+                                    </div>
+                                    <div class="col-sm-12" id="content">
+                                        <div id="chartdiv"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <h2 (click)="openFullscreen()">open</h2>
+        <h2 (click)="closeFullscreen()">close</h2> -->
+        <!-- end::Body -->
+    </kt-portlet>

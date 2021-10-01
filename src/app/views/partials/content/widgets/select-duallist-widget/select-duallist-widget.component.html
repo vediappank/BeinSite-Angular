@@ -1,0 +1,97 @@
+<div class="dual-list">
+  <div class="listbox" [ngStyle]="{ 'order' :  direction() ? 1 : 3, 'margin-left' : direction() ? 0 : '10px' }">
+
+    <div class="button-bar">
+      <label>Aavailable</label>
+      <button type="button" class="btn btn-primary" (click)="selectAll(available)"
+        [disabled]="disabled || isAllSelected(available)">{{format.all}}</button>
+      <button type="button" class="btn btn-default" (click)="selectNone(available)"
+        [disabled]="!isAnySelected(available)">{{format.none}}</button>
+    </div>
+
+    <form >
+      
+      <div class="row">
+          <div class="col-md-12">
+              <div class="input-group">
+                  <input class="form-control border-secondary border-right-0 rounded-0" type="search" name="filterSource" [(ngModel)]="available.picker" placeholder="Filters Source" (ngModelChange)="onFilter(available)" style="border-radius: 10px;">
+                  
+                  <span class="input-group-append">
+                      <div class="input-group-text bg-transparent"><i class="fa fa-search"></i></div>
+                  </span>
+              </div>
+          </div>
+      </div>
+    </form>
+
+    <div class="record-picker">
+      <ul [ngStyle]="{'max-height': height, 'min-height': height}" [ngClass]="{over:available.dragOver}"
+        (drop)="drop($event, confirmed)" (dragover)="allowDrop($event, available)" (dragleave)="dragLeave()">
+        <li *ngFor="let item of available.sift; let idx=index;"
+          (click)="disabled ? null : selectItem(available.pick, item); shiftClick($event, idx, available, item)"
+          (dblclick)="disabled ? null : selectNone(available); selectItem(available.pick, item); moveItem(available, confirmed)"
+          [ngClass]="{selected: isItemSelected(available.pick, item), disabled: disabled}"
+          [draggable]="!disabled && format.draggable" (dragstart)="drag($event, item, available)"
+          (dragend)="dragEnd(available)"><label>{{item._name}}</label></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="buttonbox" [ngStyle]="{ 'order' : 2, 'margin-left' : '10px' }">
+    <div class="buttonboxsub">
+      <button type="button" name="addBtn" class="btn btn-primary btn-block" (click)="moveItem(available, confirmed)"
+        [ngClass]="direction() ? 'point-right' : 'point-left'"
+        [disabled]="available.pick.length === 0"></button>
+      <button type="button" class="btn btn-primary btn-block"
+        (click)="selectAll(available); moveItem(available, confirmed)"
+        [ngClass]="direction() ? 'point-right2' : 'point-left2'" [disabled]="disabled"></button>
+      <button type="button" class="btn btn-danger btn-block"
+        (click)="selectAll(confirmed); moveItem(confirmed, available)"
+        [ngClass]="direction() ? 'point-left2' : 'point-right2'" [disabled]="disabled"></button>
+      <button type="button" name="removeBtn" class="btn btn-danger btn-block" (click)="moveItem(confirmed, available)"
+        [ngClass]="direction() ? 'point-left' : 'point-right'"
+        [disabled]="confirmed.pick.length === 0"></button>
+    </div>
+  </div>
+
+  <div class="listbox" [ngStyle]="{ 'order' : direction() ? 3 : 1, 'margin-left' : direction() ? '10px' : 0 }">
+
+    <div class="button-bar">
+      <label>Selected</label>
+      <button type="button" class="btn btn-primary" (click)="selectAll(confirmed)"
+        [disabled]="disabled || isAllSelected(confirmed)">{{format.all}}</button>
+      <button type="button" class="btn btn-default" (click)="selectNone(confirmed)"
+        [disabled]="!isAnySelected(confirmed)">{{format.none}}</button>
+    </div>
+
+
+    <form >
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input class="form-control border-secondary border-right-0 rounded-0" type="search"  name="filterDestination" [(ngModel)]="confirmed.picker" placeholder="Filter Selected Destination" (ngModelChange)="onFilter(confirmed)" >
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent"><i class="fa fa-search"></i></div>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        
+      </form>
+      
+
+    <div class="record-picker">
+      <ul [ngStyle]="{'max-height': height, 'min-height': height}" [ngClass]="{over:confirmed.dragOver}"
+        (drop)="drop($event, available)" (dragover)="allowDrop($event, confirmed)" (dragleave)="dragLeave()">
+        <li #itmConf *ngFor="let item of confirmed.sift; let idx=index;"
+          (click)="disabled ? null : selectItem(confirmed.pick, item); shiftClick($event, idx, confirmed, item)"
+          (dblclick)="disabled ? null : selectNone(confirmed); selectItem(confirmed.pick, item); moveItem(confirmed, available)"
+          [ngClass]="{selected: isItemSelected(confirmed.pick, item), disabled: disabled}"
+          [draggable]="!disabled && format.draggable" (dragstart)="drag($event, item, confirmed)"
+          (dragend)="dragEnd(confirmed)"><label>{{item._name}}</label></li>
+      </ul>
+    </div>
+
+  </div>
+</div>

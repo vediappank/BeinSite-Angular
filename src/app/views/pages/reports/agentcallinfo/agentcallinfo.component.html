@@ -1,0 +1,94 @@
+<kt-portlet>
+  <!-- PORTLET LOADING | Binded to TABLE Datasource -->
+  <!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
+  <kt-portlet-body style="height: auto;">
+
+    <div class="form-group kt-form__group row">
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <mat-select placeholder="Select Agent" required [(ngModel)]="agentcallinfofilter.agentId">
+            <mat-option value="">-NA-</mat-option>
+            <mat-option *ngFor="let agent of agentList" value="{{ agent.id}}">
+              {{ agent.lastname + ' '+ agent.firstname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <mat-select placeholder="Select Call Type" required [(ngModel)]="agentcallinfofilter.callType">
+            <mat-option value="">-NA-</mat-option>
+            <mat-option *ngFor="let callType of callTypeList" value="{{ callType.item_name}}">
+              {{ callType.item_name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <input matInput [matDatepicker]="startDatepicker" required 
+            placeholder="Select Start Date" [(ngModel)]="agentcallinfofilter.startDate" />
+          <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatepicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile" style="text-align: right;">
+        <mat-form-field class="mat-form-field-fluid">
+          <input matInput [matDatepicker]="endDatepicker" required 
+            placeholder="Select End Date" [(ngModel)]="agentcallinfofilter.endDate"/>
+          <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatepicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-2 kt-margin-bottom-20-mobile" style="text-align: right;">
+
+        <button type="button" mat-raised-button color="primary" (click)="getAgentData()" [disabled]="!isTitleValid()"
+          matTooltip="Filter">
+          <mat-icon>search</mat-icon> Search
+        </button> &nbsp;
+
+        <button type="button" mat-raised-button color="primary" (click)="clearFilter()" matTooltip="Clear">
+          <mat-icon>clear_all</mat-icon> Clear
+        </button> &nbsp;
+
+
+      </div>
+    </div>
+ 
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header text-center">
+              <span class="card-title"> Agent Call Info</span>
+              <!-- <button mat-icon-button>
+                                                  <mat-icon fontSet="fa" fontIcon="fa-table"></mat-icon>
+                                              </button> -->
+            </div>
+            <div class="card-body">
+              <div class="row" *ngIf="AgentCallInfo">
+                <div class="col-sm-12">
+                  <ag-grid-angular #agGrid1 *ngIf="AgentCallInfoData$"
+                    style="margin:0 auto;width:100%;height: 490px;  float:left;" class="ag-theme-balham"
+                    [rowData]="AgentCallInfoData$ | async" [columnDefs]="AgentcolumnDefs" rowSelection="multiple"
+                    [getRowStyle]="getGridRowStyle" suppressMenuHide="false" [defaultColDef]="gridDefaultColDef"
+                    enableCharts=true animateRows=true enableSorting=true enableFilter=true enableStatusBar=true
+                    enableRangeSelection=true rowDragManaged=true rowGroupPanelShow="always" pivotPanelShow="always"
+                    pivotColumnGroupTotals="before" pivotRowTotals="before" [sideBar]="sideBar">
+                  </ag-grid-angular>
+                </div>
+
+                <div class="col-sm-6">
+                  <div id="chartdiv"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <!-- end::Header -->
+</kt-portlet-body>
+
+  <!-- end::Body -->
+</kt-portlet>

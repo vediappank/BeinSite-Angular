@@ -1,0 +1,214 @@
+<!-- <h2>Supervisor Calls Report</h2> -->
+<div class="row">    
+    <div class="col-lg-12 p-0">
+        <mat-card class="agentStats">
+            <mat-card-content>
+                <div class="row p-0">
+                    <form class="form-inline col-md-12 p-0" style="display:block;" name="taskDetailForm" #f="ngForm" (ngSubmit)="f.valid" (keydown.enter)="$event.preventDefault()">
+                        <div class="row col-md-12 p-0">
+                            <div class="col-md-5 form-group">
+                                <label for="reportRange" class="col-sm-4 form-label">Report Range<span class="imp">&nbsp;*</span></label>
+                                <input type="text" id="reportRange" name="reportRange" [(ngModel)]="reportRange" class="col-sm-8 form-control" ngxDaterangepickerMd 
+                                    [singleDatePicker]="false" [locale]="{applyLabel: 'Ok', format: 'DD/MM/YYYY'}"
+                                    #reportRangeDT="ngModel" required [ngClass]="{ 'is-invalid': f.submitted && (reportRangeDT.invalid || !reportRange.startDate) }" 
+                                    [showClearButton]="true" [showCancel]="true" [ranges]="reportDateRanges"
+                                    [alwaysShowCalendars]="true" [showCustomRangeLabel]="true" [linkedCalendars]="true"
+                                    [showClearButton]="true" [showCancel]="true" [autoApply]="false" autocomplete="off"
+                                    placeholder="Choose Date Range" />
+                            </div>
+                            <div class="col-md-2 form-group p-1 text-left">
+                                <button class="mat-raised-button beINButton" (click)="getReportData();">Submit</button>&nbsp;
+                            </div>
+                        </div>
+                    </form>
+                </div>                              
+            </mat-card-content>
+            
+        </mat-card>
+    </div>
+</div>
+
+  <!-- Chart Design Start From here-->             
+<div class="row" style="margin:0px;padding-top:10px;">
+    <div class="col-lg-6" >        
+                    <div class="row" [ngClass]="chartTheme">       
+                        <div class="col-sm-12"  >
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <span class="card-title" > Supervisor Summary Reports</span>
+                                    <!-- <button mat-icon-button >
+                                        <mat-icon fontSet="fa" fontIcon="fa-table"></mat-icon>
+                                    </button> -->
+                                </div>
+                        <div class="card-body" >
+                                <div class="row" >
+                                    <div class="col-sm-8">
+                                        <div class="chartDiv" >                                                                                        
+                                            <canvas
+                                                baseChart
+                                                [chartType]="'bar'"
+                                                [datasets]="chartData"
+                                                [labels]="labels"
+                                                [options]="chartOptions"
+                                                [legend]="true"
+                                                [colors]="colors"
+                                                (chartClick)="onChartClick($event)">
+                                            </canvas>
+                                        </div>
+                                    </div>
+
+                                <div class="col-sm-4">
+                                    <!-- Row -->
+                                    <div class="row p-1">
+                                        <!-- Column -->
+                                        <div class="col-lg-6 col-md-6 pr-1">
+                                            <div class="card" *ngIf="SupervisorsummaryList">
+                                                <div class="card-body summCardBody">
+                                                    <div class="row">
+                                                        <div class="col-12 text-center">
+                                                            <div class="font-weight-bold summaryData">{{NewCount}}</div>
+                                                            <div class="card-subtitle summaryTitle">New Calls</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Column -->
+                                        <!-- Column -->
+                                        <div class="col-lg-6 col-md-6 pl-1">
+                                            <div class="card" *ngIf="SupervisorsummaryList">
+                                                <div class="card-body summCardBody">
+                                                    <div class="row">
+                                                        <div class="col-12 text-center">
+                                                            <div class="font-weight-bold summaryData">{{AssignedCount}}</div>
+                                                            <div class="card-subtitle summaryTitle">Assigned Calls</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Column -->
+                                    </div>
+                                    <!-- End Row -->
+                                    <!-- Row -->
+                                    <div class="row p-1">
+                                        <!-- Column -->
+                                        <div class="col-lg-6 col-md-6 pr-1">
+                                            <div class="card" *ngIf="SupervisorsummaryList">
+                                                <div class="card-body summCardBody">
+                                                    <div class="row">
+                                                        <div class="col-12 text-center">
+                                                            <div class="font-weight-bold summaryData">{{PendingCount}}</div>
+                                                            <div class="card-subtitle summaryTitle">Pending Calls</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Column -->
+                                        <!-- Column -->
+                                        <div class="col-lg-6 col-md-6 pl-1">
+                                            <div class="card" *ngIf="SupervisorsummaryList">
+                                                <div class="card-body summCardBody">
+                                                    <div class="row">
+                                                        <div class="col-12 text-center">
+                                                            <div class="font-weight-bold summaryData">{{ResolvedCount}}</div>
+                                                            <div class="card-subtitle summaryTitle">Resolved Calls</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Column -->
+                                    </div>
+                                </div>
+                        </div>
+                    </div>                
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="col-lg-6"  >
+            <div class="row" [ngClass]="chartTheme">       
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <span class="card-title" > Supervisor Wise Call Counts</span>
+                            <!-- <button mat-icon-button >
+                                <mat-icon fontSet="fa" fontIcon="fa-table"></mat-icon>
+                            </button> -->
+                        </div>                       
+                        <div class="card-body">                            
+                                <div class="col-sm-12">
+                                    <div class="chartDiv" style="margin-left: -20px;">                                            
+                                        <ag-grid-angular  *ngIf="rowData"
+                                                style="width: 104%; height:100%;"
+                                                class="ag-theme-balham"
+                                                rowSelection="multiple"
+                                                enableCharts=true
+                                                animateRows=true
+                                                enableSorting=true
+                                                enableFilter=true
+                                                enableStatusBar=true
+                                                enableRangeSelection=true
+                                                rowDragManaged=false
+                                                rowGroupPanelShow="false"
+                                                pivotPanelShow="false"
+                                                pivotColumnGroupTotals="before"
+                                                pivotRowTotals="before"                                                
+                                                [rowData]="rowData | async"        
+                                                [columnDefs]="columnDefs">
+                                        </ag-grid-angular>                                          
+                                    </div>
+                                </div>
+                            
+                        </div>                        
+                </div>
+            </div>                
+        </div>
+    </div>
+    <div class="col-lg-12"  style=" margin-top:10px;">
+            <div class="row" [ngClass]="chartTheme">       
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <span class="card-title" > Supervisor Wise Calls Reports</span>
+                            <!-- <button mat-icon-button >
+                                <mat-icon fontSet="fa" fontIcon="fa-table"></mat-icon>
+                            </button> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="chartDiv chartAreaWrapper">  
+                                        <canvas
+                                        baseChart
+                                        height="15vh" width="80vw" 
+                                        [chartType]="'bar'"
+                                        [datasets]="chartData1"
+                                        [labels]="labels1"
+                                        [options]="chartOptions1"
+                                        [legend]="false"
+                                        [colors]="colors1"
+                                        (chartClick)="onChartClick($event)">
+                                    </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                </div>
+            </div>                
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

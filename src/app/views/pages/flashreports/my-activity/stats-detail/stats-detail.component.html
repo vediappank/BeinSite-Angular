@@ -1,0 +1,21 @@
+<div class="card" [ngClass]="cClass">
+    <div class="card-body">
+        <div class="d-flex no-block align-items-center ml-1 pl-2">
+            <i [ngClass]="iconClass" class="text-white h4"></i>
+            <div class="pl-3">
+                <h4 class="text-white font-weight-bold">{{aStatsVal}}</h4>
+                <h6 class="text-white">{{statsName}}</h6>
+            </div>
+        </div>
+        <div class="row text-center text-white m-1 pt-2 border-top">
+            <div class="col-6">
+                <h5 class="font-weight-bold">{{tStatsVal}}</h5>
+                <h6 class="text-white">Team</h6>
+            </div>
+            <div class="col-6">
+                <h5 class="font-weight-bold">{{fStatsVal}}</h5>
+                <h6 class="text-white">Floor</h6>
+            </div>
+        </div>
+    </div>
+</div>

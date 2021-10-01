@@ -1,0 +1,52 @@
+.GridHeader
+{
+    color: darkblue;
+    font-weight: bold;
+    font-size: 14px;
+}
+label{
+    color: #5e2e94;
+    text-align: left;
+    justify-content: left;
+}
+
+.btn{
+    font-size: 1em;
+}
+
+.CreateReportingDiv{
+    font-size: 0.7em;
+}
+
+.form-control{
+    font-size: 1em;
+    border:none;
+    border-radius: 0;
+    border-bottom: 1px solid #5e2e94;
+}
+::ng-deep .mat-tab-body.mat-tab-body-active {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 1;
+    flex-grow: 1;
+}
+
+// .mat-column-Id {
+//     flex: none;
+//     width: 30px;
+// }
+
+// .mat-column-Body {
+//     flex: none;
+//     width: 1500px;
+// }
+
+// .mat-column-Updated_At {
+//     flex: none;
+//     width: 500px;
+// }
+// .mat-table{
+//     flex:none;
+//     width: 100%;
+// }

@@ -1,0 +1,52 @@
+<!-- <h2>My Activity</h2> -->
+<div class="row">
+    <!--<div class="col-lg-2">
+        <mat-card class="agentDetails" *ngIf="awdbAgent && beINUser">
+            <mat-card-content>
+                <div class="text-center">
+                    <i class="fa fa-user agentIcon"></i>
+                    <h4 class="card-title m-t-10">{{beINUser.firstName}}&nbsp;{{beINUser.lastName}}</h4>
+                    <h6 class="card-subtitle">{{beINUser.type}}</h6>
+                </div>
+            </mat-card-content>
+            <mat-card-content>
+                <small class="text-muted h7">Extension</small>
+                <h5>{{awdbAgent.Extension}}</h5>
+                <small class="text-muted h7">Email address</small>
+                <h5>{{beINUser.email}}</h5>
+                <small class="text-muted h7">Supervisor</small>
+                <h5>{{beINUser.supLastName}}&nbsp;{{beINUser.supFirstName}}</h5>
+                <small class="text-muted h7">Teams</small>
+                <h5><ul><li *ngFor="let item of (awdbAgent.Teams | strUtil:'split':',')">{{item}}</li></ul></h5>
+                <small class="text-muted h7">Skill Groups</small>
+                <h5><ul><li *ngFor="let item of (awdbAgent.SkillGroups | strUtil:'split':',')">{{item}}</li></ul></h5>
+            </mat-card-content>
+        </mat-card>
+    </div>-->
+    <div class="col-lg-12 p-0">
+        <mat-card class="agentStats">
+            <mat-card-content>
+                <div class="row p-0">
+                    <form class="form-inline col-md-12 p-0" style="display:block;" name="taskDetailForm" #f="ngForm" (ngSubmit)="f.valid" (keydown.enter)="$event.preventDefault()">
+                        <div class="row col-md-12 p-0">
+                            <div class="col-md-5 form-group">
+                                <label for="reportRange" class="col-sm-4 form-label">Report Range<span class="imp">&nbsp;*</span></label>
+                                <input type="text" id="reportRange" name="reportRange" [(ngModel)]="reportRange" class="col-sm-8 form-control" ngxDaterangepickerMd 
+                                    [singleDatePicker]="false" [locale]="{applyLabel: 'Ok', format: 'DD/MM/YYYY'}"
+                                    #reportRangeDT="ngModel" required [ngClass]="{ 'is-invalid': f.submitted && (reportRangeDT.invalid || !reportRange.startDate) }" 
+                                    [showClearButton]="true" [showCancel]="true" [ranges]="reportDateRanges"
+                                    [alwaysShowCalendars]="true" [showCustomRangeLabel]="true" [linkedCalendars]="true"
+                                    [showClearButton]="true" [showCancel]="true" [autoApply]="false" autocomplete="off"
+                                    placeholder="Choose Date Range" />
+                            </div>
+                            <div class="col-md-2 form-group p-1 text-left">
+                                <button class="mat-raised-button beINButton" (click)="getReportData();">Submit</button>&nbsp;
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <myact-activity-template [aInfo]="aInfo" [tInfo]="tInfo" [fInfo]="fInfo"></myact-activity-template>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

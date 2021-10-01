@@ -1,0 +1,445 @@
+<div class="kt-portlet"
+	[ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+	<div class="kt-portlet__head kt-portlet__head__custom" style="width: 100%;">
+		<div class="kt-portlet__head-label">
+			<h3 class="kt-portlet__head-title">{{getTitle()}}</h3>
+		</div>
+		<div style="margin-top: 10px;" *ngIf="isVieworEditflag=='view'">
+			<button mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial color="warn" matTooltip="Close"
+				type="button">
+				<mat-icon>close</mat-icon>
+			</button>
+		</div>
+	</div>
+	<div *ngIf="isVieworEditflag=='add'">
+		<div class="kt-form">
+			<div class="kt-portlet__body">
+
+				<div class="kt-portlet__body-progress">
+					<mat-spinner [diameter]="20"></mat-spinner>
+				</div>
+
+				<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+					(close)="onAlertClose($event)">
+					{{ErrorMessage}}
+				</kt-alert>
+
+				<div class="kt-form__section kt-form__section--first">
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Enter Customer Name" required
+									[(ngModel)]="SalesCallBackTask.Name" />
+								<mat-error>Sales Call Back Name is
+									<strong>required</strong>
+								</mat-error>
+
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Enter Smart Card Number "
+									[(ngModel)]="SalesCallBackTask.SmartCardNo" />
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Enter Primary Number" required
+									[(ngModel)]="SalesCallBackTask.ContactNo" />
+								<mat-error>Customer Contact Number is
+									<strong>required</strong>
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Enter Alternate Contact Number"
+									[(ngModel)]="SalesCallBackTask.AltContactNo" />
+							</mat-form-field>
+						</div>
+					</div>
+
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Enter Source Ticket Id"
+									[(ngModel)]="SalesCallBackTask.SourceTicketId" />
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput mwlFlatpickr [(ngModel)]="SalesCallBackTask.CallStartDateTime" required
+									[altInput]="true" [convertModelValue]="true"
+									(ngModelChange)="calculateTimeofEndcall(SalesCallBackTask.CallStartDateTime)"
+									[enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+									placeholder="Select Start Date & Time" />
+								<mat-error>Call Start Time is
+									<strong>required</strong>
+								</mat-error>
+
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput mwlFlatpickr required [(ngModel)]="SalesCallBackTask.CallEndDateTime"
+									[altInput]="true" [convertModelValue]="true" (ngModelChange)="DateTimeValidation()"
+									[enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+									placeholder="Select End Date & Time" />
+								<mat-error>Call End Time is
+									<strong>required</strong>
+								</mat-error>
+
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf='isSupervisor'>
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="Select Assigned To" required
+									[(ngModel)]="AssignedToIdForAdding">
+									<mat-option *ngFor="let assignedto of unassignedusers" value="{{ assignedto.Id }}">
+										{{assignedto.AssignToName}}</mat-option>
+								</mat-select>
+
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row">
+
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="Select Status" [disabled]='isStatusDisable' required
+									[(ngModel)]="defaultStatus">
+									<mat-option *ngFor="let salescallback of unassignedCallBackTaskStatus"
+										value="{{ salescallback.StatusName}}">
+										{{salescallback.StatusName}}</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+
+					<div class="form-group kt-form__group row">
+
+						<div class="col-lg-12 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<textarea required matInput placeholder="Enter Comments" Style="height: 100px;"
+									[(ngModel)]="SalesCallBackTask.Comments" (paste)="onPaste($event)"
+									(keypress)="letterOnly($event)"></textarea>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+				<div class="kt-separator kt-separator--dashed"></div>
+
+			</div>
+
+			<div class="kt-portlet__foot kt-portlet__foot--fit kt-portlet__no-border">
+				<div class="kt-form__actions kt-form__actions--solid">
+					<div class="row text-right">
+						<div class="col-lg-12">
+							<button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+								matTooltip="Cancel changes">
+								Cancel
+							</button>&nbsp;
+							<button type="button" [disabled]="!isTitleValid()" mat-raised-button color="primary"
+								(click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
+								Save
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isVieworEditflag=='edit'">
+		<div class="kt-form">
+			<div class="kt-portlet__body">
+
+				<div class="kt-portlet__body-progress">
+					<mat-spinner [diameter]="20"></mat-spinner>
+				</div>
+
+				<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+					(close)="onAlertClose($event)">
+					{{ErrorMessage}}
+				</kt-alert>
+
+				<div class="kt-form__section kt-form__section--first">
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput mwlFlatpickr [disabled]='true'
+									[(ngModel)]="SalesCallBackTask.CallStartDateTime" [altInput]="true"
+									[convertModelValue]="true" defaultHour="00" defaultMinute="00" [enableTime]="true"
+									dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+									placeholder="Select Start Date & Time" />
+								<mat-error>Call Start Time is
+									<strong>required</strong>
+								</mat-error>
+
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput mwlFlatpickr [disabled]='true'
+									[(ngModel)]="SalesCallBackTask.CallEndDateTime" [altInput]="true"
+									[convertModelValue]="true" [enableTime]="true" defaultHour="00" defaultMinute="00"
+									dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+									placeholder="Select End Date & Time" />
+								<mat-error>Call End Time is
+									<strong>required</strong>
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row" *ngIf='isSupervisor'>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="Select Assigned To" required
+									[(ngModel)]="AssignedToIdForAdding">
+									<mat-option *ngFor="let assignedto of unassignedusers" value="{{ assignedto.Id }}">
+										{{assignedto.AssignToName}}</mat-option>
+								</mat-select>
+
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<div class="form-group kt-form__group row" style="padding-left: 10px;">
+								<div class="kt-margin-bottom-20-mobile">
+									<div class="kt-list-timeline kt-list-timeline--user-role">
+										<h6 class="kt-section__heading">
+											Assigned User
+										</h6>
+										<div class="kt-list-timeline__items">
+
+											<div class="kt-list-timeline__item m-0 p-0"
+												*ngFor="let _assignedTo of assignedusers">
+
+												<span
+													class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+												<span class="kt-list-timeline__text">{{_assignedTo.AssignToName}}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row">
+
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="Select Status" [disabled]='isStatusDisable' required
+									(selectionChange)="showCompletionTicketId(callbackTaskStatusIdForAdding)"
+									[(ngModel)]="callbackTaskStatusIdForAdding">
+									<mat-option *ngFor="let salescallback of unassignedCallBackTaskStatus"
+										value="{{ salescallback.Id }}">
+										{{salescallback.StatusName}}</mat-option>
+
+								</mat-select>
+							</mat-form-field>
+						</div>
+
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<div class="form-group kt-form__group row" style="padding-left: 10px;">
+								<div class="kt-margin-bottom-20-mobile">
+									<div class="kt-list-timeline kt-list-timeline--user-role">
+										<h6 class="kt-section__heading">
+											Assigned Status
+										</h6>
+										<div class="kt-list-timeline__items">
+
+											<div class="kt-list-timeline__item m-0 p-0"
+												*ngFor="let _Salescallbacktask of assignedCallBackTaskStatus">
+
+												<span
+													class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+												<span
+													class="kt-list-timeline__text">{{ _Salescallbacktask.StatusName }}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row" *ngIf="isShowCompletionTickerId==true">
+
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput placeholder="Enter Completion Ticket Id"
+									[(ngModel)]="SalesCallBackTask.CompletionTicketId" />
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row">
+
+						<div class="col-lg-12 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<textarea required matInput placeholder="Enter Comments" Style="height: 100px;"
+									[(ngModel)]="SalesCallBackTask.Comments" (paste)="onPaste($event)"
+									(keypress)="letterOnly($event)"></textarea>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row" *ngIf="SalesCallBackTaskActivityList.length > 0">
+						<div class="col-lg-12 kt-margin-bottom-20-mobile" style="text-align: left;">
+							<mat-table class="lmat-elevation-z8" #table
+								[dataSource]="SalesCallBackTaskActivityList$ | async" matSort #sort1="matSort"
+								matSortActive="id" matSortDirection="asc" matSortDisableClear>
+
+								<ng-container matColumnDef="Operation">
+									<mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Call Back
+										Activity </mat-header-cell>
+									<mat-cell mat-cell *matCellDef="let event"> {{event.Operation}}
+									</mat-cell>
+								</ng-container>
+
+								<ng-container matColumnDef="Activity">
+									<mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Activity Date
+										Time </mat-header-cell>
+									<mat-cell mat-cell *matCellDef="let event">
+										{{event.ActivityDateTime | date:'dd-MMM-yyyy hh:mm a'}} </mat-cell>
+								</ng-container>
+								<ng-container matColumnDef="Description">
+									<mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Activity
+										Description </mat-header-cell>
+									<mat-cell mat-cell *matCellDef="let event"> {{event.Description}} </mat-cell>
+								</ng-container>
+								<mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+
+								<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+							</mat-table>
+
+						</div>
+					</div>
+				</div>
+				<div class="kt-separator kt-separator--dashed"></div>
+
+			</div>
+
+			<div class="kt-portlet__foot kt-portlet__foot--fit kt-portlet__no-border">
+				<div class="kt-form__actions kt-form__actions--solid">
+					<div class="row text-right">
+						<div class="col-lg-12">
+							<button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+								matTooltip="Cancel changes">
+								Cancel
+							</button>&nbsp;
+							<button type="button" [disabled]="!isTitleValid()" mat-raised-button color="primary"
+								(click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
+								Save
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isVieworEditflag=='view'">
+		<div class="kt-form">
+			<div class="kt-portlet__body">
+				<div class="kt-form__section kt-form__section--first">
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<p style="font-weight: bold;">Call Start Time</p>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<p style="font-weight: 500;">
+								{{SalesCallBackTask.CallStartDateTime | date:'dd-MMM-yyyy hh:mm a'}} </p>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<p style="font-weight: bold;">Call End Time</p>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<p style="font-weight: 500;">
+								{{SalesCallBackTask.CallEndDateTime | date:'dd-MMM-yyyy hh:mm a'}} </p>
+						</div>
+					</div>
+
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<p style="font-weight: bold;">Status</p>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<div class="kt-list-timeline__items">
+
+								<div class="kt-list-timeline__item"
+									*ngFor="let _Salescallbacktask of assignedCallBackTaskStatus">
+
+									<span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+									<span class="kt-list-timeline__text" style="font-weight: 500;">{{ _Salescallbacktask.StatusName }}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row" *ngIf="callbackTaskStatusIdForAdding==3">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<p style="font-weight: bold;">Completion Ticket ID</p>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<p style="font-weight: 500;"> {{SalesCallBackTask.CompletionTicketId}} </p>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row">
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<p style="font-weight: bold;">Assgined Agent Name</p>
+						</div>
+						<div class="col-lg-6 kt-margin-bottom-20-mobile">
+							<div class="kt-list-timeline__items">
+
+								<div class="kt-list-timeline__item m-0 p-0" *ngFor="let _assignedTo of assignedusers">
+
+									<span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+									<span style="font-weight: 500;">{{_assignedTo.AssignToName}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group kt-form__group row" *ngIf="SalesCallBackTaskActivityList.length > 0">
+						<div class="col-lg-12 kt-margin-bottom-20-mobile" style="text-align: left;">
+							<mat-table class="lmat-elevation-z8" #table
+								[dataSource]="SalesCallBackTaskActivityList$ | async" matSort #sort1="matSort"
+								matSortActive="id" matSortDirection="asc" matSortDisableClear>
+
+								<ng-container matColumnDef="Operation">
+									<mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Call Back
+										Activity </mat-header-cell>
+									<mat-cell mat-cell *matCellDef="let event"> {{event.Operation}}
+									</mat-cell>
+								</ng-container>
+
+								<ng-container matColumnDef="Activity">
+									<mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Activity Date
+										Time </mat-header-cell>
+									<mat-cell mat-cell *matCellDef="let event">
+										{{event.ActivityDateTime | date:'dd-MMM-yyyy hh:mm a'}} </mat-cell>
+								</ng-container>
+								<ng-container matColumnDef="Description">
+									<mat-header-cell mat-header-cell *matHeaderCellDef class="GridHeader"> Activity
+										Description </mat-header-cell>
+									<mat-cell mat-cell *matCellDef="let event"> {{event.Description}} </mat-cell>
+								</ng-container>
+								<mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+
+								<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+							</mat-table>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="kt-separator kt-separator--dashed"></div>
+			</div>
+		</div>
+	</div>
+</div>

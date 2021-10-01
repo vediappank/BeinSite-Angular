@@ -1,0 +1,140 @@
+.GridHeader
+{
+    color: darkblue;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+// .open
+//   {
+//       color:blue;
+//   }
+// .cancelled
+//   {
+//       color:red;
+//   }
+//   .noanswer
+//   {
+//       color:#d115c8;
+//   }
+//   .completed
+//   {
+//       color:green;
+//   }
+//   .failure
+//   {
+//       color:#ff7400;
+      
+//   }
+  .btn-group button {
+    display: block; /* Make the buttons appear below each other */
+  }
+  
+  .btn-group button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+  }
+  
+
+
+// .mat-column-FINDINGS_OR_ISSUES {
+//     flex: none;
+//     width: 260px;
+// }
+
+
+
+// .mat-column-COMMENTS {
+//     flex: none;
+//     width: 300px;
+// }
+
+
+// .mat-column-topic {
+//     flex: none;
+//     width: 100px;
+// }
+
+// .mat-column-owner {
+//     flex: none;
+//     width: 150px;
+// }
+
+.mat-column-Id {
+    flex: none;
+    width: 200px;
+}
+
+.mat-column-CallEndDateTime {
+    flex: none;
+    width: 100px;
+}
+.mat-column-starttime {
+    flex: none;
+    width: 300px;
+}
+.mat-column-endtime {
+    flex: none;
+    width: 300px;
+}
+.mat-column-AssignedTo {
+    flex: none;
+    width: 400px;
+}
+.mat-column-Supervisor {
+    flex: none;
+    width: 400px;
+}
+.mat-column-Comments {
+    flex: none;
+    width: 350px;
+}
+
+.mat-column-Status {
+    flex: none;
+    width: 250px;
+}
+
+.mat-column-CallStartDateTime {
+    flex: none;
+    width: 200px;
+    text-align: left;
+}
+
+.mat-column-Action {
+    flex: none;
+    width: 150px;
+}
+
+// ::ng-deep .mat-table{
+//     flex:none;
+//     width: 85%;
+// }
+.matbuttonsize{
+    flex:none;
+    width: 30px;
+    height: 30px;
+}
+
+::ng-deep .mat-tab-body.mat-tab-body-active {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 1;
+    flex-grow: 1;
+}
+.mat-header-cell.mat-sort-header-sorted {
+    color: black;
+  }
+
+//   ::ng-deep .mat-raised-button {
+//     min-width: 80px;
+//   }
+ 
+// .mat-row{
+//     width: 20%;
+// }
+// .mat-header-row{
+//     width: 20%;
+// }
+  /* Add a background color on hover */
+  

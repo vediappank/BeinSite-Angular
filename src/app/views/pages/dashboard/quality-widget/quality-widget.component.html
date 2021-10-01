@@ -1,0 +1,18 @@
+<div class="row row-no-padding row-col-separator-xl" *ngIf="(finReptWidgetData$ | async) as finReptWidgetData">
+  <div class="col-xl-4" style="height: 370px;" >
+    <!-- <kt-widget1 [data]="finReptWidgetData.summary" (outputArray)="receiveMessage($event)" (click)='GetPopupInfo($event)'></kt-widget1> -->
+    <kt-widget1 [data]="finReptWidgetData.summary" (outputArray)="GetPopupInfo($event)"></kt-widget1>
+   
+  </div>
+  <div class="col-xl-4" style="height: 370px;">
+    <!-- <kt-bchart-one-ds-widget [title]="'Agents - Evaluated'" [desc]="'Check out each column for more details'"
+      [data]="finReptWidgetData.agentEvalData"  ></kt-bchart-one-ds-widget>-->
+      <kt-bar-chart-widget [title]="'Agents - Evaluated'" [desc]="'Check out each column for more details'" [Chartdata]="chartQualityEvalData" [Chartinput]="ChartInputs" ></kt-bar-chart-widget> 
+     
+  </div>
+  <div class="col-xl-4" style="height: 370px;">
+    <!-- <kt-bchart-one-ds-widget [title]="'Avg Evaluation Score'" [desc]="'Check out each column for more details'"
+      [data]="finReptWidgetData.evalData"></kt-bchart-one-ds-widget> -->
+      <kt-bar-chart-widget [title]="'Avg Evaluation Score'" [desc]="'Check out each column for more details'" [Chartdata]="chartQualityAvgEvalData" [Chartinput]="ChartInputs" ></kt-bar-chart-widget>
+  </div>
+</div>

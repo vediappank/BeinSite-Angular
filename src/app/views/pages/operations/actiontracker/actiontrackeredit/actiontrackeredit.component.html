@@ -1,0 +1,215 @@
+<kt-portlet>
+	<kt-portlet-header [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+		<ng-container ktPortletTools>
+			<a [routerLink]="['/operations/actiontracker']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+				matTooltip="Back to the actiontrackers list">
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
+			<!-- <a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="reset()"
+					[disabled]="selectedTab !== 0" mat-raised-button matTooltip="Reset changes">
+					<i class="la la-cog"></i>
+					<span class="kt-hidden-mobile">Reset</span>
+				</a> -->
+			<!-- <a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="onSumbit(false)"
+				mat-raised-button matTooltip="Save & Continue">
+				<span class="kt-hidden-mobile">Save</span>
+			</a> -->
+			<!-- <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+				<mat-icon>more_vert</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item color="primary" (click)="onSumbit(true)">Save & Exit</button>
+				<button mat-menu-item color="primary">Save & Duplicate</button>
+				<button mat-menu-item color="primary" (click)="onSumbit(false)">Save & Continue</button>
+			</mat-menu> -->
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-portlet-body>
+		<div *ngIf="actiontracker">
+			<div class="kt-form">
+				<div class="kt-portlet__body">
+
+					<div class="kt-portlet__body-progress">
+						<mat-spinner [diameter]="20"></mat-spinner>
+					</div>
+
+					<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+						(close)="onAlertClose($event)">
+						Oh snap! Change a few things up and try submitting again.
+					</kt-alert>
+					<div class="kt-form__section kt-form__section--first" [hidden]="isEnableTopic">
+						<div class="form-group kt-form__group row">
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+
+								<h6 class="kt-section__heading">
+									Action Tracker Name:
+								</h6>
+								<span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+								<span>{{actiontracker.name}}</span>
+							</div>
+
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<h6 class="kt-section__heading">
+									Assigned Organization:
+								</h6>
+
+								<span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+								<span class="kt-list-timeline__text">{{ actiontracker.userorganizationname }}</span>
+
+
+							</div>
+
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<h6 class="kt-section__heading">
+									Created By:
+								</h6>
+
+								<span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+								<span class="kt-list-timeline__text">{{ actiontracker.cname }}</span>
+
+
+							</div>
+
+						</div>
+						<!-- <div class="kt-separator kt-separator--dashed"></div> -->
+						<div class="form-group kt-form__group row">
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<h6 class="kt-section__heading">
+									Description:
+								</h6>
+								<span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+								<span>{{actiontracker.description}}</span>
+							</div>
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<h6 class="kt-section__heading">
+									Comments:
+								</h6>
+								<span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+								<span>{{actiontracker.comments}}</span>
+							</div>
+						</div>
+						<!-- <div class="kt-separator kt-separator--dashed"></div> -->
+					</div>
+
+					<div class="kt-form__section kt-form__section--first" [hidden]="!isEnableTopic">
+						<div class="form-group kt-form__group row">
+							<div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<input matInput  required   placeholder="Enter Action Tracker Name"
+										[(ngModel)]="actiontracker.name" />
+									<mat-error>Action Tracker name is
+										<strong>required</strong>
+									</mat-error>
+
+								</mat-form-field>
+							</div>
+							<div class="col-lg-3 kt-margin-bottom-20-mobile">
+								<div *ngIf="OrganizationList">
+
+									<mat-form-field class="mat-form-field-fluid">
+										<mat-select  required   placeholder="Select Action Tracker Organization"
+											[(ngModel)]="OrganizationIdForAdding" (selectionChange)="onOrgChange(OrganizationIdForAdding)">
+											<mat-option *ngFor="let org of unassignedOrganization"
+												value="{{ org.orgid }}">
+												{{org.org}}</mat-option>
+										</mat-select>
+										<mat-hint align="start">
+											<strong>Select Organization</strong>
+										</mat-hint>
+									</mat-form-field>
+
+								</div>
+							</div>
+							<div class="col-lg-3 kt-margin-bottom-20-mobile">
+								<h6 class="kt-section__heading" *ngIf="OrganizationList">
+									Assigned Organization:
+								</h6>
+
+								<span class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+								<span class="kt-list-timeline__text">{{ actiontracker.userorganizationname }}</span>
+
+
+							</div>
+
+
+
+						</div>
+
+						<!-- <div class="kt-separator kt-separator--dashed"></div> -->
+						<div class="form-group kt-form__group row">
+							<div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<textarea  required   matInput placeholder="Enter Description" style="height: 100px;text-align:justify;"
+										[(ngModel)]="actiontracker.description"></textarea>
+									<mat-error>Action Tracker description is
+										<strong>required</strong>
+									</mat-error>
+
+								</mat-form-field>
+							</div>
+							<div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<textarea  required matInput placeholder="Enter Comments" style="height: 100px;text-align:justify;"
+										[(ngModel)]="actiontracker.comments"></textarea>
+								</mat-form-field>
+							</div>
+						</div>
+						<kt-actiontracker-agent-selection-widget (AgentSelectedList)="getAgentSelectedList($event)" [OrganizationId]="OrganizationIdForAdding" [UpdateAgentSelectedList]="actiontracker.SelectedAgentList">
+
+						</kt-actiontracker-agent-selection-widget>
+						<!-- <div class="kt-separator kt-separator--dashed"></div> -->
+
+					</div>
+					<!-- </div> -->
+
+					<div class="kt-portlet__foot kt-portlet__foot--fit kt-portlet__no-border" [hidden]='!isEnableTopic'>
+						<div class="kt-form__actions kt-form__actions--solid">
+							<div class="row text-right">
+								<div class="col-lg-12">
+									<button type="button" mat-raised-button [routerLink]="['/operations/actiontracker']"
+										cdkFocusInitial matTooltip="Cancel changes">
+										Cancel
+									</button>&nbsp;
+									<button type="button" [disabled]="!isTitleValid()" mat-raised-button color="primary"
+										(click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
+										Save
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<mat-tab-group [(selectedIndex)]="selectedTab" *ngIf='!isEnableTopic' >
+
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-address-book"></i>
+					Action List
+				</ng-template>
+				<ng-template matTabContent>
+					<div style="height: 100%;">
+						<kt-actiontrackertopiclist [actiontrackerid]="paramactiontrackerid"></kt-actiontrackertopiclist>
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab >
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-address-book"></i>
+					Archived Actions
+				</ng-template>
+				<ng-template matTabContent>
+					<!--begin::Form-->
+					<div style="height:100%;">
+					<kt-actiontrackerarchivedtopiclist [actiontrackerid]="paramactiontrackerid">
+					</kt-actiontrackerarchivedtopiclist>
+					<!--end::Form-->
+					</div>
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
+	</kt-portlet-body>
+</kt-portlet>

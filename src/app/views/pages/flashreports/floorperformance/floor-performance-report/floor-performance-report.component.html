@@ -1,0 +1,21 @@
+<kt-portlet>
+<div class="row" [ngClass]="chartTheme" id="fullscreen">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <span class="card-title">
+                    <h2>RABAT SITE PERFORMANCE <button mat-icon-button>
+                        <mat-icon fontSet="fa" (click)="openFullscreen()" title="Show Full Screen" fontIcon="fa-table">
+                        </mat-icon>
+                    </button></h2>
+                   
+                </span>
+                
+            </div>
+            <div *ngIf="aInfo1" >
+                <app-floor-performance-template [aInfo]="aInfo1"></app-floor-performance-template>
+            </div>
+        </div>
+    </div>
+</div>
+</kt-portlet>

@@ -1,0 +1,102 @@
+<div *ngIf="aInfo">
+    <div class="row pt-1" >
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Calls Handled'" [aStatsVal]="aInfo.inboundCallsHandled" [tStatsVal]="tInfo.inboundCallsHandled" [fStatsVal]="fInfo.inboundCallsHandled" [cClass]="'bg-orange'" [iconClass]="'fa fa-phone fa-rotate-90'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Disconnected Calls'" [aStatsVal]="aInfo.inboundDisconnectedCalls" [tStatsVal]="tInfo.inboundDisconnectedCalls" [fStatsVal]="fInfo.inboundDisconnectedCalls" [cClass]="'bg-orange'" [iconClass]="'fa fa-phone fa-rotate-90'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Avg. Handle Time'" [aStatsVal]="aInfo.inboundAvgHandleTime * 1000  | date:'H:mm:ss':'UTC'" [tStatsVal]="tInfo.inboundAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'" [fStatsVal]="fInfo.inboundAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'" [cClass]="'bg-inbavg'" [iconClass]="'fa fa-phone fa-rotate-90'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Avg. Talk Time'" [aStatsVal]="aInfo.inboundTalkTime * 1000  | date:'H:mm:ss':'UTC'" [tStatsVal]="tInfo.inboundTalkTime * 1000  | date:'H:mm:ss':'UTC'" [fStatsVal]="fInfo.inboundTalkTime * 1000  | date:'H:mm:ss':'UTC'" [cClass]="'bg-inbavg'" [iconClass]="'fa fa-phone fa-rotate-90'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Avg. Hold Time'" [aStatsVal]="aInfo.inboundHoldTime * 1000  | date:'H:mm:ss':'UTC'" [tStatsVal]="tInfo.inboundHoldTime * 1000  | date:'H:mm:ss':'UTC'" [fStatsVal]="fInfo.inboundHoldTime * 1000  | date:'H:mm:ss':'UTC'" [cClass]="'bg-inbavg'" [iconClass]="'fa fa-phone fa-rotate-90'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Avg. Wrap Time'" [aStatsVal]="aInfo.inboundWrapTime * 1000  | date:'H:mm:ss':'UTC'" [tStatsVal]="tInfo.inboundWrapTime * 1000  | date:'H:mm:ss':'UTC'" [fStatsVal]="fInfo.inboundWrapTime * 1000  | date:'H:mm:ss':'UTC'" [cClass]="'bg-inbavg'" [iconClass]="'fa fa-phone fa-rotate-90'"></mya-stats-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Assistance Requests'" [aStatsVal]="aInfo.assistanceRequests" [tStatsVal]="tInfo.assistanceRequests" [fStatsVal]="fInfo.assistanceRequests" [cClass]="'bg-dark'" [iconClass]="'fa fa-phone'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Assistance Requests %'" [aStatsVal]="aInfo.assistanceRequestsPer | strUtil:'percentage'" [tStatsVal]="tInfo.assistanceRequestsPer | strUtil:'percentage'" [fStatsVal]="fInfo.assistanceRequestsPer | strUtil:'percentage'" [cClass]="'bg-dark'" [iconClass]="'fa fa-phone'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Survey Calls'" [aStatsVal]="aInfo.surveyCalls" [tStatsVal]="tInfo.surveyCalls" [fStatsVal]="fInfo.surveyCalls" [cClass]="'bg-success'" [iconClass]="'fa fa-bar-chart'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Survey VOC'" [aStatsVal]="aInfo.surveyFCR" [tStatsVal]="tInfo.surveyFCR" [fStatsVal]="fInfo.surveyFCR" [cClass]="'bg-success'" [iconClass]="'fa fa-bar-chart'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Survey CSAT'" [aStatsVal]="aInfo.surveyCSAT | strUtil:'percentage'" [tStatsVal]="tInfo.surveyCSAT | strUtil:'percentage'" [fStatsVal]="fInfo.surveyCSAT | strUtil:'percentage'" [cClass]="'bg-success'" [iconClass]="'fa fa-bar-chart'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Once & Done Calls %'" [aStatsVal]="aInfo.onceADoneCallsPer | strUtil:'percentage'" [tStatsVal]="tInfo.onceADoneCallsPer | strUtil:'percentage'" [fStatsVal]="fInfo.onceADoneCallsPer | strUtil:'percentage'" [cClass]="'bg-onceanddone'" [iconClass]="'fa fa-bar-chart'"></mya-stats-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Dialer Calls'" [aStatsVal]="aInfo.dailerCalls" [tStatsVal]="tInfo.dailerCalls" [fStatsVal]="fInfo.dailerCalls" [cClass]="'bg-secondarys'" [iconClass]="'fa fa-book'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Dialer Avg. Handle Time'" [aStatsVal]="aInfo.dailerAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'" [tStatsVal]="tInfo.dailerAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'" [fStatsVal]="fInfo.dailerAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'" [cClass]="'bg-secondarys'" [iconClass]="'fa fa-book'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Outbound Calls'" [aStatsVal]="aInfo.manualOutCalls" [tStatsVal]="tInfo.manualOutCalls" [fStatsVal]="fInfo.manualOutCalls" [cClass]="'bg-primary'" [iconClass]="'fa fa-phone'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Outbound Avg. Handle Time'" [aStatsVal]="aInfo.manualOutAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'" [tStatsVal]="tInfo.manualOutAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'" [fStatsVal]="fInfo.manualOutAvgHandleTime * 1000 | date:'H:mm:ss':'UTC'" [cClass]="'bg-primary'" [iconClass]="'fa fa-phone'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Outbound Calls %'" [aStatsVal]="aInfo.manualOutCallsPer | strUtil:'percentage'" [tStatsVal]="tInfo.manualOutCallsPer | strUtil:'percentage'" [fStatsVal]="fInfo.manualOutCallsPer | strUtil:'percentage'" [cClass]="'bg-primary'" [iconClass]="'fa fa-phone'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Absence %'" [aStatsVal]="aInfo.adherenceAbsencePer | strUtil:'percentage'" [tStatsVal]="tInfo.adherenceAbsencePer | strUtil:'percentage'" [fStatsVal]="fInfo.adherenceAbsencePer | strUtil:'percentage'" [cClass]="'bg-info'" [iconClass]="'fa fa-eye-slash'"></mya-stats-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Evaluated Calls'" [aStatsVal]="aInfo.evaluationCalls" [tStatsVal]="tInfo.evaluationCalls" [fStatsVal]="fInfo.evaluationCalls" [cClass]="'bg-cyan'" [iconClass]="'fa fa-binoculars'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Evaluated Score %'" [aStatsVal]="aInfo.evaluationScorePer | strUtil:'percentage'" [tStatsVal]="tInfo.evaluationScorePer | strUtil:'percentage'" [fStatsVal]="fInfo.evaluationScorePer | strUtil:'percentage'" [cClass]="'bg-cyan'" [iconClass]="'fa fa-binoculars'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Quiz Taken'" [aStatsVal]="aInfo.quizTaken" [tStatsVal]="tInfo.quizTaken" [fStatsVal]="fInfo.quizTaken" [cClass]="'bg-quiz'" [iconClass]="'fa fa-file-o'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Quiz Score %'" [aStatsVal]="aInfo.quizScorePer | strUtil:'percentage'" [tStatsVal]="tInfo.quizScorePer | strUtil:'percentage'" [fStatsVal]="fInfo.quizScorePer | strUtil:'percentage'" [cClass]="'bg-quiz'" [iconClass]="'fa fa-file-o'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Transactions'" [aStatsVal]="aInfo.revenueTransactions" [tStatsVal]="tInfo.revenueTransactions" [fStatsVal]="fInfo.revenueTransactions" [cClass]="'bg-money'" [iconClass]="'fa fa-money-bill'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Revenue'" [aStatsVal]="aInfo.revenueAmount | currency:'USD'" [tStatsVal]="tInfo.revenueAmount | currency:'USD'" [fStatsVal]="fInfo.revenueAmount | currency:'USD'" [cClass]="'bg-money'" [iconClass]="'fa fa-money-bill'"></mya-stats-detail>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'WhatsApp Assigned'" [aStatsVal]="aInfo.whatsappAssigned" [tStatsVal]="tInfo.whatsappAssigned" [fStatsVal]="fInfo.whatsappAssigned" [cClass]="'bg-whatsapp'" [iconClass]="'fab fa-whatsapp'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'WhatsApp Resolved'" [aStatsVal]="aInfo.whatsappResolved" [tStatsVal]="tInfo.whatsappResolved" [fStatsVal]="fInfo.whatsappResolved" [cClass]="'bg-whatsapp'" [iconClass]="'fab fa-whatsapp'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'WhatsApp Avg. Resl. Time'" [aStatsVal]="aInfo.whatsappAvgResolutionTime * 1000 | date:'H:mm:ss':'UTC'" [tStatsVal]="tInfo.whatsappAvgResolutionTime * 1000 | date:'H:mm:ss':'UTC'" [fStatsVal]="fInfo.whatsappAvgResolutionTime * 1000 | date:'H:mm:ss':'UTC'" [cClass]="'bg-whatsapp'" [iconClass]="'fab fa-whatsapp'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'WhatsApp Avg. Resp. Time'" [aStatsVal]="aInfo.whatsappAvgResponseTime * 1000 | date:'H:mm:ss':'UTC'" [tStatsVal]="tInfo.whatsappAvgResponseTime * 1000 | date:'H:mm:ss':'UTC'" [fStatsVal]="fInfo.whatsappAvgResponseTime * 1000 | date:'H:mm:ss':'UTC'" [cClass]="'bg-whatsapp'" [iconClass]="'fab fa-whatsapp'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Total Contacts'" [aStatsVal]="aInfo.totalInteractions" [tStatsVal]="tInfo.totalInteractions" [fStatsVal]="fInfo.totalInteractions" [cClass]="'bg-ticket'" [iconClass]="'fas fa-handshake'"></mya-stats-detail>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <mya-stats-detail [statsName]="'Log Contacts %'" [aStatsVal]="aInfo.ticketLogPer | strUtil:'percentage'" [tStatsVal]="tInfo.ticketLogPer | strUtil:'percentage'" [fStatsVal]="fInfo.ticketLogPer | strUtil:'percentage'" [cClass]="'bg-ticket'" [iconClass]="'fas fa-pencil-square-o'"></mya-stats-detail>
+        </div>
+    </div>
+</div>

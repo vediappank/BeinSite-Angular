@@ -1,0 +1,31 @@
+.enable
+{
+    display: block;
+}
+.disable
+{
+    display: none;
+}
+
+// ng-deep .header
+// {
+//     background-color:blueviolet; 
+//     border-radius: 5px;
+// }
+// .headercolor
+// {
+//     color: whitesmoke;
+//     font-weight: bold;
+//     font-size: 14px;
+// }
+// ::ng-deep .mat-checkbox .mat-checkbox-frame {
+//     border-color:blue;
+//   }
+.GridHeader
+{
+    color: darkblue;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+

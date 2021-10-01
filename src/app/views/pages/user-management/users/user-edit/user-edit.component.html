@@ -1,0 +1,597 @@
+<kt-portlet>
+	<style>
+		::ng-deep .mat-select-value
+		{
+		 color: #3f51b5;
+		}
+	</style>
+	<kt-portlet-header [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+		<ng-container ktPortletTools>
+			<a [routerLink]="['../../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+				matTooltip="Back to the users list">
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
+			<!-- <a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="reset()"
+					[disabled]="selectedTab !== 0" mat-raised-button matTooltip="Reset changes">
+					<i class="la la-cog"></i>
+					<span class="kt-hidden-mobile">Reset</span>
+				</a> -->
+			<a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="onSumbit(false)"
+				mat-raised-button matTooltip="Save & Continue">
+				<span class="kt-hidden-mobile">Save</span>
+			</a>
+			<!-- <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+				<mat-icon>more_vert</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item color="primary" (click)="onSumbit(true)">Save & Exit</button>
+				<button mat-menu-item color="primary">Save & Duplicate</button>
+				<button mat-menu-item color="primary" (click)="onSumbit(false)">Save & Continue</button>
+			</mat-menu> -->
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-portlet-body>
+		<kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000"
+								(close)="onAlertClose($event)">
+								{{ErrorMessage}}
+							</kt-alert>
+		<mat-tab-group [(selectedIndex)]="selectedTab">
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-user"></i>
+					Basic info
+				</ng-template>
+				<ng-template matTabContent>
+					<!--begin::Form-->
+					<div *ngIf="user">
+						<form [formGroup]="userForm" class="kt-form kt-form--group-seperator-dashed">
+
+							
+							<div class="kt-form__section kt-form__section--first">
+								<div class="form-group kt-form__group row">
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput readonly="true" placeholder="Enter Username"
+												formControlName="username" />
+											<mat-error>Username is
+												<strong>required</strong>
+											</mat-error>
+											<!--	<mat-hint align="start">Please enter
+												<strong>Username</strong>
+											</mat-hint>-->
+										</mat-form-field>
+									</div>
+									<!-- <div class="col-lg-6 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<mat-select placeholder="Select Call Center" formControlName="CallCenterIdForAdding">
+												<mat-option *ngFor="let callcenter of CallCenterList" value="{{ callcenter.cc_name }}">
+													{{callcenter.cc_name}}</mat-option>
+											</mat-select>
+										
+										</mat-form-field>
+									</div> -->
+									<!-- <div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="CallCenter" readonly="true"
+												formControlName="callcenter" />
+											<mat-error>CallCenter is
+												<strong>required</strong>
+											</mat-error>
+											
+										</mat-form-field>
+									</div> -->
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput readonly="true" placeholder="Enter First Name"
+												formControlName="firstname" />
+											<mat-error>first Name is
+												<strong>required</strong>
+											</mat-error>
+											<!--<mat-hint align="start">Please enter
+												<strong> Name</strong>
+											</mat-hint>-->
+										</mat-form-field>
+									</div>
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="Enter Last Name" readonly="true"
+												formControlName="lastname" />
+											<mat-error>Last Name is
+												<strong>required</strong>
+											</mat-error>
+											<!--<mat-hint align="start">Please enter
+												<strong>Last Name</strong>
+											</mat-hint>-->
+										</mat-form-field>
+									</div>
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput matInput placeholder="Enter Email"
+												formControlName="email" />
+											<mat-error>Email is
+												<strong>required</strong>
+											</mat-error>
+											<!--<mat-hint align="start">Please enter
+												<strong>Email</strong>
+											</mat-hint>-->
+										</mat-form-field>
+									</div>
+								
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="Organization" readonly="true"
+												formControlName="userorganizationname" />
+											<mat-error>Organization is
+												<strong>required</strong>
+											</mat-error>
+											<!--	<mat-hint align="start">Please enter
+												<strong>Username</strong>
+											</mat-hint>-->
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="kt-separator kt-separator--dashed"></div>
+						<h6 class="kt-section__heading" *ngIf="UserActivityHistory">
+							Work History:
+						</h6>
+						<div class="row">
+							<mat-table class="col-lg-12 lmat-elevation-z8" #table [dataSource]="UserWorkHistory"
+								matSort #sort1="matSort" matSortActive="id" matSortDirection="asc" matSortDisableClear>
+								<!-- Checkbox Column -->
+
+								<!-- Table with selection -->
+								<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+
+
+								
+
+								<ng-container matColumnDef="startdate">
+									<mat-header-cell *matHeaderCellDef mat-sort-header>Start Date Time</mat-header-cell>
+									<mat-cell *matCellDef="let history">
+										{{history.start_date_time_history | date:'medium' }}</mat-cell>
+								</ng-container>
+								<ng-container matColumnDef="enddate">
+									<mat-header-cell *matHeaderCellDef mat-sort-header>End Date Time</mat-header-cell>
+									<mat-cell *matCellDef="let history">
+										{{history.end_date_time_history | date:'medium' }}</mat-cell>
+								</ng-container>
+								<ng-container matColumnDef="attritionname">
+									<!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+									<mat-header-cell *matHeaderCellDef mat-sort-header>Attrition Name</mat-header-cell>
+									<mat-cell *matCellDef="let history">{{history.attrition_name}}</mat-cell>
+								</ng-container>
+								<ng-container matColumnDef="description">
+									<!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+									<mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+									<mat-cell *matCellDef="let history">{{history.attrition_description}}</mat-cell>
+								</ng-container>
+								<mat-header-row *matHeaderRowDef="WorkHistorydisplayedColumns"></mat-header-row>
+
+								<mat-row *matRowDef="let row; columns: WorkHistorydisplayedColumns"></mat-row>
+							</mat-table>
+						</div>
+						</form>
+					</div>
+					<!--end::Form-->
+				</ng-template>
+			</mat-tab>
+			<mat-tab *ngIf="user" [disabled]="!user || !user.id">
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-address-book"></i>
+					Agent Activity
+				</ng-template>
+				<ng-template matTabContent>
+					<div>
+						<div class="form-group kt-form__group row" *ngIf="ActivityList.length > 0">
+							<div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<mat-select placeholder="Select Agent Activity" [(ngModel)]="activityIdForAdding">
+										<mat-option *ngFor="let activity of ActivityList" value="{{ activity.id }}">
+											{{activity.name}}</mat-option>
+									</mat-select>
+									<!-- <mat-hint align="start">
+										<strong>Select Activity</strong>
+									</mat-hint> -->
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="kt-separator kt-separator--dashed"></div>
+						
+						<div class="form-group kt-form__group row" *ngIf="ActivityList">
+							<div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<h6 class="kt-section__heading" *ngIf="ActivityList">
+									Assigned Activity:
+								</h6>
+								<div class="kt-list-timeline kt-list-timeline--user-role">
+									<div class="kt-list-timeline__items">
+										<div class="kt-list-timeline__item m-0 p-0"
+											*ngFor="let _activity of assignedActivity">
+											<span
+												class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+											<span class="kt-list-timeline__text">{{ _activity.name }}</span>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="kt-separator kt-separator--dashed"></div>
+						<h6 class="kt-section__heading" *ngIf="UserActivityHistory">
+							Activity History:
+						</h6>
+						<div class="row">
+							<mat-table class="col-lg-12 lmat-elevation-z8" #table [dataSource]="UserActivityHistory"
+								matSort #sort1="matSort" matSortActive="id" matSortDirection="asc" matSortDisableClear>
+								<!-- Checkbox Column -->
+
+								<!-- Table with selection -->
+								<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+
+
+								<ng-container matColumnDef="activitynamehistory">
+									<!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+									<mat-header-cell *matHeaderCellDef mat-sort-header>Activity Name</mat-header-cell>
+									<mat-cell *matCellDef="let history">{{history.activitynamehistory}}</mat-cell>
+								</ng-container>
+
+								<ng-container matColumnDef="activitystartdatehistory">
+									<mat-header-cell *matHeaderCellDef mat-sort-header>Start Date Time</mat-header-cell>
+									<mat-cell *matCellDef="let history">
+										{{history.activitystartdatehistory | date:'medium' }}</mat-cell>
+								</ng-container>
+
+								<ng-container matColumnDef="activityenddatehistory">
+									<mat-header-cell *matHeaderCellDef mat-sort-header>End Date Time</mat-header-cell>
+									<mat-cell *matCellDef="let history">
+										{{history.activityenddatehistory | date:'medium' }}</mat-cell>
+								</ng-container>
+								<mat-header-row *matHeaderRowDef="ActivityHistorydisplayedColumns"></mat-header-row>
+
+								<mat-row *matRowDef="let row; columns: ActivityHistorydisplayedColumns"></mat-row>
+							</mat-table>
+						</div>
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab *ngIf="user" [disabled]="!user || !user.id">
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-unlock"></i>
+					User roles
+				</ng-template>
+				<ng-template matTabContent>
+					<div style="height: 400px;">
+						<div class="form-group kt-form__group row" >
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<mat-select placeholder="Select Call Center" (selectionChange)="changeCallCenter($event.value)" [(value)]="callcenterIdForAdding">
+										<mat-option *ngFor="let callcenter of CallCenterList" value="{{ callcenter.cc_id }}">
+											{{callcenter.cc_name}}</mat-option>
+									</mat-select>											
+								</mat-form-field>
+							</div>
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<mat-select placeholder="Select Role" (selectionChange)="changeRole($event.value)" [(value)]="roleIdForAdding">
+										<mat-option *ngFor="let role of allRoles" value="{{ role.id }}">
+											{{role.RoleName}}</mat-option>
+									</mat-select>
+									<!-- <mat-hint align="start">
+										<strong>Select Role</strong>
+									</mat-hint> -->
+								</mat-form-field>
+							</div>
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<mat-select placeholder="Select Designation" (selectionChange)="changeCCRole($event.value)" [(value)]="ccRoleIdForAdding">
+										<mat-option *ngFor="let ccRole of CCRolesList" value="{{ ccRole.id }}">
+											{{ccRole.RoleName}}</mat-option>
+									</mat-select>
+									<!-- <mat-hint align="start">
+										<strong>Select CC Role</strong>
+									</mat-hint> -->
+								</mat-form-field>
+							</div>
+							<!--<div class="col-lg-4 kt-margin-bottom-20-mobile">
+									<button type="button" mat-raised-button matTooltip="Assign role" (click)="assignRole()" color="accent">
+										Assign
+									</button>
+								</div>-->
+						</div>
+						
+						
+						<div class="kt-separator kt-separator--dashed"></div>
+						<div class="row">
+							<div class="col-lg-6">
+								<h6 class="kt-section__heading" *ngIf="allRoles.length > 0">
+									Role History:
+								</h6>
+
+								<mat-table class="lmat-elevation-z8" #table [dataSource]="UserRoleHistory" matSort
+									#sort1="matSort" matSortActive="id" matSortDirection="asc" matSortDisableClear
+									*ngIf="allRoles.length > 0">
+									<!-- Checkbox Column -->
+
+									<!-- Table with selection -->
+									<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+
+
+									<ng-container matColumnDef="rolenamehistory">
+										<!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+										<mat-header-cell *matHeaderCellDef mat-sort-header>Role Name
+										</mat-header-cell>
+										<mat-cell *matCellDef="let history">{{history.rolenamehistory}}</mat-cell>
+									</ng-container>
+
+									<ng-container matColumnDef="rolestartdatehistory">
+										<mat-header-cell *matHeaderCellDef mat-sort-header>Start Date Time
+										</mat-header-cell>
+										<mat-cell *matCellDef="let history">
+											{{history.rolestartdatehistory | date:'medium' }}</mat-cell>
+									</ng-container>
+
+									<ng-container matColumnDef="roleenddatehistory">
+										<mat-header-cell *matHeaderCellDef mat-sort-header>End Date Time
+										</mat-header-cell>
+										<mat-cell *matCellDef="let history">
+											{{history.roleenddatehistory | date:'medium' }}</mat-cell>
+									</ng-container>
+
+
+
+									<mat-header-row *matHeaderRowDef="RoleHistorydisplayedColumns"></mat-header-row>
+
+									<mat-row *matRowDef="let row; columns: RoleHistorydisplayedColumns"></mat-row>
+								</mat-table>
+							</div>
+							<div class="col-lg-6">
+								<h6 class="kt-section__heading" *ngIf="CCRolesList.length > 0">
+									CC Role History:
+								</h6>
+
+								<mat-table class="lmat-elevation-z8" #table [dataSource]="UserCCRoleHistory" matSort
+									#sort1="matSort" matSortActive="id" matSortDirection="asc" matSortDisableClear
+									*ngIf="CCRolesList.length > 0">
+									<!-- Checkbox Column -->
+
+									<!-- Table with selection -->
+									<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+
+
+									<ng-container matColumnDef="ccrolenamehistory">
+										<!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+										<mat-header-cell *matHeaderCellDef mat-sort-header>Role Name
+										</mat-header-cell>
+										<mat-cell *matCellDef="let history">{{history.ccrolenamehistory}}</mat-cell>
+									</ng-container>
+
+									<ng-container matColumnDef="ccrolestartdatehistory">
+										<mat-header-cell *matHeaderCellDef mat-sort-header>Start Date Time
+										</mat-header-cell>
+										<mat-cell *matCellDef="let history">
+											{{history.ccrolestartdatehistory | date:'medium' }}</mat-cell>
+									</ng-container>
+
+									<ng-container matColumnDef="ccroleenddatehistory">
+										<mat-header-cell *matHeaderCellDef mat-sort-header>End Date Time
+										</mat-header-cell>
+										<mat-cell *matCellDef="let history">
+											{{history.ccroleenddatehistory | date:'medium' }}</mat-cell>
+									</ng-container>
+
+
+
+									<mat-header-row *matHeaderRowDef="CCRoleHistorydisplayedColumns"></mat-header-row>
+
+									<mat-row *matRowDef="let row; columns: CCRoleHistorydisplayedColumns"></mat-row>
+								</mat-table>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</mat-tab>
+
+			<mat-tab *ngIf="user" [disabled]="!user || !user.id">
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-unlock"></i>
+					Assign Supervisor
+				</ng-template>
+				<ng-template matTabContent>
+					<div style="height: 400px;">
+						<div class="form-group kt-form__group row" *ngIf="SupervisorList.length > 0">
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<mat-select placeholder="Select Agent Supervisor"
+										[(ngModel)]="supervisorIdForAdding">
+										<mat-option *ngFor="let sup of unassignedSupervisor" value="{{ sup.id }}">
+											{{sup.fullname}}</mat-option>
+									</mat-select>
+									<mat-hint align="start">
+										<strong>Select Supervisor</strong>
+									</mat-hint>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="kt-separator kt-separator--dashed"></div>
+						<h6 class="kt-section__heading" *ngIf="SupervisorList.length > 0">
+							Assigned Supervisor:
+						</h6>
+						<div class="form-group kt-form__group row" *ngIf="SupervisorList.length > 0">
+							<div class="col-lg-8 kt-margin-bottom-20-mobile">
+								<div class="kt-list-timeline kt-list-timeline--user-role">
+									<div class="kt-list-timeline__items">
+										<div class="kt-list-timeline__item m-0 p-0"
+											*ngFor="let _sup of assignedSupervisor">
+											<span
+												class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+											<span class="kt-list-timeline__text">{{ _sup.fullname}}</span>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="kt-separator kt-separator--dashed"></div>
+						<h6 class="kt-section__heading" *ngIf="assignedSupervisor.length > 0">
+							Supervisor History:
+						</h6>
+						<div class="row">
+							<mat-table class="col-lg-12 lmat-elevation-z8" #table [dataSource]="UserSupervisorHistory"
+								matSort #sort1="matSort" matSortActive="id" matSortDirection="asc" matSortDisableClear>
+								<!-- Checkbox Column -->
+
+								<!-- Table with selection -->
+								<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+
+
+								<ng-container matColumnDef="supervisornamehistory">
+									<!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
+									<mat-header-cell *matHeaderCellDef mat-sort-header>Supervisor Name</mat-header-cell>
+									<mat-cell *matCellDef="let history">{{history.supervisornamehistory}}</mat-cell>
+								</ng-container>
+
+								<ng-container matColumnDef="supervisorstartdatehistory">
+									<mat-header-cell *matHeaderCellDef mat-sort-header>Start Date Time</mat-header-cell>
+									<mat-cell *matCellDef="let history">
+										{{history.supervisorstartdatehistory | date:'medium' }}</mat-cell>
+								</ng-container>
+
+								<ng-container matColumnDef="supervisorenddatehistory">
+									<mat-header-cell *matHeaderCellDef mat-sort-header>End Date Time</mat-header-cell>
+									<mat-cell *matCellDef="let history">
+										{{history.supervisorenddatehistory | date:'medium' }}</mat-cell>
+								</ng-container>
+
+								<mat-header-row *matHeaderRowDef="SupervisorHistorydisplayedColumns"></mat-header-row>
+
+								<mat-row *matRowDef="let row; columns: SupervisorHistorydisplayedColumns"></mat-row>
+							</mat-table>
+						</div>
+					</div>
+
+				</ng-template>
+			</mat-tab>
+			<mat-tab *ngIf="user" [disabled]="!user || !user.id">
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-building"></i>
+					Organization
+				</ng-template>
+				<ng-template matTabContent>
+					<div style="height: 400px;">
+						<div class="form-group kt-form__group row" *ngIf="OrganizationList.length > 0">
+							<div class="col-lg-4 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<mat-select placeholder="Select Agent Organization"
+										[(ngModel)]="OrganizationIdForAdding">
+										<mat-option *ngFor="let org of unassignedOrganization" value="{{ org.orgid }}">
+											{{org.org}}</mat-option>
+									</mat-select>
+									<mat-hint align="start">
+										<strong>Select Organization</strong>
+									</mat-hint>
+								</mat-form-field>
+							</div>							
+						</div>
+						<div class="kt-separator kt-separator--dashed"></div>
+						<h6 class="kt-section__heading" *ngIf="OrganizationList.length > 0">
+							Assigned Organization:
+						</h6>
+						<div class="form-group kt-form__group row" *ngIf="OrganizationList.length > 0">
+							<div class="col-lg-8 kt-margin-bottom-20-mobile">
+								<div class="kt-list-timeline kt-list-timeline--user-role">
+									<div class="kt-list-timeline__items">
+										<div class="kt-list-timeline__item m-0 p-0"
+											*ngFor="let _org of assignedOrganization">
+											<span
+												class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+											<span class="kt-list-timeline__text">{{ _org.org }}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</mat-tab>
+
+			<!-- FD GroupMapping -->
+			<mat-tab *ngIf="user" [disabled]="!user || !user.id">
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-address-book"></i>
+					FD Group Mapping
+				</ng-template>
+				<ng-template matTabContent>
+					<div style="height: 400px;">
+						<kt-select-duallist-widget [source]="source" [key]="'FDGroupID'" [display]="'FDGroupName'" [(destination)]="confirmed" height="265px" (destinationChange)="OnChangeFDDesignation($event)" ></kt-select-duallist-widget>
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab *ngIf="user" [disabled]="!user || !user.id">
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-address-book"></i>
+					Security
+				</ng-template>
+				<ng-template matTabContent>
+					<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="100000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                        {{ErrorMessage}}
+                    </kt-alert>
+					<div style="height: 400px;">
+						<div class="form-group kt-form__group row">
+							<div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<input matInput  [type]="text"   placeholder="Enter Password"
+									[(ngModel)]="Password"  />
+									<!-- <mat-icon matSuffix (click)="hide = !hide" style="cursor: pointer;">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
+								
+									<!--	<mat-hint align="start">Please enter
+										<strong>Username</strong>
+									</mat-hint>-->
+								</mat-form-field>
+							</div>
+							<div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<input matInput  [type]="text" placeholder="Enter Confirm Password"
+									[(ngModel)]="ConfirmPassword"  />
+									<!-- <mat-icon matSuffix (click)="hide1 = !hide1" disabled={{ beinsight_access_flag }}  style="cursor: pointer;">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon> -->
+									
+								</mat-form-field>
+							</div>
+						</div>
+							<div class="form-group kt-form__group row">
+							<div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<mat-select placeholder="Select Agent Status"
+										[(ngModel)]="beinsight_access_flag">
+										<mat-option  value="Enable">Enable</mat-option>
+										<mat-option  value="Disable">Disable</mat-option>
+										<mat-option  value="Change Password">Change Password</mat-option>
+									</mat-select>
+								
+								</mat-form-field>
+							</div>	
+							<!-- <div class="col-lg-6 kt-margin-bottom-20-mobile">
+								<h6 class="kt-section__heading" >
+									Profile Status
+								</h6>
+								<div class="kt-list-timeline kt-list-timeline--user-role">
+									<div class="kt-list-timeline__items">
+										<div class="kt-list-timeline__item m-0 p-0">
+											<span
+												class="kt-list-timeline__badge kt-list-timeline__badge--primary"></span>
+											<span class="kt-list-timeline__text">{{ beinsight_access_flag }}</span>
+										</div>
+									</div>
+								</div>
+							</div>						 -->
+						</div>
+						
+							
+						
+					</div>
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
+	</kt-portlet-body>
+</kt-portlet>

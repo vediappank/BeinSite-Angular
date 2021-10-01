@@ -1,0 +1,38 @@
+<mat-tab-group #tabs>
+  <mat-tab >
+
+      <ng-template mat-tab-label>
+          <i class="mat-tab-label-icon fa fa-user"></i>
+          Upload Voucher
+      </ng-template>
+      <ng-template matTabContent>         
+          <div >
+             
+              <div class="form-group kt-form__group row">
+                  <div class="col-lg-4 kt-margin-bottom-20-mobile purple-border" style="margin-top: 10px;">
+                     
+                          <input #myfile type="file" class="upload" accept=".csv"
+                          (change)="changeListener($event.target.files)">
+                  </div>
+                 
+
+              </div>
+              
+              <div class="row">
+                <div class="col-lg-2 kt-margin-bottom-20-mobile purple-border">
+                    <button type="submit"  color="primary"
+                        (click)="uploadSubmit($event.target.files)" class="btn btn-primary btn-s">
+                       Upload Voucher
+
+                    </button>
+                </div>
+
+            </div>
+
+              
+          </div>
+
+      </ng-template>
+  </mat-tab>
+ 
+</mat-tab-group>

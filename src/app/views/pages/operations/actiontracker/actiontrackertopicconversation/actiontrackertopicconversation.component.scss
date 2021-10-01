@@ -1,0 +1,96 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~material-design-icons/iconfont/material-icons.css";
+@import "~highlight.js/styles/googlecode.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~open-iconic/font/css/open-iconic-bootstrap.css';
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
+
+.GridHeader
+{
+    color: darkblue;
+    font-weight: bold;
+    font-size: 14px;
+}
+.kt-portlet__body{
+    padding-right: 0px;
+    padding-left: 10px;
+}
+.kt-timeline-v2:before{
+    left: 14.85rem;
+}
+
+.kt-timeline-v2 .kt-timeline-v2__items .kt-timeline-v2__item .kt-timeline-v2__item-cricle > i {
+    left: -0.57rem;
+}
+.kt-timeline-v2 .kt-timeline-v2__items .kt-timeline-v2__item .kt-timeline-v2__item-text {
+    font-size: 1rem;
+    padding: 0.35rem 0 0 15rem;
+    display: table-cell;
+    vertical-align: baseline;
+    font-size: 1rem;
+    padding: 0.35rem 0 0 15rem;
+    color: #74788d;
+}
+// .kt-scroll {
+//     position: relative;
+//     overflow-x: hidden;
+//     overflow-y: auto;
+
+// }
+
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+
+::ng-deep #style-1::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+::ng-deep #style-1::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;    
+    background-color: #9B30F0;
+}
+
+.kt-timeline-v2 .kt-timeline-v2__items .kt-timeline-v2__item .kt-timeline-v2__item-cricle {
+    border-radius: 50%;
+    border: 0.89rem solid white;
+    z-index: 1;
+    top: 0.2rem;
+    left: 14.12rem;
+    position: relative;
+}
+
+.bg-orange {
+    background-color: #c28719 !important;
+}
+.bg-cyan {
+    background-color: #01c0c8 !important;
+}
+.bg-quiz {
+    background-color: #bbb800 !important;
+}
+.bg-money {
+    background-color: #076ed4 !important;
+}
+.bg-whatsapp {
+    background-color: #33CC66 !important;
+}
+.bg-onceanddone {
+    background-color: #6e33cc !important;
+}
+.bg-ticket {
+    background-color: #993608 !important;
+}
+.bg-inbavg {
+    background-color: #b32ca1 !important;
+}
+.bg-secondarys {
+background-color: #6c757d !important;
+}

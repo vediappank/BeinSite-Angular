@@ -1,0 +1,14 @@
+<div class="row row-no-padding row-col-separator-xl" *ngIf="(finReptWidgetData$ | async) as finReptWidgetData">
+        <div class="col-xl-6" style="height: 260px;">
+            <!-- <kt-timemgt-widget [data]="finReptWidgetData.summary"></kt-timemgt-widget> -->
+            <kt-widget1 [data]="finReptWidgetData.summary"></kt-widget1>
+        </div>
+        <div class="col-xl-6" style="height: 260px;">
+            <!-- <kt-timemgt-widget [data]="finReptWidgetData.summary"></kt-timemgt-widget> -->
+            <kt-widget1 [data]="finReptWidgetData.summary1"></kt-widget1>
+        </div>
+        
+      
+        
+    </div>
+    

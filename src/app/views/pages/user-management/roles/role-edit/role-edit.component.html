@@ -1,0 +1,170 @@
+<div class="kt-portlet"
+  [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+  <div class="kt-portlet__head kt-portlet__head__custom" *ngIf="role">
+    <div class="kt-portlet__head-label">
+      <h3 class="kt-portlet__head-title">{{getTitle()}}</h3>
+    </div>
+    <div class="kt-portlet__head-label" style="float: right;">
+      <a [routerLink]="['../../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+        matTooltip="Back to the roles list">
+        <i class="la la-arrow-left"></i>
+        <span class="kt-hidden-mobile">Back</span>
+      </a>
+      <button type="button" [disabled]="!isTitleValid()" mat-raised-button color="primary"
+        (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
+        Save
+      </button>
+
+    </div>
+  </div>
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="icon">note_add</mat-icon>
+        <b class="icon">{{getAssignTitle()}}</b>
+
+      </ng-template>
+
+
+      <div *ngIf="role">
+        <div class="kt-form">
+          <div class="kt-portlet__body">
+
+            <div class="kt-portlet__body-progress">
+              <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+              (close)="onAlertClose($event)">
+              Oh snap! Change a few things up and try submitting again.
+            </kt-alert>
+
+            <div class="kt-form__section kt-form__section--first">
+              <div class="form-group kt-form__group row">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile purple-border">
+                  <mat-form-field class="mat-form-field-fluid">
+                    <input matInput [disabled]="role.isCoreRole" placeholder="Enter Role" [(ngModel)]="role.RoleName"
+                      autofocus />
+                    <mat-error>Role is
+                      <strong>required</strong>
+                    </mat-error>
+
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                  <mat-form-field class="mat-form-field-fluid">
+                    <input matInput [disabled]="role.isCoreRole" placeholder="Enter Role Short Name"
+                      [(ngModel)]="role.RoleShortName" />
+                    <mat-error>Role is
+                      <strong>required</strong>
+                    </mat-error>
+                    <!-- <mat-hint align="start">Please enter
+                                    <strong>RoleShortName</strong>
+                                </mat-hint> -->
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row form-group" class="col-lg-12">
+              <div class="col-lg-5" style="float: left;">
+                <h6 class="kt-section__heading mainmenu icon" style="font-size: 18px; padding: 0px 0px 12px 0px;">
+                  {{getOrgnaizationTitle()}}
+                </h6>
+              </div>
+              <div class="col-lg-5" style="float: right;">
+                <button type="button" mat-raised-button class="btn" (click)="ExpandOrg()"
+                  matTooltip="click to expand organization">
+                  Expand Organization
+                </button>
+                <button type="button" mat-raised-button class="btn" (click)="CollapseOrg()"
+                  matTooltip="click to Collapse organization">
+                  Collapse Organization
+                </button>
+
+              </div>
+            </div>
+            <div class="kt-separator kt-separator--dashed" style="margin-top: 30px;"></div>
+
+            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="mat">
+              <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                <button mat-icon-button disabled></button>
+                <span>
+                  <mat-checkbox class="checklist-leaf-node" [checked]="chckedOrganization(node)"
+                    (change)="checkuncheckOrg(node);">{{node.org}}</mat-checkbox>
+                </span>
+              </mat-tree-node>
+              <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.filename">
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  </mat-icon>
+                </button>
+                <mat-checkbox [checked]="chckedOrganization(node)" (change)="checkuncheckOrg(node);">
+                  {{node.org}}</mat-checkbox>
+              </mat-tree-node>
+            </mat-tree>
+          </div>
+
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- <ng-container> -->
+      <mat-tab *ngFor="let mmc of menuCollection; let i2 = index">
+        <ng-template mat-tab-label>
+          <i class="mat-tab-label-icon fa fa-address-book"></i>
+          <div class="col">{{mmc.title}}</div>
+        </ng-template>
+        <!--Sub Menu Privillage Configuration-->
+        <div class="kt-form">
+          <div class="kt-portlet__body">
+            <div *ngIf="mmc.submenu" style=" border: #341E6C 1px solid; " >
+              <div class="row" style="background-color: #341E6C;  margin-left: 0px; margin-right: 0px;">
+                  <div class="col-lg-3 submenus" >
+                    Sub Menus
+                    </div>
+                    <div class="col-lg-8 row permission" >
+                        Persmissions
+                    </div>
+              </div>
+              <div *ngFor="let smc of mmc.submenu; index as j1" class="row">
+                <div class="col-lg-3 p-2">
+                  <label class=" form-check-label submenu">
+                    <mat-icon color="warn">verified_user</mat-icon> <b> {{smc.title  | uppercase}}</b>
+                  </label>
+                </div>
+                <div *ngIf="i2 == 0" class="col-lg-8 row"><!-- Dashboards -->
+                  <div *ngFor="let pvc1 of smc.privilegeid?.split(','); index as k1" class="col-lg-4">
+                    <mat-checkbox (change)="onChangePrivilege($event, (pvc1+' '+k1))" id="{{mmc.menuId+ '-'+ smc.menuId+'-'+ pvc1}}" [disabled] ="mmc.menuId && smc.menuId && (pvc1==1) && disableViews(mmc.menuId,smc.menuId)"
+                      [checked]="checkuncheckPrivilege(mmc.menuId,smc.menuId,pvc1)" value="{{mmc.menuId+ '-'+smc.title+ '-'+ smc.menuId+'-'+ getPrivilegeName(pvc1)}}">
+                      {{getPrivilegeName(pvc1) | titlecase}}
+                    </mat-checkbox>
+                  </div>
+                  <div *ngFor="let dashmodule of dashbaordModuleCollection; index as i2" class="col-lg-4 pt-2">
+                    <div  *ngIf="smc.menuId == dashmodule.DashboardID" >
+                      <mat-checkbox class="chk-margin" value="{{mmc.menuId+ '-'+smc.title+ '-'+ smc.menuId+'-'+dashmodule.ModuleID}}"
+                        [checked]="dashmodule.Checked?true:false" (change)="onChangeDasboardModule($event, k, dashmodule)">
+                        {{dashmodule.ModuleName | titlecase}}</mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="i2 > 0" class="col-lg-8 row p-2" >            
+                    <div *ngFor="let pvc1 of smc.privilegeid?.split(','); index as k1" class="col-md-2 p-2">
+                      <mat-checkbox (change)="onChangePrivilege($event, (pvc1+' '+k1))" id="{{mmc.menuId+ '-'+ smc.menuId+'-'+ pvc1}}" [disabled] ="mmc.menuId && smc.menuId && (pvc1==1) && disableViews(mmc.menuId,smc.menuId)"
+                        [checked]="checkuncheckPrivilege(mmc.menuId,smc.menuId,pvc1)" value="{{mmc.menuId+ '-'+smc.title+ '-'+ smc.menuId+'-'+ getPrivilegeName(pvc1)}}">
+                        {{getPrivilegeName(pvc1) | titlecase}}
+                      </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </mat-tab>
+    <!-- </ng-container> -->
+  </mat-tab-group>
+
+</div>

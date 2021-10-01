@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-lg-1">
+    <button matInput class="btn btn-primary" color="primary" (click)="getReportData();">Submit</button>
+  </div>
+</div>
+<div class="row" *ngIf="agentRatioData">
+  <div class="col-xl-6">
+    <kt-portlet [class]="'kt-portlet--height-fluid'">
+      <kt-portlet-header [title]="'Manpower Ratios'">
+      </kt-portlet-header>
+      <kt-portlet-body>
+        <kt-widget4 [data]="agentRatioData">
+          <ng-template #actionTemplate let-item="item">
+            <span class="kt-widget4__number" [ngClass]="item.valueColor"
+              style="font-size:1.5rem;">{{item.actValue}}</span>
+          </ng-template>
+        </kt-widget4>
+      </kt-portlet-body>
+    </kt-portlet>
+  </div>
+  <div class="col-xl-6">
+    <kt-portlet [class]="'kt-portlet--height-fluid'">
+      <kt-portlet-header [title]="'Agent Activities Summary'">
+        <ng-container ktPortletTools>
+          <kt-context-menu2></kt-context-menu2>
+        </ng-container>
+      </kt-portlet-header>
+      <kt-portlet-body>
+        <kt-activity-widget [agentActData]="agentActData$ | async" (parentComp)="testCallEvent($event)">
+        </kt-activity-widget>
+      </kt-portlet-body>
+    </kt-portlet>
+  </div>
+</div>
+<div class="row" *ngIf="(quaReptData$ | async) as quaRptData">
+  <div class="col-xl-12">
+    <kt-portlet>
+      <kt-portlet-header [title]="'Quality Summary'"></kt-portlet-header>
+      <kt-portlet-body [class]="'kt-portlet__body--fit'">
+        <kt-quality-widget [data]="quaRptData"></kt-quality-widget>
+      </kt-portlet-body>
+    </kt-portlet>
+  </div>
+</div>
+<div class="row" *ngIf="(finReptData$ | async) as finRptData">
+  <div class="col-xl-12">
+    <kt-portlet>
+      <kt-portlet-header [title]="'Finance Summary'"></kt-portlet-header>
+      <kt-portlet-body [class]="'kt-portlet__body--fit'">
+        <kt-finance-widget [data]="finRptData"></kt-finance-widget>
+      </kt-portlet-body>
+    </kt-portlet>
+  </div>
+</div>
+<div clss="row">
+  {{testEmitter$ | async}}
+</div>

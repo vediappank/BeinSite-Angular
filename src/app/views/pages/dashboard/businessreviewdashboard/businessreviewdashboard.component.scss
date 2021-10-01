@@ -1,0 +1,66 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+ng-deep.filter-option > .mat-pseudo-checkbox {
+  display: none !important;
+}
+
+.filter-sidenav .mat-list-item-content {
+  padding: 0 10px !important;
+  font-size: 0.875rem !important;
+}
+
+.filter-sidenav .mat-select-trigger {
+  font-size: 1rem !important;
+}
+
+.mat-icon {
+  font-size: 25px!important;;
+  cursor: pointer;
+  font-weight: bold;
+  color: #794DA0;
+}
+
+
+.scrollbar
+{
+    height: 430px;        
+    overflow-y: scroll;
+  
+}
+
+#style-1::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;    
+    background-color: #9B30F0;
+}
+
+.icon
+{
+  cursor: auto;
+  color: #794DA0;
+}
+
+.summaryrightheader
+{
+  color:#341E6C;
+}
+
+
+ng-deep .mat-radio-outer-circle {
+  .mat-radio-checked & {
+        border-color: #341E6C;
+      }
+  }
+  
+  ng-deep .mat-radio-inner-circle {
+      background-color: #341E6C;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #341E6C;
+  }

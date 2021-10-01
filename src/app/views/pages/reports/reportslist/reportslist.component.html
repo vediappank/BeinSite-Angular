@@ -1,0 +1,38 @@
+<kt-portlet>
+    <!-- PORTLET LOADING | Binded to TABLE Datasource -->
+    <!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
+    <kt-portlet-header [title]="'Reports List'" [class]="'kt-portlet__head--lg'">
+    </kt-portlet-header>
+    <!-- end::Header -->
+    <kt-portlet-body>
+        <div class="card-body" *ngIf="ReportMenuList" class=" col-md-12">
+            <!-- <div class="col-sm-12" *ngFor="let mmc of ReportMenuList">
+                <a (click)="redirectURL(mmc)">
+                    <span>
+                        <img src=".\assets\media\logos\list.png" height="20px" width="20px" alt="image">
+                    </span><label class="col-sm-3 col-lg-3 col-form-label labelhover">{{mmc.title}}</label>
+                </a>
+            </div> -->
+            <mat-tab-group *ngIf="ReportCategoryList">
+                <mat-tab *ngFor="let category of ReportCategoryList">
+                    <ng-template mat-tab-label style="padding-left: -25px;">
+                        <mat-icon>assessment</mat-icon>
+                        <b style="color: blue;">{{category.ReportsCategory}}</b>
+                    </ng-template>
+                    <div class="col-sm-12" *ngFor="let mmc of ReportMenuList">
+                        <a (click)="redirectURL(mmc)" *ngIf="category.ReportsCategory == mmc.ReportsCategory">
+                            <span>
+                                <img src="./assets/media/logos/list.png" height="20px" width="20px" alt="image">
+                            </span><label class="col-sm-3 col-lg-3 col-form-label labelhover">{{mmc.title}}</label>
+                        </a>
+                    </div>
+
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+
+       
+    </kt-portlet-body>
+    <!-- end::Body -->
+
+</kt-portlet>

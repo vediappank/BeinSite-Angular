@@ -1,0 +1,472 @@
+<div class="row" style="margin-bottom: -40px;">
+
+    <form class="form-group col-lg-12" style="display:block;" name="agentActivityReports" #f="ngForm"
+        (keydown.enter)="$event.preventDefault()">
+        <div class="row">
+            <div class="col-lg-3 kt-margin-bottom-20-mobile p-3" *ngIf="CallCenterList.length > 0">
+                <mat-form-field class="mat-form-field-fluid">
+                    <mat-select placeholder="Select Call Center" [(value)]="selctedCallCenter">
+                        <mat-option *ngFor="let type of CallCenterList" value="{{ type.cc_shortname }}">
+                            {{type.cc_name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-2 kt-margin-bottom-20-mobile p-3" *ngIf="BusinessListRange.length > 0">
+                <mat-form-field class="mat-form-field-fluid">
+                    <mat-select placeholder="Select Period" [(value)]="defaultDuration"
+                        (selectionChange)="onChangeDuration()">
+                        <mat-option *ngFor="let orderby of BusinessListRange" value="{{ orderby.id }}">
+                            {{orderby.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-3 kt-margin-bottom-20-mobile p-3" *ngIf="Dateduration.length > 0">
+                <mat-form-field class="mat-form-field-fluid">
+                    <mat-select placeholder="Select Year" [(value)]="defaultYear"
+                        (selectionChange)="onChangeDuration()">
+                        <mat-option *ngFor="let year of Dateduration" value="{{ year.Duration }}">
+                            {{year.Duration}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-lg-3 kt-margin-bottom-20-mobile p-3" *ngIf="DurationCollection.length > 0">
+                <mat-form-field class="mat-form-field-fluid" *ngIf="this.defaultDuration == 'WBR'">
+                    <mat-select placeholder="Select {{periodTitle}}" [(value)]="selectedWeekly">
+                        <mat-option *ngFor="let coll of WCollection; index as i" [value]="coll">
+                            {{coll}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="mat-form-field-fluid" *ngIf="this.defaultDuration == 'MBR'">
+                    <mat-select placeholder="Select {{periodTitle}}" [(value)]="selectedMonthly">
+                        <mat-option *ngFor="let coll of MCollection; index as i" [value]="coll">
+                            {{coll}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="mat-form-field-fluid" *ngIf="this.defaultDuration == 'QBR'">
+                    <mat-select placeholder="Select {{periodTitle}}" [(value)]="selectedQueraterly">
+                        <mat-option *ngFor="let coll of QCollection; index as i" [value]="coll">
+                            {{coll}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="mat-form-field-fluid" *ngIf="this.defaultDuration == 'YBR'">
+                    <mat-select placeholder="Select {{periodTitle}}" [(value)]="selectedYearly">
+                        <mat-option *ngFor="let coll of YCollection; index as i" [value]="coll">
+                            {{coll}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-1">
+                <button matInput class="btn btn-primary" color="primary" (click)="onsubmit();"
+                    [disabled]="viewLoading">Submit</button>&nbsp;
+
+            </div>
+        </div>
+    </form>
+</div>
+<!-- <div clss="row" style="text-align: center;">
+    <b>{{DateRangeEmitter$ | async}}</b>
+</div> -->
+
+<div id="angularchart">
+    <div class="row">
+        <div class="col-xl-4" *ngIf="(businessreviewActData$ | async) as busRevData"   >
+                <kt-portlet [class]="'kt-portlet--height-fluid'">
+                        <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">Man Power Ratio Summary</h3>
+                            </div>
+                        </div>
+                <kt-portlet-body class="scrollbar" id="style-1">
+                    <kt-widget4 [data]="busRevData" >
+                        <ng-template #actionTemplate let-item="item">
+                            <span class="kt-widget4__number" [ngClass]="item.valueColor" style="font-size:1.5rem;"
+                                (click)='GetRoleDetails($event,item.RoleID,item.RoleName)'>{{item.actValue}}</span>
+                        </ng-template>
+                    </kt-widget4>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+        <div class="col-xl-8" *ngIf=" (agentActData$ | async) as agActData">
+            <div class="col-xl-12">
+                    <kt-portlet [class]="'kt-portlet--height-fluid'">
+                    <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">Agent Activities Summary</h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                    <ng-container ktPortletTools>
+                                            <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each bar for more details</span></span>
+                                        </ng-container>
+                                        
+                                </div>
+                        </div>
+                    <kt-portlet-body>
+                        <kt-activity-widget [agentActData]="agActData" [inputs]="ActivityinputReq"></kt-activity-widget>
+                    </kt-portlet-body>
+                </kt-portlet>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf=" (quaReptData$ | async) as quaRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+                    <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">Quality Summary</h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                    
+                                            <ng-container ktPortletTools>
+                                                    <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each bar for more details</span></span>
+                                                </ng-container>
+                                                
+                                        
+                            <ng-container ktPortletTools>
+                                    <mat-list-item class="primary-imenu-item" role="listitem">
+                                        <mat-form-field class="select-form mr-3">
+                                            <mat-select placeholder="Media" name="Media" class="filter-select"
+                                                [(ngModel)]="qualityselectedMedias" multiple #mediaSelect="ngModel">
+                                                <mat-option *ngFor="let media of qualitymedias" [value]="media">
+                                                    {{media}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </mat-list-item>
+                                </ng-container>
+                                <ng-container ktPortletTools>
+                                    <mat-radio-group aria-label="Select an Period" [(ngModel)]="qualityduration">
+                                        <mat-radio-button value='Daily' class="summaryrightheader" >Daily</mat-radio-button>
+                                        <mat-radio-button value="Weekly" [checked]="true" class="summaryrightheader" >Weekly</mat-radio-button>
+                                    </mat-radio-group>
+                                </ng-container>
+            
+                                <ng-container ktPortletTools>
+                                    <a style="cursor:pointer;" (click)="syncQuality();">
+                                        <mat-icon class="mat-icon">sync</mat-icon>
+                                    </a>
+                                </ng-container>
+                                </div>
+                        </div>
+             
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-quality-widget [data]="quaRptData" [popupData]="qualitypopupData"
+                        [inputs]="agentquallityinputReq">
+                    </kt-quality-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+    <div class="row" *ngIf="(finReptData$ | async) as finRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+                    <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">Finance Summary</h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                    <ng-container ktPortletTools>
+                                            <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each bar for more details</span></span>
+                                        </ng-container>
+                                        
+                                    <ng-container ktPortletTools>
+                                            <mat-radio-group aria-label="Select an option" [(ngModel)]="financeduration">
+                                                <mat-radio-button value='Daily' class="summaryrightheader">Daily</mat-radio-button>
+                                                <mat-radio-button value="Weekly" [checked]="true" class="summaryrightheader">Weekly</mat-radio-button>
+                                            </mat-radio-group>
+                                        </ng-container>
+                    
+                                        <ng-container ktPortletTools>
+                                            <a style="cursor:pointer;" (click)="syncFinance();">
+                                                <mat-icon class="mat-icon">sync</mat-icon>
+                                            </a>
+                                        </ng-container>
+                                </div>
+                        </div>
+                
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-finance-widget [data]="finRptData" [inputs]="financeinputRequest"></kt-finance-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+
+
+    <div class="row" *ngIf=" (TimeMgtSummaryData$ | async) as timeRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+                    <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">Agent Time Managment Summary</h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                    <ng-container ktPortletTools>
+                                            <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each items for more details</span></span>
+                                        </ng-container>
+                                      
+                                </div>
+                        </div>
+                      
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-agt-time-mgt-widget [data]="timeRptData" [inputs]="timeMgtDetailRequest">
+                    </kt-agt-time-mgt-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+        <div class="col-xl-12">
+            <kt-portlet>
+                    <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">Agent Time Managment Summary Charts</h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                    <ng-container ktPortletTools>
+                                            <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each bar for more details</span></span>
+                                        </ng-container>
+                                        <ng-container ktPortletTools>
+                                            <mat-radio-group aria-label="Select an option" [(ngModel)]="Charttype"
+                                                (change)="onChange($event)">
+                                                <mat-radio-button value='Bar' class="summaryrightheader">Bar</mat-radio-button>
+                                                <mat-radio-button value='Pie' [checked]="true" class="summaryrightheader">Pie</mat-radio-button>
+                    
+                                            </mat-radio-group>
+                                        </ng-container>
+                                </div>
+                        </div>
+               
+                <kt-portlet-body>
+                    <div *ngIf="ischartSelection">
+                        <kt-bar-line-chart-widget [Chartdata]="Chart_agtTimemgt_Data" [data]="timeRptData"
+                            [inputs]="timeMgtDetailRequest">
+                        </kt-bar-line-chart-widget>
+                    </div>
+                    <div *ngIf="!ischartSelection">
+                        <kt-agt-time-widget [data]="timeRptData" [inputs]="timeMgtDetailRequest"></kt-agt-time-widget>
+                    </div>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="(BillingInfoData$ | async) as billingRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+                
+                <div  class="kt-portlet__head"> 
+                        <div class="kt-portlet__head-label">
+                                <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                <h3 class="kt-portlet__head-title">Billable / Non Billable Summary</h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                                <ng-container ktPortletTools>
+                                        <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each bar for more details</span></span>
+                                    </ng-container>
+                                    
+                            </div>
+                    </div>
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-multi-axis-barchart-widget [data]="billingRptData"></kt-multi-axis-barchart-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+    <!--Inbound Performance Summary-->
+    <div class="row" *ngIf=" (inboundInfoData$ | async) as inRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+               
+                <div  class="kt-portlet__head"> 
+                        <div class="kt-portlet__head-label">
+                                <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                <h3 class="kt-portlet__head-title">Inbound Performance Summary</h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                                <ng-container ktPortletTools>
+                                        <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each items for more details</span></span>
+                                    </ng-container>
+                                  
+                            </div>
+                    </div>
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-inbound-performance-widget [data]="inRptData" [inputs]="ccinboundrequest">
+                    </kt-inbound-performance-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+    <!--Outbound Performance Summary-->
+    <div class="row" *ngIf=" (outboundInfoData$ | async) as outboundRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+             
+                <div  class="kt-portlet__head"> 
+                        <div class="kt-portlet__head-label">
+                                <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                <h3 class="kt-portlet__head-title">OutBound Performance Summary</h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                                <ng-container ktPortletTools>
+                                        <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each items for more details</span></span>
+                                    </ng-container>
+                                  
+                            </div>
+                    </div>
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-outbound-performance-widget [data]="outboundRptData" [inputs]="ccoutboundrequest">
+                    </kt-outbound-performance-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+    <!--WhatsApp Performance Summary-->
+    <div class="row" *ngIf=" (whatsappInfoData$ | async) as whatAppRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+                    <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">WhatsApp Performance Summary</h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                    <ng-container ktPortletTools>
+                                            <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each items for more details</span></span>
+                                        </ng-container>
+                                      
+                                </div>
+                        </div>
+     
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-whatsapp-performance-widget [data]="whatAppRptData" [inputs]="ccinboundrequest">
+                    </kt-whatsapp-performance-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+    <!--Customer Exprience Performance Summary-->
+    <div class="row" *ngIf="  (custexpInfoData$ | async) as custExpRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+                    <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">Customer Exprience Performance Summary</h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                    <ng-container ktPortletTools>
+                                            <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each items for more details</span></span>
+                                        </ng-container>
+                                      
+                                </div>
+                        </div>
+             
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-customer-exprience-widget [data]="custExpRptData" [inputs]="cccustexprequest">
+                    </kt-customer-exprience-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+
+    <div class="row" *ngIf=" (AbsentiesInfoData$ | async) as absentiesRptData">
+        <div class="col-xl-12">
+            <kt-portlet>
+                    <div  class="kt-portlet__head"> 
+                            <div class="kt-portlet__head-label">
+                                    <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                    <h3 class="kt-portlet__head-title">Absenties Summary</h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                    <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each bar for more details</span></span>
+                                    <ng-container ktPortletTools>
+                                            <mat-radio-group aria-label="Select an Period" [(ngModel)]="Absentiesduration" class="summaryrightheader">
+                                                <mat-radio-button value='Daily' class="summaryrightheader">Daily</mat-radio-button>
+                                                <mat-radio-button value="Weekly" [checked]="true" class="summaryrightheader">Weekly</mat-radio-button>
+                                            </mat-radio-group>
+                                        </ng-container>
+                                        <ng-container ktPortletTools>
+                                            <a style="cursor:pointer;" (click)="syncAbsenties();">
+                                                <mat-icon class="mat-icon">sync</mat-icon>
+                                            </a>
+                                        </ng-container>
+                                </div>
+                        </div>
+               
+                <kt-portlet-body [class]="'kt-portlet__body--fit'">
+                    <kt-absenties-widget [data]="absentiesRptData" [inputs]="AbsentiesinputReq"></kt-absenties-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+    <div class="row" *ngIf=" (HiringInfoData$ | async) as hiringRptData">
+        <div class="col-xl-12">
+            <kt-portlet [class]="'kt-portlet--height-fluid'">
+               
+                <div  class="kt-portlet__head"> 
+                        <div class="kt-portlet__head-label">
+                                <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                <h3 class="kt-portlet__head-title">Agent Hiring Performance</h3>
+                        </div>
+                        <!-- <div class="kt-portlet__head-toolbar">
+                                <ng-container ktPortletTools>
+                                        <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each bar for more details</span></span>
+                                    </ng-container>
+                                  
+                            </div> -->
+                    </div>
+                <kt-portlet-body>
+                    <!-- <kt-hiring-widget [data]="hiringRptData"></kt-hiring-widget> -->
+                    <kt-multibar-line-hiring-charts [data]="hiringRptData" ></kt-multibar-line-hiring-charts>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+    <div class="row" *ngIf=" (CallMetricsInfoData$ | async) as callmetricsRptData">
+        <div class="col-xl-12">
+            <kt-portlet [class]="'kt-portlet--height-fluid'">
+             
+                <div  class="kt-portlet__head"> 
+                        <div class="kt-portlet__head-label">
+                                <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                <h3 class="kt-portlet__head-title">Call Metrics Summary</h3>
+                        </div>
+                        <!-- <div class="kt-portlet__head-toolbar">
+                                <ng-container ktPortletTools>
+                                        <span class="font-weight-bold text-dark pr-5 "><span class="summaryrightheader">Check out each bar for more details</span></span>
+                                    </ng-container>
+                                  
+                            </div> -->
+                    </div>
+                <kt-portlet-body>
+                    <!-- <kt-hiring-widget [data]="hiringRptData"></kt-hiring-widget> -->
+                    <kt-multibar-line-call-metrics-charts [data]="callmetricsRptData" ></kt-multibar-line-call-metrics-charts>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div>
+    <!-- <div class="row" >
+        <div class="col-xl-12">
+            <kt-portlet [class]="'kt-portlet--height-fluid'">
+             
+                <div  class="kt-portlet__head"> 
+                        <div class="kt-portlet__head-label">
+                                <span  class="kt-portlet__head-icon"> <mat-icon class="icon">description </mat-icon></span>
+                                <h3 class="kt-portlet__head-title">Country Wise Call Summary</h3>
+                        </div>
+                      
+                    </div>
+                <kt-portlet-body>
+                    <kt-call-summary-widget></kt-call-summary-widget>
+                </kt-portlet-body>
+            </kt-portlet>
+        </div>
+    </div> -->
+    
+
+</div>

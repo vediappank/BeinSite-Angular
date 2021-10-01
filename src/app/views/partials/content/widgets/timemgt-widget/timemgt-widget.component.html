@@ -1,0 +1,23 @@
+<div class="kt-widget1">
+        <ng-container *ngFor="let item of data">
+            <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: item}"></ng-container>
+        </ng-container>
+    </div>
+    
+    <ng-template #itemTemplate let-item="item">
+        <div class="kt-widget1__item">
+            <div class="kt-widget1__info" style="width: 120px; float: left;">
+                <h3 class="kt-widget1__title">{{item.AuxCode}}</h3>                
+            </div>
+            <div style="width: 120px; float: left;">
+                    <span class="kt-widget1__title" style="float: left;  margin:4px 4px 0px 0px ">Aux(%): </span> <span class="kt-widget1__number" [ngClass]="item.valueClass"  >{{item.AuxPer}}</span>
+                </div>
+           <div style="width: 120px; float: left;">
+                <span class="kt-widget1__title" style="float: left;  margin:4px 4px 0px 0px ">Avg: </span> <span class="kt-widget1__number" [ngClass]="item.valueClass"  >{{item.AvgDuration}}</span>
+            </div>
+           <div style="width: 150px; float: left;">
+                    <span class="kt-widget1__title" style="float: left;  margin:4px 4px 0px 0px ">Tot: </span><span class="kt-widget1__number" [ngClass]="item.valueClass" > {{item.TotalDuration}}</span>
+        </div>
+        </div>
+    </ng-template>
+    

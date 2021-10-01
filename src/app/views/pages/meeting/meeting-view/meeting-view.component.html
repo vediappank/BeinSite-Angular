@@ -1,0 +1,162 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }"
+    style="width: 905px;">
+    <div class="kt-portlet__head kt-portlet__head__custom" *ngIf="meeting">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{getTitle()}}</h3>
+        </div>
+    </div>
+    <div *ngIf="meeting">
+        <div class="kt-form">
+            <div class="kt-portlet__body">
+
+                <div class="kt-portlet__body-progress">
+                    <mat-spinner [diameter]="20"></mat-spinner>
+                </div>
+
+                <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+                    (close)="onAlertClose($event)">
+                    Oh snap! Change a few things up and try submitting again.
+                </kt-alert>
+
+                <!-- Meeting Form Start -->
+                <div class="kt-form__section kt-form__section--first">
+
+                  
+                    <div class="form-group kt-form__group row">
+                            <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput placeholder=" Selected Meeting Type" disabled="true" [(ngModel)]="SelectedMeetingtype" class="color" />
+                                </mat-form-field>
+                            </div>
+    
+                        </div>
+                    <div class="form-group kt-form__group row">
+                        <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Enter Meeting Subject" disabled="true" class="color" [(ngModel)]="meeting.Subject"  />
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="form-group kt-form__group row">
+                        <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <textarea matInput placeholder="Enter Description"
+                                    [(ngModel)]="meeting.Description" disabled="true" class="color"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- <div class="kt-separator kt-separator--dashed"></div> -->
+                    <div class="form-group kt-form__group row">
+                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Meeting Start Date" [matDatepickerFilter]="myFilter"
+                                    [matDatepicker]="picker" [(ngModel)]="meeting.Schedule_Start_Datetime"  (dateInput)="SDateaddEvent('input', $event)" (dateChange)="SDateaddEvent('change', $event)"  disabled="true" class="color"/>
+                                <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                                <mat-datepicker #picker ></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="example-full-width">
+                                <input mat-timepicker matInput type="time" (blur)="getduartion()" (change)="getduartion()"  placeholder="Enter Start Time"
+                                    [(ngModel)]="meeting.StartTime" disabled="true" class="color">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Meeting End Date" (blur)="getduartion()" [matDatepickerFilter]="myFilter"
+                                    [matDatepicker]="picker1" [(ngModel)]="meeting.Schedule_End_Datetime" (dateInput)="EDateaddEvent('input', $event)" (dateChange)="EDateaddEvent('change', $event)"  disabled="true" class="color" />
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="example-full-width">
+                                <input mat-timepicker matInput type="time" (blur)="getduartion()" (change)="getduartion()"  placeholder="Entet End Time"
+                                    [(ngModel)]="meeting.EndTime" disabled="true" class="color">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                                <mat-form-field class="mat-form-field-fluid">
+                                                <input matInput placeholder="Meeting Duration" title="{{MeetingDuration}}" [(ngModel)]="MeetingDuration" disabled="true" class="color" />
+                                            </mat-form-field>
+                                
+                            </div>
+                    </div>
+                    <div class="form-group kt-form__group row">
+                            <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput placeholder="Meeting Status" disabled="true" class="color" [(ngModel)]="SelectedStatus"  />
+                                </mat-form-field>
+                            </div>
+    
+                        </div>
+                      
+                        <div class="form-group kt-form__group row">
+                                <div class="col-lg-12 kt-margin-bottom-20-mobile"  *ngFor="let _sup of assignedSupervisor">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Supervisor" disabled="true" class="color" [(ngModel)]="_sup.lastname +' ' + _sup.firstname"  />
+                                        <!-- <span matInput class="kt-list-timeline__text">{{_sup.firstname + ''+ _sup.lastname}}</span> -->
+                                        </mat-form-field>
+                                </div>
+        
+                            </div>
+             
+
+
+                    <div class="form-group kt-form__group row">
+
+                        <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <textarea matInput placeholder="Enter Summary"
+                                    [(ngModel)]="meeting.Meeting_Summary" disabled="true" class="color"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="card-body"  class=" col-md-12">                           
+                            <mat-tab-group >
+                                <mat-tab  >
+                                    <ng-template mat-tab-label style="padding-left:0px; color: black;">
+                                        <mat-icon>assessment</mat-icon>
+                                        Meeting Assigned Agents List
+                                    </ng-template>
+                                    <div class="col-sm-12" *ngFor="let mmc of meeting.SelectedAgentNameList">
+                                        
+                                            <span>
+                                                    <i class="mat-tab-label-icon fa fa-user"></i>
+                                            </span>
+                                            <label  class="col-sm-6 col-lg-6 col-form-label labelhover">{{mmc}}</label>
+                                        
+                                    </div>
+                
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    
+                    <!-- <kt-agent-selection-widget (AgentSelectedList)="getAgentSelectedList($event)" [UpdateAgentSelectedList]="meeting.SelectedAgentList"></kt-agent-selection-widget> -->
+                
+                </div>
+                <!-- Form end -->
+            </div>
+            <!-- <div class="kt-portlet__foot kt-portlet__foot--fit kt-portlet__no-border">
+                <div class="kt-form__actions kt-form__actions--solid">
+                    <div class="row text-right">
+                        <div class="col-lg-12">
+                            <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+                                matTooltip="Cancel changes" >
+                                Cancel
+                            </button>&nbsp;
+                            <button type="button" [disabled]="!isTitleValid()"  mat-raised-button color="primary"
+                                (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>

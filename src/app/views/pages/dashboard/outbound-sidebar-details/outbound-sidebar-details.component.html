@@ -1,0 +1,22 @@
+<div class="card-body" *ngFor ="let items of finReptWidgetData.summary" style="background-color: #000;">
+  <div class="title">
+          <div>
+              <h6 class="text-center" style="font-weight: bold;">{{items.title}}</h6>
+          </div>
+      </div>
+      <div>
+          <div class="col-12" style="margin-bottom: -6px;" >
+              <h5 class="CardValue" [ngStyle]="{'color':items.colorcode, 'font-size' : items.size}" >{{items.value}}</h5>
+          </div>
+      </div>
+  </div>
+   <div style=" background-color:blueviolet; height: 22%;">
+            <img src="./assets/media/logos/logo-4.png" style="padding: 10px 10px; width:100%">
+            <div class="time">
+                <span>{{curdate | date :'dd-MMM-yyyy hh:mm a'}}</span>
+            </div>
+            <!-- <div class="time" [id]="date_time()">
+                <span id="currentdatetime"></span>
+            </div> -->
+
+        </div>

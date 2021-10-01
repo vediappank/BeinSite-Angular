@@ -1,0 +1,49 @@
+<div class="row" id="angularchart">
+
+
+
+    <div class="col-12" [ngClass]="chartTheme">
+        <div class="card-header text-center" style="background-color: #5e2e94; color:white; margin:-9px -9px -3px -9px">
+            <span class="card-title" (click)="openFullscreen()"> {{title}} </span>
+            <button mat-icon-button>
+                <mat-icon fontSet="fa" (click)="openFullscreen()" title="Show Full Screen" fontIcon="fa-table">
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+    
+        <div class="col-10 card-body text-center" style="margin-top: 2px;">
+            <ag-grid-angular #agGrid1 id="agGrid1" *ngIf="csqInfoData$" style="margin:0 auto; width:100%; height: 360px;"
+                class="ag-theme-balham" [rowData]="csqInfoData$ | async" 
+                [columnDefs]="columnDefs" rowSelection="multiple" [getRowStyle]="getGridRowStyle"
+                suppressMenuHide="false" [defaultColDef]="gridDefaultColDef" enableCharts=false enableRowGroup=false
+                [colResizeDefault]="colResizeDefault" [rowHeight]="rowHeight" animateRows=false
+                enableRangeSelection=false rowDragManaged=false pivotPanelShow="always" pivotRowTotals="before" (gridReady)="onGridReady($event)" [icons]="icons" >
+            </ag-grid-angular>
+            <ag-grid-angular #agGrid id="agGrid" *ngIf="AgentInfoData$" style="margin:0 auto; width:100%; height:682px; "
+                class="ag-theme-balham" [rowData]="AgentInfoData$ | async"
+                [columnDefs]="AgentcolumnDefs" rowSelection="multiple" [getRowStyle]="AgentgetGridRowStyle"
+                suppressMenuHide="false" [defaultColDef]="AgentgridDefaultColDef" [colResizeDefault]="colResizeDefault"
+                [rowHeight]="rowHeight" enableCharts=false animateRows=false enableRangeSelection=false
+                enableRowGroup=false rowDragManaged=false pivotPanelShow="always" pivotRowTotals="before"  (gridReady)="onGridReady1($event)">
+            </ag-grid-angular>
+
+
+        </div>
+         <div class="col-2 card-body text-center" style="margin-top: -3px;"
+            *ngIf="(SideBarInfoData$ | async) as sideBarRptData">
+            <div class="card" Class="bg-cyan" style="max-height:100%; max-width: 100%;" >
+                <kt-side-bar-detail [data]="sideBarRptData" ></kt-side-bar-detail>
+
+            </div>
+            <div style=" background-color: black; height: 165px;">
+                <img src="./assets/media/logos/logo-4.png" style="padding: 10px 10px; width:100%">
+                <div class="time" [id]="date_time()">
+                    <span id="currentdatetime" (click)="openFullscreen()"></span>
+                </div>
+
+            </div>
+
+        </div>
+    
+</div>

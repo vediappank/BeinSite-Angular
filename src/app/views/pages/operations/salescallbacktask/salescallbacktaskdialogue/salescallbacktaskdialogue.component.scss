@@ -1,0 +1,33 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+
+::ng-deep #style-1::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+::ng-deep #style-1::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;    
+    background-color: #9B30F0;
+}
+.kt-scroll {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+::ng-deep .kt-mat-dialog-container__wrapper .mat-dialog-container .kt-portlet .kt-portlet__body {
+    overflow: auto;
+    /* max-height: 60vh; */
+}
+::ng-deep .mat-tab-body.mat-tab-body-active {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 1;
+    flex-grow: 1;
+}
+.gridcellpadding{
+    padding-left: 45px;
+}

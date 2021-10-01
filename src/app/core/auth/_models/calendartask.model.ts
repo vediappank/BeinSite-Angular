@@ -1,0 +1,56 @@
+export class CalendarTask {
+	Id: any;
+	Name: string;
+	SmartCardNo: string;
+	ContactNo: string;
+	AltContactNo: string;
+	SourceTicketId: string;
+	Comments: string;
+	AssignedTo: number;
+	Status: number;
+	StatusName: string;
+	CallStartDateTime: any;
+	CallEndDateTime: any;
+	CreatedBy: number;
+	CreatedDateTime: string;
+	CompletionDateTime: any;
+	CompletionTicketId: string;
+	TotalRecords: number;
+	FirstName: string;
+	LastName: string;
+	AssignedAgentFirstName: string;
+	AssignedAgentLastName: string;
+	PCCallbacks : string;
+	ACCallbacks : string;
+	AgentSupervisorFirstName : string;
+	AgentSupervisorLastName : string;
+	StatusColor : string;
+	clear() {
+		this.Id = undefined;
+		this.Name = '';
+		this.SmartCardNo = '';
+		this.ContactNo = '';
+		this.AltContactNo = '';
+		this.SourceTicketId = '';
+		this.Comments = '';
+		this.AssignedTo = undefined;
+		this.Status = undefined;
+		this.CallStartDateTime = undefined;
+		this.CallEndDateTime = undefined;
+		this.CreatedBy = undefined;
+		this.CreatedDateTime = '';
+		this.CompletionDateTime = undefined;
+		this.CompletionTicketId = '';
+		this.TotalRecords = undefined;
+		this.FirstName = '';
+		this.LastName = '';
+		this.AssignedAgentFirstName = '';
+		this.AssignedAgentLastName = '';
+		this.PCCallbacks = '';
+		this.ACCallbacks = '';
+		this.AgentSupervisorFirstName ='';
+		this.AgentSupervisorLastName ='';
+		this.StatusColor ='';
+		this.StatusName ='';
+	}
+}

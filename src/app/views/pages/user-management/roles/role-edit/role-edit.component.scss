@@ -1,0 +1,106 @@
+.mainmenu {
+    margin: 0;
+    padding: 0;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #48465b
+}
+
+.submenu {
+    color: #48465b;
+    margin: 0;
+    padding: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-form-field {
+  margin-right: 12px;
+}
+
+.example-h2 {
+  margin: 10px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+.mat {
+  word-wrap: break-word !important; 
+  height: 500px;
+  overflow-y: scroll;
+  margin-top: 10px;
+}
+.mat-expansion-panel-header-title{
+  //color: blue;
+  color:#a16fdb;
+}
+
+ng-deep  .headers{
+  padding-left: 10px !important;  
+  height: 40px !important
+}
+ng-deep  .mat-expansion-panel-body{
+  padding: 0px !important;
+}
+
+.privalign
+{
+  padding-top: 18px;
+    padding-left: 32px;
+    width: 300px;
+    padding-bottom: 5px;
+}
+
+.icon{
+  color:#341E6C;
+}
+
+.btn{
+  margin-right: 10px; 
+  background-color: #341E6C;
+  color: white;
+}
+
+
+
+
+.chk-margin {
+  margin: 0 0px;
+}
+
+.submenus
+{
+  padding: 10px 0px 10px 20px;
+                color: white;
+                text-transform: uppercase;
+                font-weight: bold;
+}
+
+.permission
+{
+  padding: 10px 0px 10px 10px;
+                color: white;
+                text-transform: uppercase;
+                font-weight: bold;
+}

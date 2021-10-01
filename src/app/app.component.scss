@@ -1,0 +1,38 @@
+
+:host {
+	height: 100%;
+	margin: 0;
+}
+ng-deep .mat-form-field-underline
+{
+	//background-color:#5d78ff !important;
+	background-color:#794DA0 !important;
+	height: 2px !important;
+}
+
+// ng-deep .mat-raised-button.mat-raised-button
+// {
+// 	//background-color:#5d78ff !important;
+// 	background-color:#794DA0 !important;
+
+// }
+
+#style-1::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;    
+    background-color: #BA2BD2;
+}
+
+
+
+
+
+
+
+

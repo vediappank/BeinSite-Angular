@@ -1,0 +1,31 @@
+
+::ng-deep .ag-theme-balham .ag-header-cell{
+    background-color:blueviolet;
+    content: '' !important;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;  
+  }
+  
+// ::ng-deep span.ag-icon.ag-icon-menu {
+//     display: none !important; 
+//     content: ''!important ;
+//     opacity: 0 !important;
+// }
+
+// ::ng-deep span.ag-icon.ag-icon-menu::before {
+//     display: none !important;
+//     content: '' !important;
+//     opacity: 0 !important;
+// }
+
+// ::ng-deep span .ag-theme-balham .ag-header-icon
+// {
+//     display: none !important; 
+//     opacity: 0 !important;
+// }
+// ::ng-deep span .ag-theme-balham .ag-header-icon::before
+// {
+//     display: none !important; 
+//     opacity: 0 !important;
+// }

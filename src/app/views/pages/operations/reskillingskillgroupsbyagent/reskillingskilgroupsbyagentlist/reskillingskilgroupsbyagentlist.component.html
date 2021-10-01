@@ -1,0 +1,113 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }"   >
+<div class="kt-portlet__head kt-portlet__head__custom" >
+    <div class="kt-portlet__head-label">
+        <!-- <h3 class="kt-portlet__head-title">Reskilling By Skill Groups</h3> -->
+    </div>
+</div>
+
+<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="100000" [showCloseButton]="true" (close)="onAlertClose($event)">
+    {{ErrorMessage}}
+</kt-alert>
+<kt-alert *ngIf="hasdisabled" type="warn" [duration]="10000" [showCloseButton]="true" (close)="onAlertClose($event)">
+    {{ErrorMessage}}    
+</kt-alert>
+<kt-alert *ngIf="hasFormSuccess" type="primary" [duration]="100000" [showCloseButton]="true" (close)="onAlertClose($event)">
+    {{ErrorMessage}}
+</kt-alert> 
+<mat-progress-spinner [color]="primary" mode="indeterminate" *ngIf="IsWait">
+</mat-progress-spinner>
+<!-- <mat-progress-spinner [color]="primary" [diameter]="diameter" [mode]="indeterminate" *ngIf="IsWait" [strokeWidth]="strokeWidth" [value]="50">
+</mat-progress-spinner> -->
+
+<div class="row" style="margin-bottom: -40px; margin-left: 10px;">
+    <form class="form-group col-lg-12" style="display:block;" name="agentActivityReports" [formGroup]="formGroup">
+        <div class="row" style="margin-left: 0px;" >
+              
+            <div class="col-lg-4 kt-margin-bottom-20-mobile p-3">
+               
+                <mat-form-field class="example-full-width">
+                        <input type="text" placeholder="Select One Last Name" aria-label="Number" matInput  [formControl]="myControl" ngDefaultControl [matAutocomplete]="auto">
+                        <mat-icon class="material-icons align-arrow-right" title="Search"  (click)="_filter('search')">search</mat-icon>
+                        <mat-autocomplete #auto="matAutocomplete" >
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.lastname">
+                                {{option.lastname }}
+                            </mat-option>
+                        </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class="col-lg-3 kt-margin-bottom-20-mobile p-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter the First Name" formControlName="searchFirstName" />
+                </mat-form-field>
+            </div>
+           
+         <div class="col-lg-3 kt-margin-bottom-20-mobile p-3">                 
+                 <mat-form-field class="mat-form-field-fluid">
+                    <mat-select placeholder="Select Skill Groups" [(value)]="selectedSkillGroups"
+                        >
+                        <mat-option value="">-NA-</mat-option>
+                        <mat-option *ngFor="let enter of skillGroupList" value="{{ enter.skilltargetid }}">
+                                {{enter.enterpricename}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> 
+            <div class="col-lg-2" style="padding-top: 12px;">
+                <button matInput class="btn btn-primary" color="primary" (click)="onsearch();">Search</button>&nbsp;
+                
+
+            </div>
+          
+        </div>
+        <div class="row" style="margin-left: 0px;" >
+            <div class="col-lg-2 kt-margin-bottom-20-mobile p-3">                 
+              
+           </div> 
+            
+         
+            <div class="col-lg-8" style="padding-top: 12px;">
+               
+                <button [disabled]="formGroup.valid && enabaleInboundFlag"  matInput class="btn btn-primary" color="primary"  (click)="onEnableInboundsubmit();">Enable Inbound</button>&nbsp;
+                <button [disabled]="formGroup.valid && disableInboundFlag" matInput class="btn btn-danger" color="primary"  (click)="onDisableInboundsubmit();">Disable Inbound</button>&nbsp;
+                <button [disabled]="formGroup.valid && enabaleOutboundFlag" matInput class="btn btn-primary" color="primary"  (click)="onEnableOutboundsubmit();">Enable Outbound</button>&nbsp;
+                <button [disabled]="formGroup.valid && disableOutboundFlag" matInput class="btn btn-danger" color="primary"  (click)="onDisableOutboundsubmit();">Disable Outbound</button>&nbsp;
+
+            </div>
+        </div>
+        <br>
+    </form>
+</div>
+
+ <div class="mat-table__wrapper">
+    <div class="card-body">
+        <div class="row">  
+            <div class="col-sm-12" *ngIf="this.hasFormSuccess1" >    
+                <kt-alert  type="primary" [duration]="100000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                    {{ErrorMessage}}
+                </kt-alert> 
+                </div>
+              
+            <div class="col-sm-12"  >                
+                    <ag-grid-angular #agGrid1 *ngIf="(skillGroupMappingLists$ | async) as mappingresult"
+                        style="margin:0 auto;width:100%;height: 600px;"
+                        class="ag-theme-balham" [rowData]="mappingresult"
+                        [columnDefs]="columnDefs" 
+                        rowSelection="multiple"
+                        [getRowStyle]="getGridRowStyle"
+                        (rowSelected)="onRowSelected($event)"
+                        [defaultColDef]="defaultColDef" enableCharts=true animateRows=true
+                        enableSorting=true enableFilter=true enableStatusBar=true
+                        enableRangeSelection=true rowDragManaged=true rowGroupPanelShow="always"
+                        pivotPanelShow="always" pivotColumnGroupTotals="before"
+                        pivotRowTotals="before" [sideBar]="sideBar"  
+                        [frameworkComponents]="frameworkComponents"
+                        [overlayNoRowsTemplate]="overlayNoRowsTemplate" >
+                    </ag-grid-angular>
+                
+            </div>
+           
+        </div>
+    </div>
+   </div> 
+</div>

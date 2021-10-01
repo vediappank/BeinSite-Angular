@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center" *ngIf="skGrpInfo" [innerHTML]="skGrpInfo.skillName"></h4>
+                <div class="table table-responsive" *ngIf="skGrpInfo">
+                    <table>
+                        <tr><th>Time</th><th>Offered</th><th>Answered</th><th>Handled</th><th>Abandoned</th><th>Forecast Offered</th><th>Received</th><th>PCA</th></tr>
+                        <tr *ngFor="let cInfo of skGrpInfo.callInfo"><td>{{cInfo.intervalDT | date:'HH:mm'}}</td><td>{{cInfo.coff}}</td><td>{{cInfo.cans}}</td><td>{{cInfo.chan}}</td><td>{{cInfo.cabn}}</td><td>{{cInfo.foff}}</td><td>{{cInfo.callsreceived}}</td><td>{{cInfo.pca}}</td></tr>
+                        <tr><td>Total</td><td>{{skGrpInfo.coff}}</td><td>{{skGrpInfo.cans}}</td><td>{{skGrpInfo.chan}}</td><td>{{skGrpInfo.cabn}}</td><td>{{skGrpInfo.foff}}</td><td>{{skGrpInfo.callsreceived}}</td><td>{{skGrpInfo.pca}}</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

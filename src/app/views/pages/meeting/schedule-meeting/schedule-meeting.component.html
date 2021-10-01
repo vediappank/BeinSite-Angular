@@ -1,0 +1,197 @@
+<kt-portlet>
+        <!-- PORTLET LOADING | Binded to TABLE Datasource -->
+        <!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
+        <kt-portlet-header [title]="'Meeting List'" [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+            <!-- disabled="{{addFlag}}" -->
+            <ng-container ktPortletTools>
+                <button (click)="addMeeting()" disabled="{{addFlag}}"  mat-raised-button matTooltip="Create new Meeting"
+                    color="primary" type="button">
+                    <span>New Meeting </span>
+                </button>
+    
+            </ng-container>
+        </kt-portlet-header>
+        <!-- end::Header -->
+    
+        <kt-portlet-body>
+            <!-- start::FILTERS & GROUP ACTIONS -->
+            <div class="kt-form kt-margin-b-30">
+                <!-- start::FILTERS -->
+                <div class="kt-form__filtration">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 kt-margin-bottom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Search user" #searchInput placeholder="Search">
+                                <mat-hint align="start">
+                                    <strong>Search</strong> in all fields
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <!-- end::FILTERS -->
+    
+                <!-- start::GROUP ACTIONS -->
+                <!-- Group actions list: 'Delete selected' | 'Fetch selected' | 'Update status for selected' -->
+                <!-- Group actions are shared for all LISTS -->
+                <div class="row align-items-center collapse kt-form__group-actions kt-margin-top-20 kt-margin-bottom-20"
+                    [ngClass]="{'show' : selection.selected.length > 0}">
+                    <!-- We show 'Group Actions' div if smth are selected -->
+                    <div class="col-xl-12">
+                        <div class="kt-form__group kt-form__group--inline">
+                            <div class="kt-form__label kt-form__label-no-wrap">
+                                <label class="kt--font-bold kt-font-danger-">
+                                    <span translate="ECOMMERCE.COMMON.SELECTED_RECORDS_COUNT"></span>
+                                    {{ selection.selected.length }}
+                                </label>
+                                <!-- selectedCountsTitle => function from codeBehind (meetings-list.component.ts file) -->
+                                <!-- selectedCountsTitle => just returns title of selected items count -->
+                                <!-- for example: Selected records count: 4 -->
+                            </div>
+                            <div class="kt-form__control kt-form__group--inline">
+                                <button (click)="fetchMeetings()" mat-raised-button matTooltip="Fetch selected meetings"
+                                    class="mat-button-mt-4">
+                                    <mat-icon>clear_all</mat-icon>
+                                    Fetch Selected
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end::GROUP ACTIONS -->
+            </div>
+            <!-- end::FILTERS & GROUP ACTIONS -->
+    
+            <!-- MATERIAL TABLE | Binded to datasources -->
+            <!-- See off.documentations 'https://material.angular.io/components/table/overview' -->
+            <div class="mat-table__wrapper">
+                <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
+                    matSortActive="id" matSortDirection="asc" matSortDisableClear>
+                    <!-- Checkbox Column -->
+    
+                    <!-- Table with selection -->
+                    <!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+                    <ng-container matColumnDef="select">
+                        <mat-header-cell *matHeaderCellDef class="mat-column-checkbox">
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="mat-column-checkbox">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </mat-cell>
+                    </ng-container>
+                    <!-- <ng-container matColumnDef="id">
+                            
+                            <mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">ID</mat-header-cell>
+                            <mat-cell *matCellDef="let meeting">{{meeting.id}}</mat-cell>
+                        </ng-container> -->
+                    <ng-container matColumnDef="Subject">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Subject</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">{{meeting.Subject}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Description">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Description</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">{{meeting.Description}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Meeting_Type">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Meeting Type</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">{{meeting.Meeting_Type}}</mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="Schedule_Start_Datetime">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Start Date</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">{{meeting.Schedule_Start_Datetime | date}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="StartTime">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Start Time (HH:MM)</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">{{meeting.StartTime}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Schedule_End_Datetime">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">End Date</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">{{meeting.Schedule_End_Datetime | date}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="EndTime">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">End Time (HH:MM)</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">{{meeting.EndTime}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Duration"> 
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Duration</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">{{meeting.Duration}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Status</mat-header-cell>
+                            <mat-cell *matCellDef="let meeting" [ngClass]="ColorColumn(meeting.Status)"  ><b>{{meeting.Status}}</b></mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="ApproverName">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header class="GridHeader">Approver / Canceled </mat-header-cell>
+                                <mat-cell *matCellDef="let meeting"  [ngClass]="showColumn()">{{meeting.ApproverName}}</mat-cell>
+                            </ng-container>
+                   
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef class="GridHeader">Actions</mat-header-cell>
+                        <mat-cell *matCellDef="let meeting">
+                           
+                            <button  mat-icon-button color="secondary"
+                                matTooltip="Click to View the Meeting Details" disabled="{{viewFlag}}" type="button" (click)="ViewMeeting(meeting)"  >
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button disabled="{{ meeting.Status ==='Canceled' ? true : false || meeting.Status ==='Approved' ? true : false || meeting.Status ==='Completed' ? true : false || editFlag}}" mat-icon-button color="primary"
+                                matTooltip="Click to  {{ meeting.isCoreRole ? 'View' : 'Edit'}} Meeting"
+                                (click)="editMeeting(meeting)">
+                                <mat-icon>
+                                    {{ meeting.isCoreRole ? 'visibility' : 'create' }}
+                                </mat-icon>
+                            </button>
+                            <button   mat-icon-button color="warn"  disabled="{{ meeting.Status ==='Completed' ? true : false || meeting.Status ==='Canceled' ? true : false}}"  matTooltip="Click to Cancel the Meeting"  
+                            type="button" (click)="declineMeeting(meeting)">
+                            <mat-icon>cancel_presentation</mat-icon>
+                        </button>
+                            <button disabled="{{ meeting.Status ==='Pending-Approval' ? true : false || meeting.Status ==='Completed' ? true : false || meeting.Status ==='Canceled' ? true : false || deleteFlag}}" mat-icon-button color="warn" matTooltip="Click to Complete the Meeting"
+                                type="button" (click)="CompleteMeeting(meeting)">
+                                <mat-icon>copyright</mat-icon>
+                            </button>
+                         
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="approver" >
+                            <mat-header-cell *matHeaderCellDef  class="GridHeader">Approver Options</mat-header-cell>
+                            <mat-cell *matCellDef="let meeting"  > 
+                                    <!--  -->
+                                    <button  mat-icon-button color="primary" *ngIf="showhideapprovebutton(meeting)"   matTooltip="Click to Approve the Meeting"  
+                                    type="button" (click)="approveMeeting(meeting)">
+                                <!-- <button  mat-icon-button color="primary"  *ngIf="meeting.Status === 'Pending-Approval' || meeting.Status === 'Canceled'"  matTooltip="Click to Approve the Meeting"  
+                                type="button" (click)="approveMeeting(meeting)"> -->
+                                <mat-icon>check_circle</mat-icon>
+                            </button>
+                            <!-- <button  mat-icon-button color="primary"  *ngIf="meeting.Status === 'Approved'"  matTooltip="Meeting Expired"  
+                                type="button">
+                                <mat-icon>explicit</mat-icon>
+                            </button> -->
+                          
+                            </mat-cell>
+                        </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                </mat-table>
+                <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+                <!-- Message for empty data  -->
+                <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+            </div>
+    
+            <!-- start: BOTTOM -->
+            <div class="mat-table__bottom">
+                <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+                <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+                <!-- MATERIAL PAGINATOR | Binded to dasources -->
+                <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+                    [showFirstLastButtons]="true"></mat-paginator>
+            </div>
+            <!-- end: BOTTOM -->
+        </kt-portlet-body>
+        <!-- end::Body -->
+    </kt-portlet>

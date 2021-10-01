@@ -1,0 +1,88 @@
+<kt-portlet style="height: 1000px;">
+	<!-- PORTLET LOADING | Binded to TABLE Datasource -->
+	<!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
+	<!-- <kt-portlet-header [title]="'Action Tracker Topic List'" [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+		
+		 <ng-container ktPortletTools>
+			<button (click)="addactiontrackertopicconversation()"  mat-raised-button matTooltip="Create new actiontrackertopicconversation" color="primary"  type="button">
+				<span>Add Action Tracker Topic </span>
+			</button>
+			
+		</ng-container>
+	</kt-portlet-header> -->
+	<!-- end::Header -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"> -->
+
+	<kt-portlet-body style="height: 1000px; color: blueviolet;">
+		<h4 style="font-weight: bold; color: rgb(108, 40, 148);">Comments</h4>
+		<!-- <ngx-timeline [events]="events"></ngx-timeline> -->
+
+		<!-- Template 1 -->
+		<!-- <div class="page">
+			<div class="timeline" >
+				<div class="timeline__group" *ngFor="let event of events">
+					<span class="timeline__year">{{event.date | date: 'yyyy'}}</span>
+					<div class="timeline__box">
+						<div class="timeline__date">
+							<span class="timeline__day">{{event.date | date: 'd'}}<sup>th</sup></span>
+							<span class="timeline__month">{{event.date | date: 'MMM'}}</span>
+						
+						</div>
+						<div class="timeline__post">
+							<h6>{{event.createdby}}</h6>
+							<div class="timeline__content">
+								<p>{{event.body}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+
+		<!-- <div class="timeline" *ngFor="let event of events">
+			<ul class="days">
+			  <li class="day">
+				<div class="events">
+					<h6>{{event.createdby}}</h6>
+				  <p>{{event.body}}</p>
+				  <div class="date">{{event.date | date: 'd'}}<sup>th</sup> {{event.date | date: 'MMM,y'}}
+					{{event.date | date: 'h:mm a'}} ({{event.date | date: 'EEEE'}})</div>
+				</div>
+			  </li>
+			  </ul>
+		  </div> -->
+		<!-- end: BOTTOM -->
+
+		<div class="kt-portlet__body" id="style-1">
+			<div  data-scroll="true" data-height="380" data-mobile-height="300">
+
+				<!--Begin::Timeline 3 -->
+				<div class="kt-timeline-v2">
+					<div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30">
+						<div class="kt-timeline-v2__item" *ngFor="let event of events">
+							<span class="kt-timeline-v2__item-time">
+								{{event.date | date: 'd'}}<sup>th</sup>
+								{{event.date | date: 'MMM y'}}
+								{{event.date | date: 'h:mm a'}}
+							</span> 
+								<!-- ({{event.date | date: 'EEEE'}}) To Show Day--> 
+								<div class="kt-timeline-v2__item-cricle">
+									<i class="fa fa-genderless kt-font-danger"></i>
+								</div>
+								<div class="kt-timeline-v2__item-text  kt-padding-top-5">
+									{{event.body}}<br/>
+										<h6 style="font-style: italic;font-weight: bold; ">- {{event.createdby}}</h6>
+								
+								</div>
+							
+						</div>
+					</div>
+				</div>
+
+				<!--End::Timeline 3 -->
+			</div>
+		</div>
+
+	</kt-portlet-body>
+	<!-- end::Body -->
+</kt-portlet>

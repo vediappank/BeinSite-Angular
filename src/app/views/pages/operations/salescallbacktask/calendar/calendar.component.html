@@ -1,0 +1,106 @@
+<div class="row ">
+  <div class="col-lg-3">
+    <h3>
+      <button class="btn btn-primary text-right" (click)="addTask(viewDate)" disabled="{{addFlag}}"  
+      mat-raised-button color="primary" style="width: 85px;padding: 0px 8px;">
+        <mat-icon style="width: 13px;height: 16px;">add</mat-icon> Add new
+      </button>
+      <mat-radio-group aria-label="Select an option" (change)="viewChange($event)">
+        <mat-radio-button value="1" [checked]="true">Working Hours</mat-radio-button>
+        <mat-radio-button value="2">24 Hours</mat-radio-button>
+      </mat-radio-group>
+    </h3>
+  </div>
+  <div class="col-md-3" style="text-align: left;">
+    <div class="btn-group">
+      <div
+        class="btn btn-primary"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()"
+      >
+        Previous
+      </div>
+      <div
+        class="btn btn-outline-secondary"
+        mwlCalendarToday
+        [(viewDate)]="viewDate"
+      >
+        Today
+      </div>
+      <div
+        class="btn btn-primary"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()"
+      >
+        Next
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3" style="text-align: center;">
+    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+  <div class="col-lg-3 text-right">
+    <div class="btn-group">
+      <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+        Month
+      </div>
+      <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+        Week
+      </div>
+      <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+        Day
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+
+  <div class="col-lg-3">
+
+    <div class="calendar-wrapper">
+      <mat-calendar #calendar [(selected)]="selectedDate" (click)="setView(CalendarView.Week)"
+        [class.active]="view === CalendarView.Week" (selectedChange)="dateChanged($event)"
+        ></mat-calendar>
+
+    </div>
+
+
+  </div>
+
+
+  <div [ngSwitch]="view" class="col-lg-9">
+    <!-- <div> -->
+      <!-- <span style="font-size: 24px; font-weight: bold; ">{{ selectedDate | date:'EEE' | uppercase }}</span><br>
+      <span style="font-size: 28px; font-weight: bold; padding-top: 10px;
+        padding-left:10px;  padding-bottom: 10px;">{{ selectedDate | date:'dd-MMM-yyyy' }}</span> -->
+        <!-- <span style="font-size: 24px; font-weight: bold; padding-left:10px; ">{{ selectedDate | date:'EEE' }}</span><br>
+        <span style="font-size: 28px; font-weight: bold; padding-top: 10px;
+          padding-left:10px;  padding-bottom: 15px;">{{ selectedDate | date:'d' }}</span>
+    </div> -->
+    <!-- <br> -->
+    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events$ | async"
+      [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" style="cursor: pointer;"
+      (eventClicked)="EditorViewEvent($event.event)" [weekendDays]='[5,6]'
+      >
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events$ | async"
+      [refresh]="refresh" (eventClicked)="EditorViewEvent($event.event)" style="cursor: pointer;" 
+      [hourSegments]="4" [weekendDays]='[5,6]' (dayHeaderClicked)=" onSegmentClick($event.day.date) "
+      (hourSegmentClicked)="onSegmentClick($event.date)" [dayStartHour]="dayStarthour"
+      [dayEndHour]="dayEndhour"
+      >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events$ | async" 
+    [refresh]="refresh" (eventClicked)="ViewEvent('Clicked', $event.event)" style="cursor: pointer;"
+    [hourSegments]="4" (hourSegmentClicked)="onSegmentClick($event.date)" [dayStartHour]="dayStarthour"
+    [dayEndHour]="dayEndhour"
+    > 
+    </mwl-calendar-day-view>
+
+  </div>
+
+</div>

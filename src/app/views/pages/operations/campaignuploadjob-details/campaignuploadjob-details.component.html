@@ -1,0 +1,59 @@
+<kt-portlet width="1000px">
+    <!-- end::Header -->
+    <div class="row" id="angularchart" style="margin-top: 10px;">
+        <div class="col-lg-12">
+           
+            <div class="row" [ngClass]="chartTheme">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <span class="card-title"> {{title}}</span>
+                           
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div>
+                                        <span class="label" style="font-weight: bold;">Page Size :</span>&nbsp;
+                                        <input placeholder="Page Size" style="width: 45px;" [(ngModel)]="pagesize"
+                                                (blur)="onChange()">  &nbsp;
+                                        <span class="label" style="font-weight: bold;">Current Page :</span>&nbsp;
+                                        <span class="value" id="lblCurrentPage">-&nbsp;</span> &nbsp;
+
+                                        <span class="label" style="font-weight: bold;">Total Records :</span>&nbsp;
+                                        <label class="value">{{totalRecords}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">                                    
+                                        <ag-grid-angular #agGrid1 *ngIf="agentData"
+                                            style="margin:0 auto;width:100%;height: 500px;"
+                                            class="ag-theme-balham" [rowData]="agentData | async"
+                                            [columnDefs]="columnDefs" rowSelection="multiple"
+                                            [getRowStyle]="getGridRowStyle" suppressMenuHide="false"
+                                            [defaultColDef]="gridDefaultColDef" enableCharts=true animateRows=true
+                                            enableSorting=true enableFilter=true enableStatusBar=true
+                                            enableRangeSelection=true rowDragManaged=true rowGroupPanelShow="always"
+                                            pivotPanelShow="always" pivotColumnGroupTotals="before"
+                                            pivotRowTotals="before" [sideBar]="sideBar"  [defaultColDef]="defaultColDef"
+                                            >
+                                        </ag-grid-angular>                                    
+                                </div>
+                            
+                                <div class="col-sm-12 btn-toolbar" style="margin-left: 62.5%;width: 40%;">
+                                    <button class="btn btn-primary btn-sm" (click)="onBtFirst()">To First</button>&nbsp;
+                                    <button class="btn btn-primary btn-sm" (click)="onBtPrevious()">To Previous</button>&nbsp;
+                                    <button class="btn btn-primary btn-sm" (click)="onBtNext()">To Next</button>&nbsp;
+                                    <button class="btn btn-primary btn-sm" (click)="onBtLast()" id="btLast">To Last</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end::Body -->
+</kt-portlet>

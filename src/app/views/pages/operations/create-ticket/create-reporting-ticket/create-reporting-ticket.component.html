@@ -1,0 +1,360 @@
+<div class="kt-portlet">
+  <div class="kt-portlet__head kt-portlet__head__custom" style="width: 100%;">
+    <div class="kt-portlet__head-label row col-lg-12 p-0">
+      <div class="col-lg-6">
+        <h3 class="kt-portlet__head-title">{{getTitle()}}</h3>
+      </div>
+      <div class="col-lg-6 text-right">
+        <h3 class="kt-portlet__head-title"><span *ngIf="ticketDetail">{{ticketDetail.name}} -
+            {{ticketDetail.email}}</span></h3>
+      </div>
+    </div>
+    <div style="margin-top: 10px;" *ngIf="data.flag=='view'">
+      <!-- <button mat-raised-button color="warn" matTooltip="Close"
+        type="button" (click)="getAllTickets()">
+        <mat-icon>close</mat-icon>
+      </button> -->
+      <button mat-icon-button color="warn" matTooltip="Close" type="button" (click)="getAllTickets()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div>
+    <div class="kt-form">
+      <div class="kt-portlet__body">
+        <div class="kt-portlet__body-progress">
+          <mat-spinner [diameter]="20"></mat-spinner>
+        </div>
+
+        <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+          (close)="onAlertClose($event)">
+          {{ErrorMessage}}
+        </kt-alert>
+        <!-- <button mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial color="warn" matTooltip="Close"
+        type="button" (click)="onAlertClose($event)">
+        <mat-icon>close</mat-icon>
+      </button> -->
+        <div *ngIf="data.flag=='add'">
+          <div class="kt-form__section kt-form__section--first">
+            <!-- <div class="form-group kt-form__group row">
+              
+              <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <input matInput placeholder="Enter Reporter Name" [disabled]="true" [(ngModel)]="ticketDetail.name" />
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <input matInput placeholder="Reporter Email" [disabled]="true" [(ngModel)]="ticketDetail.email" />
+                </mat-form-field>
+              </div>
+            </div> -->
+            <!-- <div class="form-group kt-form__group row">
+              <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Select Status" required [(ngModel)]="ticketDetail.status">
+                    <mat-option *ngFor="let c of ticketStatus" value="{{c.id}}">{{c.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Select Group" required [(ngModel)]="ticketDetail.group_id">
+                    <mat-option *ngFor="let fdGroup of fdGroups" value="{{fdGroup.id}}">{{fdGroup.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div> -->
+            <div class="form-group kt-form__group row p-0">
+              <!-- <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Select Agent" required [(ngModel)]="ticketDetail.responder_id">
+                    <mat-option *ngFor="let fdAgent of fdGroupAgents" value="{{fdAgent.id}}">{{fdAgent.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div> -->
+
+              <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid p-0">
+                  <mat-select placeholder="Ticket Template" required
+                    [(ngModel)]="ticketDetail.custom_fields.cf_template" (selectionChange)="onTicketTemplateChange()">
+                    <mat-option *ngFor="let ccCFTemplate of cfTemplateList" value="{{ccCFTemplate.id}}">
+                      {{ccCFTemplate.value}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Location" required [(ngModel)]="ticketDetail.custom_fields.location">
+                    <mat-option *ngFor="let c of ticketLocation" value="{{c.name}}">{{c.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+            </div>
+            <div class="form-group kt-form__group row p-0" *ngIf="ticketDetail.custom_fields.cf_template=='Reporting'">
+              <!-- REP Dropdownlist Start-->
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Category"
+                    (selectionChange)="filterREPSubById(ticketDetail.custom_fields.reporting_escalation_categorize)"
+                    [(ngModel)]="ticketDetail.custom_fields.reporting_escalation_categorize">
+                    <mat-option *ngFor="let ticketREPCategry of ticketREPCategory" value="{{ticketREPCategry.name}}">
+                      {{ticketREPCategry.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Sub Category"
+                    (selectionChange)="filterREPItemById(ticketDetail.custom_fields.reporting_escalation_categorize, this.ticketDetail.custom_fields.subcategory)"
+                    [(ngModel)]="ticketDetail.custom_fields.subcategory">
+                    <mat-option *ngFor="let ticketREPSub of ticketREPSubCategorys" value="{{ticketREPSub.name}}">
+                      {{ticketREPSub.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Item" [(ngModel)]="ticketDetail.custom_fields.items">
+                    <mat-option *ngFor="let ticketREP of ticketREPItems" value="{{ticketREP.name}}">{{ticketREP.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- REP Dropdownlist End-->
+            </div>
+            <div class="form-group kt-form__group row p-0" *ngIf="ticketDetail.custom_fields.cf_template=='WFO'">
+              <!-- WFO Dropdownlists Start -->
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Category"
+                    (selectionChange)="filterWFOSubById(this.ticketDetail.custom_fields.cf_wfo_category)"
+                    [(ngModel)]="ticketDetail.custom_fields.cf_wfo_category">
+                    <mat-option *ngFor="let ticketWFOCategry of ticketWFOCategory" value="{{ticketWFOCategry.name}}">
+                      {{ticketWFOCategry.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Sub Category"
+                    (selectionChange)="filterWFOItemById(this.ticketDetail.custom_fields.cf_wfo_category, this.ticketDetail.custom_fields.cf_wfo_sub)"
+                    [(ngModel)]="ticketDetail.custom_fields.cf_wfo_sub">
+                    <mat-option *ngFor="let ticketWFOSub of ticketWFOSubCategorys" value="{{ticketWFOSub.name}}">
+                      {{ticketWFOSub.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Item" [(ngModel)]="ticketDetail.custom_fields.cf_wfo_items">
+                    <mat-option *ngFor="let ticketWFO of ticketWFOItems" value="{{ticketWFO.name}}">{{ticketWFO.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- WFO Dropdownlists End -->
+            </div>
+            <div class="form-group kt-form__group row p-0">
+              <div class="col-lg-8 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <input required matInput placeholder="Subject" [(ngModel)]="ticketDetail.subject" />
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Priority" required [(ngModel)]="ticketDetail.priority">
+                    <mat-option *ngFor="let c of ticketPriority" value="{{c.id}}">{{c.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group kt-form__group row p-0">
+              <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <textarea required matInput placeholder="Description" Style="height: 100px;"
+                    [(ngModel)]="ticketDetail.description"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group kt-form__group row p-0">
+              <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                <input #myfile type="file" class="upload" multiple (change)="changeListener($event.target.files)">
+                <!-- <kt-alert *ngIf="fileSizeAlertFlag" type="warn" [duration]="30000" [showCloseButton]="true"
+                  (close)="onFileSizeAlertClose($event)">
+                  {{fileSizeAlert}}
+                </kt-alert> -->
+              </div>
+            </div>
+          </div>
+          <div class="kt-portlet__foot kt-portlet__foot--fit kt-portlet__no-border">
+            <div class="kt-form__actions kt-form__actions--solid p-0">
+              <div class="row text-right">
+                <div class="col-lg-12">
+                  <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+                    matTooltip="Cancel changes">
+                    Cancel
+                  </button>&nbsp;
+                  <button type="button" [disabled]="!isTitleValid()" mat-raised-button color="primary"
+                    (click)="saveTicket()" *ngIf="data.flag=='add'" matTooltip="Save changes">
+                    Save
+                  </button>
+                  <button type="button" [disabled]="!isTitleValid()" mat-raised-button color="primary"
+                    (click)="saveTicket()" *ngIf="gadgetTicOper=='Edit'" [disabled]="viewLoading"
+                    matTooltip="Save changes">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="data.flag=='view'">
+          <div class="kt-form__section kt-form__section--first">
+            <div class="form-group kt-form__group row p-0">
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <input required matInput placeholder="Template" class="text-dark" [disabled]="true"
+                    [(ngModel)]="ticketDetail.custom_fields.cf_template" />
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Location" [disabled]="true"
+                    [(ngModel)]="ticketDetail.custom_fields.location">
+                    <mat-option *ngFor="let c of ticketLocation" value="{{c.name}}">{{c.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                  <mat-select placeholder="Status" [disabled]="true" [ngModel]="''+ticketDetail.status">
+                    <mat-option *ngFor="let c of ticketStatus" value="{{c.id}}">{{c.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="form-group kt-form__group row p-0" *ngIf="ticketDetail.custom_fields.cf_template=='Reporting'">
+            <!-- REP Dropdownlist Start-->
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Category" class="text-dark" [disabled]="true"
+                  [(ngModel)]="ticketDetail.custom_fields.reporting_escalation_categorize" />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Sub Category" class="text-dark" [disabled]="true"
+                  [(ngModel)]="ticketDetail.custom_fields.subcategory" />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Item" class="text-dark" [disabled]="true"
+                  [(ngModel)]="ticketDetail.custom_fields.items" />
+              </mat-form-field>
+            </div>
+            <!-- REP Dropdownlist End-->
+          </div>
+          <div class="form-group kt-form__group row p-0" *ngIf="ticketDetail.custom_fields.cf_template=='WFO'">
+            <!-- WFO Dropdownlists Start -->
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Category" class="text-dark" [disabled]="true"
+                  [(ngModel)]="ticketDetail.custom_fields.cf_wfo_category" />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Sub Category" class="text-dark" [disabled]="true"
+                  [(ngModel)]="ticketDetail.custom_fields.cf_wfo_sub" />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Item" class="text-dark" [disabled]="true"
+                  [(ngModel)]="ticketDetail.custom_fields.cf_wfo_items" />
+              </mat-form-field>
+            </div>
+            <!-- WFO Dropdownlists End -->
+          </div>
+          <div class="form-group kt-form__group row p-0">
+            <div class="col-lg-8 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Created Date" class="text-dark" [disabled]="true"
+                  value="{{ticketDetail.created_at | date:'dd-MM-yyyy hh:mm:ss'}}" />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Updated Date" class="text-dark" [disabled]="true"
+                  value="{{ticketDetail.updated_at | date:'dd-MM-yyyy hh:mm:ss'}}" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group kt-form__group row p-0">
+            <div class="col-lg-8 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <input required matInput placeholder="Subject" class="text-dark" [disabled]="true"
+                  [(ngModel)]="ticketDetail.subject" />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <mat-select placeholder="Priority" [disabled]="true" [ngModel]="''+ticketDetail.priority">
+                  <mat-option *ngFor="let c of ticketPriority" value="{{c.id}}">{{c.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group kt-form__group row p-0">
+            <div class="col-lg-12 kt-margin-bottom-20-mobile">
+              <mat-form-field class="mat-form-field-fluid">
+                <textarea required matInput placeholder="Description" class="text-dark" [disabled]="true"
+                  Style="height: 100px;" [(ngModel)]="ticketDetail.description"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group kt-form__group row">
+            <div class="col-lg-12 kt-margin-bottom-20-mobile">
+              <mat-table class="lmat-elevation-z8" #table [dataSource]="Events$ | async">
+
+                <ng-container matColumnDef="Updated_At">
+                  <mat-header-cell mat-header-cell *matHeaderCellDef> Updated At
+                  </mat-header-cell>
+                  <mat-cell mat-cell *matCellDef="let template"> {{template.updated_at | date :'dd-MM-yyyy hh:mm a' }}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Body">
+                  <mat-header-cell mat-header-cell *matHeaderCellDef> Conversations
+                  </mat-header-cell>
+                  <mat-cell mat-cell *matCellDef="let template">
+                    <span [innerHTML]="template.body"></span>
+                  </mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+              </mat-table>
+            </div>
+
+            <div class="kt-separator kt-separator--dashed"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

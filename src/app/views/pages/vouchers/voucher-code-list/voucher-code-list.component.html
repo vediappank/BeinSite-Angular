@@ -1,0 +1,175 @@
+<kt-portlet>
+  <kt-portlet-body style="height: auto;">
+    <!-- <h3>
+     Call Backs List
+   </h3> -->
+    <!-- <loading *ngIf="isLoading"></loading> -->
+    <div>
+      <!-- <kt-progress-bar-spinner [color]="color" [mode]="mode" [value]="value" *ngIf="displayProgressSpinner"
+        class="sq-global-backdrop center-aligned">
+      </kt-progress-bar-spinner> -->
+      <!-- <ng4-loading-spinner> </ng4-loading-spinner> -->
+    </div>
+    <!-- <div class="form-group kt-form__group row">
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <input matInput placeholder="Enter Ticket Id" [(ngModel)]="reportingTicketFilter.TicketId" />
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <mat-select placeholder="Select Ticket Template" [(ngModel)]="reportingTicketFilter.Template">
+            <mat-option value="">-NA-</mat-option>
+            <mat-option *ngFor="let ccCFTemplate of cfTemplateList" value="{{ccCFTemplate.id}}">
+              {{ccCFTemplate.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile">
+        <mat-form-field class="mat-form-field-fluid">
+          <mat-select placeholder="Select Priority" [(ngModel)]="reportingTicketFilter.Priority">
+            <mat-option value="">-NA-</mat-option>
+            <mat-option *ngFor="let c of ticketPriority" value="{{c.id}}">{{c.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2 kt-margin-bottom-20-mobile" style="text-align: right;">
+        <mat-form-field class="mat-form-field-fluid">
+          <mat-select placeholder="Select Status" [(ngModel)]="reportingTicketFilter.Status">
+            <mat-option value="">-NA-</mat-option>
+            <mat-option *ngFor="let c of ticketStatus" value="{{c.id}}">{{c.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-4 kt-margin-bottom-20-mobile" style="text-align: right;">
+
+     
+
+        <button type="button" mat-raised-button color="primary" (click)="loadReportingTickets(pagenumber,pagesize)" style="width: 15%; padding: 0px 8px;"
+          matTooltip="Filter">
+          <mat-icon style="width: 15px;height: 16px;">search</mat-icon> Search
+        </button> &nbsp;
+
+        <button type="button" mat-raised-button color="primary" (click)="clearFilter()" matTooltip="Clear" style="width: 12%; padding: 0px 8px;" >
+          <mat-icon style="width: 15px;height: 16px;">clear_all</mat-icon> Clear
+        </button> &nbsp;
+
+        <button class="btn btn-primary text-right" (click)="addTicket()" mat-raised-button color="primary"
+          matTooltip="Add" disabled="{{addFlag}}" style="width: 11%;padding: 0px 8px;">
+          <mat-icon style="width: 13px;height: 16px;">add</mat-icon> Add
+        </button>&nbsp;
+
+        <button type="button" mat-raised-button color="primary" (click)="RefreshTickets()" matTooltip="Refresh" style="width: 16%; padding: 0px 8px;">
+          <mat-icon style="width: 15px;height: 16px;">refresh</mat-icon> Refresh
+        </button> &nbsp;
+
+      </div>
+    </div> -->
+    <div class="form-group kt-form__group row">
+      <div class="col-lg-12 kt-margin-bottom-20-mobile">
+        <div>
+          <span class="label" style="font-weight: bold;">Page Size :</span>&nbsp;
+          <input placeholder="Page Size" style="width: 45px;" [(ngModel)]="pagesize" (blur)="onChange()"> &nbsp;
+          <span class="label" style="font-weight: bold;">Current Page :</span>&nbsp;
+          <span class="value" id="lblCurrentPage">-&nbsp;</span> &nbsp;
+
+          <span class="label" style="font-weight: bold;">Total Records :</span>&nbsp;
+          <label class="value">{{totalRecords}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group kt-form__group row">
+      <div class="col-lg-12 kt-margin-bottom-20-mobile">
+        <mat-table class="lmat-elevation-z8" #table [dataSource]="VoucherList$ | async" matSort
+          >
+         
+
+          <ng-container matColumnDef="vocuher_code">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Vocuher Code
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.vocuher_code}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="voucher_type">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Voucher Type
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.voucher_type}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="title">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Title
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.title}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="valid_from">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Valid From
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.valid_from}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="valid_to">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Valid To
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.valid_to}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="used_date">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Used Date
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.used_date}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="created_date">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Created Date
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.created_date}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="client">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Client
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.client}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="uploaded_by">
+            <mat-header-cell mat-header-cell mat-sort-header *matHeaderCellDef class="GridHeader"> Uploaded By
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let template"> {{template.uploaded_by}} </mat-cell>
+          </ng-container>
+
+         
+         
+          <ng-container matColumnDef="Action">
+            <mat-header-cell *matHeaderCellDef class="GridHeader">Actions</mat-header-cell>
+            <mat-cell *matCellDef="let action">
+             
+              <button mat-icon-button color="primary" matTooltip="View Ticket Details" type="button"
+                (click)="ViewTicket(action)">
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" matTooltip="Add Reply" class="matbuttonsize"
+                (click)="addTicketReply(action)">
+                <mat-icon>chat</mat-icon>
+              </button>&nbsp;
+             
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        </mat-table>
+
+      </div>
+      <div class="col-lg-11 mat-table__bottom" style="text-align: right;margin-top: 2%;">
+        <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+        <!-- <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner> -->
+        <!-- MATERIAL PAGINATOR | Binded to dasources -->
+        <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+        <!-- <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100, 200, 500]" [length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator> -->
+
+        <button class="btn btn-primary btn-sm" (click)="onBtFirst()">To First</button>&nbsp;
+        <button class="btn btn-primary btn-sm" (click)="onBtPrevious()">To Previous</button>&nbsp;
+        <button class="btn btn-primary btn-sm" (click)="onBtNext()">To Next</button>&nbsp;
+        <button class="btn btn-primary btn-sm" (click)="onBtLast()" id="btLast">To Last</button>
+      </div>
+    </div>
+
+  </kt-portlet-body>
+  <!-- </div> -->
+</kt-portlet>

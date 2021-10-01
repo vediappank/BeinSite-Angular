@@ -1,0 +1,135 @@
+<mat-tab-group #tabs>
+    <mat-tab >
+
+        <ng-template mat-tab-label>
+            <i class="mat-tab-label-icon fa fa-user"></i>
+            Upload / Remove Contacts
+        </ng-template>
+        <ng-template matTabContent>
+
+            <div class="form-group kt-form__group row pt-5">
+                <div class="col-lg-4 kt-margin-bottom-20-mobile purple-border">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-select placeholder="Select Campaign" [(ngModel)]="selctedCampaign">
+                            <mat-option *ngFor="let type of campaignCollection" value="{{ type.CampaignID }}">
+                                {{type.CampaignName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-8 kt-margin-bottom-20-mobile">
+                    <div class="mat-form-field-fluid">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput [(ngModel)]="Description"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="!viewFlag && (!addFlag || !deleteFlag)">
+                <div class="form-group kt-form__group row" *ngIf="isShowUploadRemoveRadio">
+                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                        <div class="mat-form-field-fluid">
+                            <!-- <mat-checkbox [(ngModel)]="isRemoveContact" (change)="OnRemovalContact($event)">Remove Contacts
+                        </mat-checkbox> -->
+                            <mat-radio-group aria-label="Select an option" [(ngModel)]="isUploadRemove">
+                                <mat-radio-button value="upload">Upload Contacts</mat-radio-button>
+                                <mat-radio-button value="remove">Remove Contacts</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <div class="col-lg-4 kt-margin-bottom-20-mobile purple-border" style="margin-top: 10px;">
+                        <!-- <input type="file" class="upload" accept=".csv" (change)="changeListener($event.target.files)">
+             -->
+                        <b> <span *ngIf="isUploadRemove=='upload'">Upload Contacts :
+                            </span>
+                            <span *ngIf="isUploadRemove=='remove'">Remove Contacts :
+                            </span> </b> 
+                            <input #myfile type="file" class="upload" accept=".csv"
+                            (change)="changeListener($event.target.files)">
+                    </div>
+                    <div class="col-lg-4 kt-margin-bottom-20-mobile purple-border" *ngIf="isUploadRemove=='remove'">
+                        <div class="mat-form-field-fluid">
+                              <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Select Filter" [(ngModel)]="selectedFilter" (selectionChange)="fileFilterValidation($event.value)">
+                                    <mat-option value="smartcardno">Smart Card Number</mat-option>
+                                    <mat-option value="phone">Phone Number</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 kt-margin-bottom-20-mobile" *ngIf="isUploadRemove=='remove'">
+                        <div class="mat-form-field-fluid">
+                            <mat-checkbox [(ngModel)]="isRemoveSalesCallbacks" (change)="OnRemovalContact($event)">
+                                Remove Sales Callback
+                                Contacts
+                            </mat-checkbox>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group kt-form__group row" *ngIf="isUploadRemove=='upload'">
+                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                        <div class="mat-form-field-fluid">
+                            <mat-checkbox [(ngModel)]="isExpiryDate" style="padding-left: 1px;"
+                                (change)="OnChange($event)">
+                                Verifiy Smart Card Expiry
+                                Date
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 kt-margin-bottom-20-mobile purple-border">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput [disabled]="!isExpiryDate" [(ngModel)]="isDefaultDate"
+                                placeholder="Enter Smart Card Expiry Days" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                        <div class="mat-form-field-fluid">
+                            <mat-checkbox [(ngModel)]="isPostAuto" (change)="OnPostAutoChange($event)">Post
+                                Automatically
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-2 kt-margin-bottom-20-mobile purple-border">
+                        <button type="submit" mat-raised-button disabled="{{addFlag}}" color="primary"
+                            (click)="uploadSubmit($event.target.files)" class="btn btn-primary btn-s">
+                            <span *ngIf="isUploadRemove=='upload'">Upload Contacts
+                            </span>
+                            <span *ngIf="isUploadRemove=='remove'">Remove Contacts
+                            </span>
+
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <i class="mat-tab-label-icon fa fa-user"></i>
+            Campaign Process Details
+        </ng-template>
+        <ng-template matTabContent>
+            <kt-campaignuploadjobs></kt-campaignuploadjobs>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>
+<ng-template>
+    <div>
+        <kt-progress-bar-spinner [color]="color" [mode]="mode" [value]="value" *ngIf="displayProgressSpinner"
+            class="sq-global-backdrop center-aligned">
+        </kt-progress-bar-spinner>
+        <!-- <ng4-loading-spinner> </ng4-loading-spinner> -->
+    </div>
+</ng-template>
